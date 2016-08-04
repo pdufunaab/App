@@ -3,4 +3,27 @@
     <string name="action_settings">Settings</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="profile">Profile</string>
+    <string name="map">Map</string>
+    <string name="news">News/Events</string>
+    <string name="learning">E-learning</string>
+    <string name="groups">Groups</string>
+    <string name="timetable">Timetable</string>
+    <string name="contacts">Contacts</string>
+    <string name="feedbacks">Feedbacks</string>
+    <string name="about">About</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
 </resources>

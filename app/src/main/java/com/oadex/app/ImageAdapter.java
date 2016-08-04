@@ -39,7 +39,11 @@ public class ImageAdapter extends BaseAdapter {
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(new GridView.LayoutParams(100,100));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8,8,8,8);
+            imageView.setPadding(20,20,20,20);
+            imageView.setBackgroundResource(R.drawable.grid_item);
+
+
+
         }else{
             imageView = (ImageView) convertView;
         }
@@ -48,9 +52,17 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     private Integer[] mThumbIds = {
-            R.drawable.ic_action_account_circle_1,R.drawable.ic_maps_pin_drop,
-            R.drawable.ic_action_today,R.drawable.ic_action_home,
-            R.drawable.ic_action_today,R.drawable.ic_social_group,
-            R.drawable.ic_communication_quick_contacts_dialer,R.drawable.ic_communication_email
+            R.drawable.user,R.drawable.location_pin,
+            R.drawable.newspaper,R.drawable.note,
+            R.drawable.users_group,R.drawable.calendar,
+            R.drawable.book,R.drawable.chat,
+            R.drawable.home_icon
+    };
+    private Integer[] mThumbText = {
+            R.string.profile,R.string.map,
+            R.string.news,R.string.learning,
+            R.string.groups,R.string.timetable,
+            R.string.contacts,R.string.feedbacks,
+            R.string.about
     };
 }

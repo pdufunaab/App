@@ -1,5 +1,6 @@
 package com.oadex.app;
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.getBackground().setAlpha(30);
         gridview.setAdapter(new ImageAdapter(this));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,8 +66,10 @@ public class MainActivity extends AppCompatActivity {
                                     int position, long id) {
                 Toast.makeText(MainActivity.this, "" + position,
                         Toast.LENGTH_SHORT).show();
+
             }
         });
+
     }
 
     @Override
@@ -89,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }else if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
+        }
+        else if(id == R.id.action_login){
+            Intent login = new Intent(this,LoginActivity.class);
+            this.startActivity(login);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

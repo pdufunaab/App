@@ -16,15 +16,39 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:icon="@drawable/ic_action_account_circle_1"
+            android:icon="@drawable/user"
             android:tint="#bcbcbc"
             android:title="One" />
         <item
-            android:icon="@drawable/ic_action_today"
+            android:icon="@drawable/location_pin"
             android:tint="#ebeb45"
             android:title="Two" />
         <item
-            android:icon="@drawable/ic_communication_email"
+            android:icon="@drawable/newspaper"
+            android:tint="#adecfe"
+            android:title="Three" />
+        <item
+            android:icon="@drawable/note"
+            android:tint="#bcbcbc"
+            android:title="One" />
+        <item
+            android:icon="@drawable/users_group"
+            android:tint="#ebeb45"
+            android:title="Two" />
+        <item
+            android:icon="@drawable/calendar"
+            android:tint="#adecfe"
+            android:title="Three" />
+        <item
+            android:icon="@drawable/book"
+            android:tint="#bcbcbc"
+            android:title="One" />
+        <item
+            android:icon="@drawable/chat"
+            android:tint="#ebeb45"
+            android:title="Two" />
+        <item
+            android:icon="@drawable/home_icon"
             android:tint="#adecfe"
             android:title="Three" />
     </group>
