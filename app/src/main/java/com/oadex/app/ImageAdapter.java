@@ -53,7 +53,7 @@ public class ImageAdapter extends BaseAdapter {
 
     private Integer[] mThumbIds = {
             R.drawable.user,R.drawable.location_pin,
-            R.drawable.newspaper,R.drawable.note,
+            R.drawable.newspaper,R.drawable.reading,
             R.drawable.users_group,R.drawable.calendar,
             R.drawable.book,R.drawable.chat,
             R.drawable.home_icon
