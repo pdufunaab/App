@@ -16,40 +16,49 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/profile"
             android:icon="@drawable/user"
             android:tint="#bcbcbc"
-            android:title="One" />
+            android:title="Profile" />
         <item
+            android:id="@+id/map"
             android:icon="@drawable/location_pin"
             android:tint="#ebeb45"
-            android:title="Two" />
+            android:title="Map" />
         <item
+            android:id="@+id/news"
             android:icon="@drawable/newspaper"
             android:tint="#adecfe"
-            android:title="Three" />
+            android:title="News/Events" />
         <item
+            android:id="@+id/learning"
             android:icon="@drawable/note"
             android:tint="#bcbcbc"
-            android:title="One" />
+            android:title="E-Learning" />
         <item
+            android:id="@+id/groups"
             android:icon="@drawable/users_group"
             android:tint="#ebeb45"
-            android:title="Two" />
+            android:title="Groups" />
         <item
+            android:id="@+id/timetable"
             android:icon="@drawable/calendar"
             android:tint="#adecfe"
-            android:title="Three" />
+            android:title="Timetable" />
         <item
+            android:id="@+id/contacts"
             android:icon="@drawable/book"
             android:tint="#bcbcbc"
-            android:title="One" />
+            android:title="Contacts" />
         <item
+            android:id="@+id/feedbacks"
             android:icon="@drawable/chat"
             android:tint="#ebeb45"
-            android:title="Two" />
+            android:title="Feedbacks" />
         <item
+            android:id="@+id/about"
             android:icon="@drawable/home_icon"
             android:tint="#adecfe"
-            android:title="Three" />
+            android:title="About" />
     </group>
 </menu>
