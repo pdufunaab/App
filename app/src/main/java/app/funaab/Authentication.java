@@ -60,7 +60,9 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
         this.userID = email;
         this.password = password;
         API_KEY = context.getResources().getString(R.string.API_KEY);
-        sharedPreferences = this.context.getSharedPreferences("Pref File", Context.MODE_PRIVATE);
+        sharedPreferences = this.context.getSharedPreferences("Pref_File", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putBoolean("validated", false);
     }
 
     public String authenticateID(String params)
@@ -103,6 +105,7 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
     @Override
     protected Boolean doInBackground(String... params)
     {
+
         // TODO: attempt authentication against a network service.
 
         /*try
@@ -112,7 +115,7 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
             JSONObject jsonObject = new JSONObject(authenticateID(webServiceUrl));
             if(jsonObject.getBoolean("validated") == true)
             {
-                editor = sharedPreferences.edit();
+                editor.putBoolean("validated",true);
                 editor.putString("userID", jsonObject.getString("userID"));
                 editor.putString("userToken",jsonObject.getString("userToken"));
                 editor.putBoolean("userToken",true);
@@ -135,14 +138,16 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
     }
 
     @Override
-    protected void onPostExecute(final Boolean success) {
+    protected void onPostExecute(final Boolean success)
+    {
 
         //showProgress(false);
 
         if (success)
         {
-            //Toast.makeText(context.getApplicationContext(),"Successfully Logged in",Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this.context,ProfileActivity.class);
+            Intent intent = new Intent(this.context,MainActivity.class);
+            intent.putExtra("validated",sharedPreferences.getBoolean("validated",true));
+            Toast.makeText(context,"Successfully Logged in",Toast.LENGTH_LONG).show();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
 
@@ -150,7 +155,7 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
         }
         else
         {
-            Toast.makeText(context.getApplicationContext(),context.getString(R.string.error_incorrect_password),Toast.LENGTH_LONG).show();
+            Toast.makeText(context,context.getString(R.string.error_incorrect_password),Toast.LENGTH_LONG).show();
             // passwordView.setError(getString(R.string.error_incorrect_password));
             //passwordView.requestFocus();
         }
@@ -159,7 +164,7 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
     @Override
     protected void onCancelled()
     {
-        Toast.makeText(context.getApplicationContext(),"Canceling Login in action",Toast.LENGTH_LONG).show();
+        Toast.makeText(context,"Canceling Login in action",Toast.LENGTH_LONG).show();
         //showProgress(false);
     }
 
