@@ -1,5 +1,7 @@
 package com.oadex.authenticatedUsers.student;
 
+import java.util.ArrayList;
+
 /**
  * Created by Dr FatBoySlymPG on 8/8/2016.
  */
@@ -31,5 +33,10 @@ public class UnderGraduate extends Student {
     @Override
     public String getHomeAddress() {
         return super.getHomeAddress();
+    }
+
+    @Override
+    public ArrayList<String> getSupervisors() {
+        return null;
     }
 }
