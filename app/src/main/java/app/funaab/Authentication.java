@@ -5,16 +5,19 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.media.MediaBrowserCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.oadex.app.LoginActivity;
 import com.oadex.app.MainActivity;
+import com.oadex.app.ProfileActivity;
 import com.oadex.app.R;
 
 import org.json.JSONArray;
@@ -49,9 +52,9 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
     private final String webServiceUrl = "";
     private final String userID;
     private final String password;
-    private  String serviceResponse;
+    private  String serviceResponse = null;
 
-    Authentication(Context context,String email, String password)
+    public Authentication(Context context, String email, String password)
     {
         this.context = context;
         this.userID = email;
@@ -102,15 +105,17 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
     {
         // TODO: attempt authentication against a network service.
 
-        try
+        /*try
         {
             // Simulate network access.
 
             JSONObject jsonObject = new JSONObject(authenticateID(webServiceUrl));
-            if(jsonObject.getBoolean("validated") == true) {
+            if(jsonObject.getBoolean("validated") == true)
+            {
                 editor = sharedPreferences.edit();
                 editor.putString("userID", jsonObject.getString("userID"));
                 editor.putString("userToken",jsonObject.getString("userToken"));
+                editor.putBoolean("userToken",true);
                 return true;
             }
             else
@@ -123,7 +128,8 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
         catch (Exception e)
         {
             return false;
-        }
+        }*/
+        return true;
 
         // TODO: register the new account here.
     }
@@ -135,11 +141,16 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
 
         if (success)
         {
+            //Toast.makeText(context.getApplicationContext(),"Successfully Logged in",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this.context,ProfileActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
 
             // finish();
         }
         else
         {
+            Toast.makeText(context.getApplicationContext(),context.getString(R.string.error_incorrect_password),Toast.LENGTH_LONG).show();
             // passwordView.setError(getString(R.string.error_incorrect_password));
             //passwordView.requestFocus();
         }
@@ -148,46 +159,10 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
     @Override
     protected void onCancelled()
     {
+        Toast.makeText(context.getApplicationContext(),"Canceling Login in action",Toast.LENGTH_LONG).show();
         //showProgress(false);
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show, final View loginView, final View progressView)
-    {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = 1000 ;
 
-            loginView.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    loginView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            progressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        }
-        else
-        {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 }
 

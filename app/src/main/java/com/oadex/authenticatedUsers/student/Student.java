@@ -4,6 +4,8 @@ import com.oadex.User;
 
 import java.util.ArrayList;
 
+import app.funaab.UserType;
+
 /**
  * Created by Dr FatBoySlymPG on 8/8/2016.
  */
@@ -28,7 +30,7 @@ public abstract class Student implements User {
         //TODO: Assign User details
     }
 
-    public String getUserName(){
+    public String getUserName() {
         return fullName;
     }
 
