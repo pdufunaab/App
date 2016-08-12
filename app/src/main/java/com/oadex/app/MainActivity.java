@@ -22,6 +22,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,22 +64,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
 
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-              //  Toast.makeText(MainActivity.this, "" + position,
-                //        Toast.LENGTH_SHORT).show();
-                if(position == 0){
-                    Intent  intent = new Intent(v.getContext(),ProfileActivity.class);
-                    startActivity(intent);
-                }
-
-
-            }
-        });
+        //Inflate the Fragments here.
+        Intent intent = getIntent();
+        Boolean validate = intent.getBooleanExtra("validated",false);
+        if(validate == true){
+            UnlockedFragment lockedfrag = new UnlockedFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,lockedfrag).commit();
+        }
+        else{
+            LockedFragment lockedfrag = new LockedFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,lockedfrag).commit();
+        }
 
     }
 

@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setupActionBar();
+
 
         passwordView = (EditText) findViewById(R.id.password);
         userID = (AutoCompleteTextView) findViewById(R.id.userID);
@@ -87,14 +87,14 @@ public class LoginActivity extends AppCompatActivity
 
      //Set up the {@link android.app.ActionBar}, if the API is available.
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setupActionBar() {
+   /*  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+   private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Show the Up button in the action bar.
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
-
+*/
     /**
      * Shows the progress UI and hides the login form.
      */
