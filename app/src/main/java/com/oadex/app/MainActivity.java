@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.profile:
                                 Intent myIntent = new Intent(getApplicationContext(),ProfileActivity.class);
                                 startActivity(myIntent);
+                            case R.id.news:
+                                myIntent = new Intent(getApplicationContext(), NewsActivity.class);
+                                startActivity(myIntent);
                         }
 
                         // Closing drawer on item click
