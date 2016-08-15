@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.news:
                                 myIntent = new Intent(getApplicationContext(), NewsActivity.class);
                                 startActivity(myIntent);
+                            case R.id.timetable:
+                                myIntent = new Intent(getApplicationContext(), TimetableActivity.class);
+                                startActivity(myIntent);
                         }
 
                         // Closing drawer on item click
