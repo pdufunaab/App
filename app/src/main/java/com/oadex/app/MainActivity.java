@@ -54,14 +54,17 @@ public class MainActivity extends AppCompatActivity {
                         // TODO: handle navigation
                         switch(menuItem.getItemId()){
                             case R.id.profile:
-                                Intent myIntent = new Intent(getApplicationContext(),ProfileActivity.class);
-                                startActivity(myIntent);
+                                Intent profileIntent = new Intent(getApplicationContext(),ProfileActivity.class);
+                                startActivity(profileIntent);
+                                break;
                             case R.id.news:
-                                myIntent = new Intent(getApplicationContext(), NewsActivity.class);
-                                startActivity(myIntent);
+                                Intent newsIntent = new Intent(getApplicationContext(), NewsActivity.class);
+                                startActivity(newsIntent);
+                                break;
                             case R.id.timetable:
-                                myIntent = new Intent(getApplicationContext(), TimetableActivity.class);
-                                startActivity(myIntent);
+                                Intent timeIntent = new Intent(getApplicationContext(), TimetableActivity.class);
+                                startActivity(timeIntent);
+                                break;
                         }
 
                         // Closing drawer on item click
