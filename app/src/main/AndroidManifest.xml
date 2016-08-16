@@ -49,6 +49,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.oadex.app.MainActivity" />
         </activity>
+        <uses-permission android:name="android.permission.CALL_PHONE" />
+        <activity android:name=".Contact_Main"/>
+        <activity android:name=".Feedback"/>
+        <activity android:name=".StaffDirectory"/>
+        <activity android:name=".StudentDirectory"/>
     </application>
 
 </manifest>
