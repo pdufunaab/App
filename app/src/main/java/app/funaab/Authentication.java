@@ -146,7 +146,7 @@ public class Authentication extends AsyncTask<String, Void, Boolean>
         if (success)
         {
             Intent intent = new Intent(context,MainActivity.class);
-            intent.putExtra("validated",sharedPreferences.getBoolean("validated",true));
+            intent.putExtra("validated",true);
             Toast.makeText(context,"Successfully Logged in",Toast.LENGTH_LONG).show();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);

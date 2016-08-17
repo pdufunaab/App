@@ -1,50 +1,48 @@
 package com.oadex.app;
 
-import android.content.Intent;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Adapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
-
+/**
+ * Created by ADEKOYA759 on 09-Aug-16.
+ */
+public class Contact_Main extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.contact);
 
-       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // Setting ViewPager for each Tabs
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-                // Set Tabs inside Toolbar
+
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new DetailsFragment(), "DETAILS");
-        adapter.addFragment(new ResultFragment(), "RESULT");
+        adapter.addFragment(new Fragmenta(),"Directory" );
+        adapter.addFragment(new Fragmentb(), "Emergency Number");
         viewPager.setAdapter(adapter);
+
     }
 
     static class Adapter extends FragmentPagerAdapter {
@@ -75,4 +73,5 @@ public class ProfileActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
 }
