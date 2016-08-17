@@ -19,6 +19,13 @@
     <string name="Subject">Subject</string>
     <string name="comment">COMMENT</string>
 
+    <string-array name="directory">
+
+        <item>Student Directory</item>
+        <item>Staff Directory</item>
+
+    </string-array>
+
     <!-- Strings related to login -->
     <string name="prompt_userID">User ID</string>
     <string name="prompt_password">Password</string>
