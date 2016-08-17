@@ -14,6 +14,10 @@
     <string name="about">About</string>
     <string name="title_activity_login">Sign in</string>
     <string name="API_KEY">123456</string>
+    <string name="Email">Email</string>
+    <string name="Name">Name</string>
+    <string name="Subject">Subject</string>
+    <string name="comment">COMMENT</string>
 
     <!-- Strings related to login -->
     <string name="prompt_userID">User ID</string>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:hint="@string/Name"
+            android:id="@+id/name"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/Email"
+            android:id="@+id/email"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="15dp"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="top"
+            android:fitsSystemWindows="true"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:padding="5dp"
+            android:hint="@string/Subject"
+            android:id="@+id/subject"/>
+        <Button
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/comment"
+            android:id="@+id/comment"/>
+
+</LinearLayout>
