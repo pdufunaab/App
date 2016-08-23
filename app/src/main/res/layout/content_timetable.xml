@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -12,4 +13,55 @@
     tools:context="com.oadex.app.TimetableActivity"
     tools:showIn="@layout/activity_timetable">
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/timeTable_linearLayout"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Course"
+            android:layout_weight="1"
+            android:gravity="center|center_horizontal"
+            android:id="@+id/course_textView"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Venue"
+            android:layout_weight="1"
+            android:gravity="center|center_horizontal"
+            android:id="@+id/venue_textView"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:gravity="center|center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Time"
+            android:id="@+id/time_textView"
+            />
+    </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+
+       <ListView
+           android:id="@+id/timeTableListView"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+       </ListView>
+
+
+   </LinearLayout>
+
+</LinearLayout>

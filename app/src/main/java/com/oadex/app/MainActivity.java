@@ -44,15 +44,18 @@ public class MainActivity extends AppCompatActivity {
         }
         // Set behavior of Navigation drawer
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
+                new NavigationView.OnNavigationItemSelectedListener()
+                {
                     // This method will trigger on item Click of navigation menu
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(MenuItem menuItem)
+                    {
                         // Set item in checked state
                         menuItem.setChecked(true);
 
                         // TODO: handle navigation
-                        switch(menuItem.getItemId()){
+                        switch(menuItem.getItemId())
+                        {
                             case R.id.profile:
                                 Intent profileIntent = new Intent(getApplicationContext(),ProfileActivity.class);
                                 startActivity(profileIntent);
@@ -81,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
             UnlockedFragment lockedfrag = new UnlockedFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,lockedfrag).commit();
         }
-        else{
+        else
+        {
             LockedFragment lockedfrag = new LockedFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,lockedfrag).commit();
         }

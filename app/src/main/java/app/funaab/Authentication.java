@@ -19,6 +19,7 @@ import com.oadex.app.LoginActivity;
 import com.oadex.app.MainActivity;
 import com.oadex.app.ProfileActivity;
 import com.oadex.app.R;
+import com.oadex.app.TimetableActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
