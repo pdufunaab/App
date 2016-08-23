@@ -1,5 +1,5 @@
 
-package com.staaworks.RSS;
+package com.staaworks.News;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.oadex.app.R;
 import com.squareup.picasso.Picasso;
+import com.staaworks.storage.FeedDBA;
 
 
 /**
@@ -21,20 +22,23 @@ import com.squareup.picasso.Picasso;
 public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
-    Feeds feeds;
-    Activity activity;
-    View.OnClickListener loader;
+    private Feeds feeds;
+    private Activity activity;
+    private View.OnClickListener loader;
+    private FeedDBA storage;
 
     public FeedAdapter(Activity context, Feeds objects, View.OnClickListener loadEarlier) {
         super(context, R.layout.feed_view, R.id.titleView, objects);
         feeds = objects;
         activity = context;
         loader = loadEarlier;
+        storage = new FeedDBA(activity);
     }
 
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        storage.open();
 
         View row = super.getView(position, convertView, parent);
 
@@ -83,6 +87,11 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
             if (position == feeds.size() - 1) {
                 loadEarlier.setVisibility(View.VISIBLE);
+            }
+
+            else if ((position - (storage.getAll().size() - 1)) == 0) {
+                feedPane.setMinimumHeight(feedPane.getHeight() - loadEarlier.getHeight());
+                loadEarlier.setVisibility(View.GONE);
             }
 
             else {
@@ -154,6 +163,7 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 }
             });
 
+            storage.close();
             return row;
         }
     }

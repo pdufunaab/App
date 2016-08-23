@@ -10,9 +10,9 @@ import android.support.v7.widget.Toolbar;
 
 
 import com.staaworks.Events.EventFragment;
-import com.staaworks.RSS.FragmentAdapter;
-import com.staaworks.RSS.NewsFragment;
-import com.staaworks.RSS.PageSlideTransformers.jazzyviewpager.JazzyViewPager;
+import com.staaworks.util.FragmentAdapter;
+import com.staaworks.News.NewsFragment;
+import com.staaworks.PageSlideTransformers.jazzyviewpager.JazzyViewPager;
 
 import java.util.List;
 import java.util.Vector;

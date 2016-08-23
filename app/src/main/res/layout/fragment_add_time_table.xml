@@ -5,7 +5,6 @@
     android:orientation="vertical"
     tools:context="app.funaab.AddTimeTableFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
 
         android:id="@+id/timeTable_form"
@@ -98,7 +97,6 @@
             android:layout_margin="@dimen/fab_margin"
             android:background="@color/colorPrimaryDark"
             android:src="@android:drawable/checkbox_on_background"
-            android:layout_anchorGravity="bottom|right|end"
             />
 
     </LinearLayout>

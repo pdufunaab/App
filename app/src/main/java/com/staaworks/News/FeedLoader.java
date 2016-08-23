@@ -1,19 +1,16 @@
-package com.staaworks.RSS;
+package com.staaworks.News;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.staaworks.RSS.storage.FeedDBA;
+import com.staaworks.storage.FeedDBA;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

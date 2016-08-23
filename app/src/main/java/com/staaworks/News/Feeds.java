@@ -1,4 +1,4 @@
-package com.staaworks.RSS;
+package com.staaworks.News;
 
 import java.util.ArrayList;
 

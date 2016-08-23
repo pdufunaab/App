@@ -29,7 +29,7 @@
 
 
     <!--<android.support.v4.view.ViewPager -->
-    <com.staaworks.RSS.PageSlideTransformers.jazzyviewpager.JazzyViewPager
+    <com.staaworks.PageSlideTransformers.jazzyviewpager.JazzyViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

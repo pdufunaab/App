@@ -87,8 +87,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.staaworks.RSS.InAppBrowserPage" />
-        <activity android:name="com.staaworks.RSS.FeedImageView" android:theme="@style/myDialogTheme"/>
+        <activity android:name="com.staaworks.News.InAppBrowserPage" />
+        <activity android:name="com.staaworks.News.FeedImageView" android:theme="@style/myDialogTheme"/>
 
     </application>
 
