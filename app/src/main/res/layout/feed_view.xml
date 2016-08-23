@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/feedPane"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.staaworks.RSS.CustomComponents.feedView">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleContainer"
+        android:focusable="false"
+        android:layout_alignParentTop="true"
+        android:padding="10dp"
+        android:background="#8cbe8c">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:divider="#053205"
+        android:dividerPadding="15dp"
+        android:focusable="false">
+
+
+
+        <ImageView
+            android:id="@+id/feedImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/rss"
+            android:contentDescription="Image For The Displayed Feed"
+            android:layout_weight="0.3"
+            android:layout_gravity="center_vertical"
+            android:focusable="false" />
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:focusable="false">
+
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="80dp"
+                android:layout_gravity="end"
+                android:layout_alignParentBottom="true"
+                android:text="@string/rssImageDesc"
+                android:textColor="#222222"
+                android:textSize="17sp"
+                android:textIsSelectable="false"
+                android:fontFamily="serif"
+                android:focusable="false"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleContainer"
+        android:background="#c8ffc8"
+        android:text="The Clickable Description is to be shown here\nThe numerous rubbish jabbered here would be concealed as smoothly as a dwarf&apos;s behind"
+        android:textColor="#1e501e"
+        android:textSize="17dp"
+        android:fontFamily="serif"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:id="@+id/descriptionView"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp" />
+    <TextView
+        android:id="@+id/earlierFeeds"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/descriptionView"
+        android:background="#a0c8a0"
+        android:text="Click To Load Earlier Feeds"
+        android:textColor="#326432"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:typeface="serif"
+        android:textAlignment="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:visibility="visible" />
+</RelativeLayout>
