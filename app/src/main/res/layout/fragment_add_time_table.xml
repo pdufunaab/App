@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="app.funaab.AddTimeTableFragment">
 
@@ -11,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity=""
+        android:layout_gravity="center_horizontal"
         android:gravity="center">
 
         <android.support.design.widget.TextInputLayout
@@ -23,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Course Code"
+                android:textColor="@color/colorPrimaryDark"
                 android:imeActionId="@+id/login"
                 android:imeOptions="actionUnspecified"
                 android:inputType="text"
@@ -40,7 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Course Title"
-                android:imeActionId="@+id/login"
+                android:imeActionId="@+id/add_fab"
+                android:textColor="@color/colorPrimaryDark"
                 android:imeOptions="actionUnspecified"
                 android:inputType="text"
                 android:maxLines="1"
@@ -57,7 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Venue"
-                android:imeActionId="@+id/login"
+                android:textColor="@color/colorPrimaryDark"
+                android:imeActionId="@+id/add_fab"
                 android:imeOptions="actionUnspecified"
                 android:inputType="text"
                 android:maxLines="1"
@@ -74,8 +78,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Day"
-                android:imeActionId="@+id/login"
+                android:imeActionId="@+id/add_fab"
                 android:imeOptions="actionUnspecified"
+                android:textColor="@color/colorPrimaryDark"
                 android:inputType="text"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -86,8 +91,11 @@
         <TimePicker
             android:layout_width="match_parent"
             android:layout_height="140dp"
+            android:numbersTextColor="@color/colorPrimaryDark"
+            android:numbersSelectorColor="@color/colorPrimaryDark"
             android:id="@+id/course_timePicker"
             android:timePickerMode="spinner"/>
+
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_fab"

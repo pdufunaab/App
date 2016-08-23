@@ -9,6 +9,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Course"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
         android:layout_gravity="left"
         android:gravity="center|center_horizontal"
         android:id="@+id/dayHeaderView"

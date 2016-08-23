@@ -1,6 +1,7 @@
 package app.funaab;
 
 import android.annotation.TargetApi;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -47,7 +48,6 @@ public class AddTimeTableFragment extends Fragment
         arrayAdapter = ArrayAdapter.createFromResource(getContext(), R.array.days_array, android.R.layout.simple_expandable_list_item_2);
     }
 
-    //@TargetApi(Build.VERSION_CODES.M)
     public void saveCourse()
     {
         String courseCode,courseTitle,venue,day,time;
@@ -56,7 +56,7 @@ public class AddTimeTableFragment extends Fragment
         venue = venueView.getText().toString();
         day = dayView.getText().toString();
         timePicker.clearFocus();
-        time ="7:00"; //convertTime(timePicker.getHour(), timePicker.getMinute());
+        time = convertTime(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
         if(!checkNullOrEmpty(courseCode,courseTitle,venue,day,time))
         {
@@ -71,7 +71,13 @@ public class AddTimeTableFragment extends Fragment
 
     }
 
-    //@TargetApi(Build.VERSION_CODES.M)
+    TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+        }
+    };
+
     public void clearViews(EditText courseCode, EditText courseTitle, EditText venue, AutoCompleteTextView day, TimePicker time)
     {
         Calendar calendar = Calendar.getInstance();
@@ -79,8 +85,8 @@ public class AddTimeTableFragment extends Fragment
         courseTitle.setText("");
         venue.setText("");
         day.clearListSelection();
-        //time.setHour(calendar.get(Calendar.HOUR_OF_DAY));
-        //time.setHour(calendar.get(Calendar.MINUTE));
+        time.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+        time.setCurrentMinute(calendar.get(Calendar.MINUTE)); ;
     }
 
     public boolean checkNullOrEmpty(String courseCode, String courseTitle,String venue, String day, String time)
