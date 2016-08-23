@@ -28,11 +28,10 @@ public class TimeTableManagementActivity extends AppCompatActivity
         {
             case "Add":
                 fragmentTransaction.replace(R.id.fragment_container,new AddTimeTableFragment());
-                fragmentTransaction.commit();
             case "Edit":
                 fragmentTransaction.replace(R.id.fragment_container,new EditTimeTableFragment());
-                fragmentTransaction.commit();
         }
+        fragmentTransaction.commit();
 
     }
 

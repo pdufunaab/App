@@ -97,6 +97,7 @@
             android:id="@+id/course_timePicker"
             android:timePickerMode="spinner"/>
 
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_fab"
             android:layout_width="wrap_content"
@@ -105,7 +106,6 @@
             android:layout_margin="@dimen/fab_margin"
             android:background="@color/colorPrimaryDark"
             android:src="@android:drawable/checkbox_on_background"
-            android:layout_anchorGravity="bottom|right|end"
             />
 
     </LinearLayout>
