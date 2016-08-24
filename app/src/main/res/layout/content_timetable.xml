@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:id="@+id/course_textView"
-            />
+            android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:id="@+id/venue_textView"
-            />
+            android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:gravity="center|center_horizontal"
@@ -52,18 +52,21 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Time"
             android:id="@+id/time_textView"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:orientation="vertical">
+       android:orientation="vertical"
+       android:contextClickable="false">
 
        <ListView
            android:id="@+id/timeTableListView"
            android:layout_width="match_parent"
-           android:layout_height="wrap_content">
+           android:layout_height="wrap_content"
+           android:choiceMode="singleChoice"
+           android:divider="@android:drawable/divider_horizontal_textfield">
 
        </ListView>
 

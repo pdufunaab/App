@@ -5,16 +5,18 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Course"
+        android:text="Day"
         android:textSize="20sp"
         android:textColor="@color/colorPrimary"
         android:layout_gravity="left"
-        android:gravity="center|center_horizontal"
+        android:background="@color/switch_thumb_normal_material_dark"
+        android:gravity="left"
         android:id="@+id/dayHeaderView"
-        />
+        android:textStyle="bold"
+         />
 
 
     <LinearLayout
@@ -33,7 +35,7 @@
             android:text="Course"
             android:gravity="center|center_horizontal"
             android:id="@+id/courseView"
-            />
+            android:textStyle="bold" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +44,7 @@
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:id="@+id/venueView"
-            />
+            android:textStyle="bold" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +54,7 @@
             android:text="Time"
             android:id="@+id/timeView"
 
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
 

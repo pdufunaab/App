@@ -23,7 +23,7 @@
             android:text="Course"
             android:gravity="center|center_horizontal"
             android:id="@+id/courseView"
-            />
+            android:textStyle="bold" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:id="@+id/venueView"
-            />
+            android:textStyle="bold" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:text="Time"
             android:id="@+id/timeView"
 
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
 

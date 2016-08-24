@@ -82,6 +82,8 @@
                 android:imeOptions="actionUnspecified"
                 android:textColor="@color/colorPrimaryDark"
                 android:inputType="text"
+                android:completionThreshold="1"
+                android:popupBackground="@color/primary_light"
                 android:maxLines="1"
                 android:singleLine="true"
                 />

@@ -1,20 +1,12 @@
 package app.funaab;
 
-import android.content.ContentResolver;
+
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.CharArrayBuffer;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
-
-import java.util.List;
 
 /**
  * Created by Malik on 8/18/2016.
@@ -28,6 +20,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
     private static final String venue = "Venue";
     private static final String day = "Day";
     private static final String time = "Time";
+    private static final String dayIndex = "DayIndex";
     private static final int databaseVersion = 1;
 
 
@@ -40,9 +33,8 @@ public class TimeTableHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL("CREATE TABLE " + tableName + " (" + courseCode + " TEXT PRIMARY KEY, " + courseTitle + " TEXT, " + venue + " TEXT, "+ day + " TEXT, " + time + " TEXT " + ")");
+        db.execSQL("CREATE TABLE " + tableName + " (" + courseCode + " TEXT PRIMARY KEY, " + courseTitle + " TEXT, " + venue + " TEXT, "+ day + " TEXT, " + time + " TEXT, " + dayIndex + " INTEGER " + ")");
         Log.i("TimeTableHelper", "on create database");
-
     }
 
     @Override
@@ -51,7 +43,36 @@ public class TimeTableHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
         onCreate(db);
         Log.i("TimeTableHelper", "upgrade database");
+    }
 
+    public int getDayIndex(String day)
+    {
+        int index = 0;
+        switch(day)
+        {
+            case "Monday":
+                index = 1;
+            break;
+            case "Tuesday":
+                index = 2;
+            break;
+            case "Wednesday":
+                index =  3;
+            break;
+            case "Thursday":
+                index = 4;
+            break;
+            case "Friday":
+                index = 5;
+            break;
+            case "Saturday":
+                index = 6;
+            break;
+            case "Sunday":
+            index = 7;
+            break;
+        }
+        return index;
     }
 
     public void insert(String courseCode, String courseTitle,String venue, String day, String time)
@@ -62,6 +83,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
         contentValues.put(this.venue,venue);
         contentValues.put(this.day,day);
         contentValues.put(this.time,time);
+        contentValues.put(this.dayIndex,getDayIndex(day));
 
         getWritableDatabase().insert(tableName,null,contentValues);
 
@@ -78,6 +100,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
         contentValues.put(this.venue,venue);
         contentValues.put(this.day,day);
         contentValues.put(this.time,time);
+        contentValues.put(this.dayIndex,getDayIndex(day));
         getWritableDatabase().update(tableName,contentValues,"_id = ? AND Day = ?",new String[]{courseCode,day});
         Log.i("TimeTableHelper", "updating data");
     }
