@@ -22,6 +22,7 @@ import com.staaworks.storage.FeedDBA;
 public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
+
     private Feeds feeds;
     private Activity activity;
     private View.OnClickListener loader;
@@ -42,6 +43,8 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
         View row = super.getView(position, convertView, parent);
 
+        String title = getItem(position).getTitle();
+
         if (feeds.get(position).getLink().equals("ERROR")) {
             TextView t = (TextView) row.getTag(R.id.titleView);
             if (t == null) {
@@ -61,18 +64,32 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
         else {
 
+
+            /**
+             *  Instantiate the base container for the custom layout
+             *
+             */
+
             RelativeLayout feedPane = (RelativeLayout) row.getTag(R.id.feedPane);
             if (feedPane == null) {
                 feedPane = (RelativeLayout) row.findViewById(R.id.feedPane);
                 row.setTag(R.id.feedPane, feedPane);
             }
 
+
+
+
+
+
             TextView titleView = (TextView) row.getTag(R.id.titleView);
             if (titleView == null) {
                 titleView = (TextView) row.findViewById(R.id.titleView);
                 row.setTag(R.id.titleView, titleView);
             }
-            titleView.setText(getItem(position).getTitle());
+
+
+
+
 
 
             TextView loadEarlier = (TextView) row.getTag(R.id.earlierFeeds);
@@ -85,13 +102,17 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
 
-            if (position == feeds.size() - 1) {
-                loadEarlier.setVisibility(View.VISIBLE);
-            }
 
-            else if ((position - (storage.getAll().size() - 1)) == 0) {
+
+
+
+            if ((position - (storage.getAll().size() - 1)) == 0) {
                 feedPane.setMinimumHeight(feedPane.getHeight() - loadEarlier.getHeight());
                 loadEarlier.setVisibility(View.GONE);
+            }
+
+            else if (position == feeds.size() - 1) {
+                loadEarlier.setVisibility(View.VISIBLE);
             }
 
             else {
@@ -103,18 +124,19 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
 
-            // TODO **  *Indicate New* | *get picture online today* | *Fix in feed_view.xml* | *id:newIndicator* **
+
+
+
             if (feeds.get(position).isNew()) {
                 Log.i("New Feed:", feeds.get(position).getTitle());
-                //TextView newIndicator = (TextView) row.findViewById(R.id.newIndicator);
-                //newIndicator.setVisibility(View.VISIBLE);
+
+                title = "[NEW] " + title;
             }
 
-            // TODO **  *Indicate Important * | *get picture online today* | *Fix in feed_view.xml* | *id:importantIndicator* **
             if (feeds.get(position).getRating() == 5) {
                 Log.i("Important Feed:", feeds.get(position).getTitle());
-                //TextView importantIndicator = (TextView) row.findViewById(R.id.importantIndicator);
-                //importantIndicator.setVisibility(View.VISIBLE);
+
+                title = "[IMPORTANT] " + title;
             }
 
 
@@ -126,7 +148,8 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
             descriptionView.setText(getItem(position).getDescription());
 
 
-            //Set Title View Listener
+            titleView.setText(title);
+
             titleClicked t = new titleClicked(descriptionView, feedPane);
             titleView.setOnClickListener(t);
 

@@ -35,13 +35,15 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
     private Activity activity;
     private ProgressDialog progressDialog;
     FeedDBA storage;
+    private FeedDBA.Categories category;
 
 
 
-    public FeedLoader(Activity activity,@NonNull ListView listView) {
+    public FeedLoader(Activity activity, @NonNull ListView listView, FeedDBA.Categories category) {
         this.listView = listView;
         this.activity = activity;
         storage = new FeedDBA(this.activity);
+        this.category = category;
     }
 
 
@@ -92,6 +94,7 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
         String imageURL = "http://i.imgur.com/IXELLM8.jpg";
         String pubDate = "13/8/2016";
         String rating = "3";
+        FeedDBA.Categories category = FeedDBA.Categories.general;
 
 
 
@@ -177,7 +180,7 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
 
                 }
                     else if (event == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
-                        addIfAddable(new Feed(title, link, description,imageURL,title, pubDate, rating), feeds);
+                        addIfAddable(new Feed(title, link, description,imageURL,title, pubDate, rating, category.name()), feeds);
                         insideItem = false;
                     }
 
@@ -191,7 +194,7 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
             Log.e("Exception Picked, size:", feeds.size() + "");
             feeds.clear();
 
-            feeds.add(new Feed("Oops! The news site is either blank or invalid", "ERROR", description, imageURL, title, pubDate, rating));
+            feeds.add(new Feed("Oops! The news site is either blank or invalid", "ERROR", description, imageURL, title, pubDate, rating, category.name()));
             return feeds;
         }
 
@@ -206,7 +209,8 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
 
 
 
-        feeds = storage.getNextSet();
+
+        feeds = storage.getNextSet(category);
         System.out.println("FEEDSIZE : " + feeds.size());
         storage.close();
         return feeds;
@@ -273,7 +277,7 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
         public void onClick(View v) {
             storage.open();
             int sizeBefore = feeds.size(), sizeAfter;
-            for (Feed feed : storage.getNextSet()) {
+            for (Feed feed : storage.getNextSet(category)) {
                 addIfAddable(feed, feeds);
                 sizeAfter = feeds.size();
                 if ((sizeAfter - sizeBefore) == 0) {

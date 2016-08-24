@@ -49,8 +49,25 @@ public class FeedDBA {
     public static final String COL_IMG_TITLE = "feed_imageTitles";
     public static final int IMG_TITLE_INDEX = 6;
 
-    public static final String VIEWED = "pos";
+    public static final String VIEWED = "viewed";
     public static final int VIEWED_INDEX = 7;
+
+
+    public static final String CATEGORY = "cat";
+    public static final int CATEGORY_INDEX = 8;
+
+
+    public enum Categories {
+        all,
+        general,
+        important,
+        sport,
+        matriculation,
+        convocation,
+        entertainment,
+        politics,
+        business
+    }
 
 
     private static final String DATABASE_CREATE = "create table " +
@@ -61,8 +78,9 @@ public class FeedDBA {
             COL_DATE + " text not null, " +
             COL_RATING + " integer not null, " +
             COL_IMG + " text not null, " +
-            COL_IMG_TITLE + " text not null" +
-//            POS + " integer autoincrement" +
+            COL_IMG_TITLE + " text not null, " +
+            VIEWED + " text default false, " +
+            CATEGORY + " text default general" +
             ");";
 
 
@@ -80,9 +98,19 @@ public class FeedDBA {
         return this;
     }
 
+
+
+
+
+
+
+
     public void close() {
         db.close();
     }
+
+
+
 
 
     public Feeds getAll() {
@@ -90,10 +118,17 @@ public class FeedDBA {
         return queries.getAllFeeds();
     }
 
+
+
+
     public Feeds getNew() {
         queries.resolve();
         return queries.getNewFeeds();
     }
+
+
+
+
 
     public Feeds getImportant() {
         queries.resolve();
@@ -101,12 +136,18 @@ public class FeedDBA {
     }
 
 
-    public Feeds getNextSet() {
+
+
+
+    public Feeds getNextSet(Categories category) {
         queries.resolve();
-        Feeds feeds = queries.getFeeds(position, position + 9);
+        Feeds feeds = queries.getFeeds(position, position + 9, category);
         position += 10;
         return feeds;
     }
+
+
+
 
     public Feeds getByTitle() {
         queries.resolve();
@@ -114,15 +155,32 @@ public class FeedDBA {
     }
 
 
+
+
+
+    public Boolean isFeedViewed(Feed feed) {
+        return queries.getPersistedFeed(feed).isViewed(context);
+    }
+
+
+
+
+
     public void addFeed(Feed feed) {
         queries.addFeed(feed);
         queries.resolve();
     }
 
+
+
+
     public void removeFeed(Feed feed) {
         queries.removeFeed(feed);
         queries.resolve();
     }
+
+
+
 
     public void updateFeed(Feed oldFeed, Feed newFeed) {
         queries.updateFeed(oldFeed, newFeed);
@@ -130,7 +188,11 @@ public class FeedDBA {
     }
 
 
+
+
+
     public class Queries {
+
 
         private static final String retrieveAll = "SELECT * FROM " + TABLE + " ORDER BY " + COL_RATING + " DESC;";
 
@@ -148,22 +210,19 @@ public class FeedDBA {
         }
 
 
-        protected Feeds getFeeds(Integer start, Integer stop) {
-            //String statement = "SELECT * FROM " + TABLE + " WHERE " + POS + ">=" + start + " AND " + POS + "<=" + stop + ";";
-            //return getFeeds(statement);
-
-            if (getAllFeeds().size() != 0) {
+        protected Feeds getFeeds(Integer start, Integer stop, Categories category) {
+            if (getByCategory(category).size() != 0) {
                 Feeds feeds = new Feeds();
 
-                if (getAllFeeds().size() < 10) return  getAllFeeds();
+                if (getByCategory(category).size() < 10) return  getByCategory(category);
                 else {
                     try {
                         for (int i = start; i <= stop; i++) {
-                            feeds.add(getAllFeeds().get(i));
+                            feeds.add(getByCategory(category).get(i));
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        for (int i = start; i < getAllFeeds().size(); i++) {
-                            feeds.add(getAllFeeds().get(i));
+                        for (int i = start; i < getByCategory(category).size(); i++) {
+                            feeds.add(getByCategory(category).get(i));
                         }
                     }
                 }
@@ -171,6 +230,24 @@ public class FeedDBA {
             }
             else return new Feeds();
         }
+
+
+
+
+
+        protected Feeds getByCategory(Categories category) {
+            if (category == Categories.all) {
+                return getAllFeeds();
+            }
+            else {
+                String statement = "SELECT * FROM " + TABLE + " WHERE " + CATEGORY + " = '" + category.name() + "';";
+                return getFeeds(statement);
+            }
+        }
+
+
+
+
 
 
         protected Feeds getNewFeeds() {
@@ -201,7 +278,7 @@ public class FeedDBA {
         private Feeds getFeeds(String statement) {
             Cursor cursor = db.rawQuery(statement, null);
             Feeds feeds = new Feeds();
-            String feedTitle, feedLink, feedDescription, feedImageUrl, feedImageTitle, feedPubDate;
+            String feedTitle, feedLink, feedDescription, feedImageUrl, feedImageTitle, feedPubDate, feedCategory, isViewed;
             int feedRating;
 
             while (cursor.moveToNext()) {
@@ -212,10 +289,21 @@ public class FeedDBA {
                 feedImageTitle = cursor.getString(IMG_TITLE_INDEX);
                 feedPubDate = cursor.getString(DATE_INDEX);
                 feedRating = cursor.getInt(RATING_INDEX);
-                feeds.add(new Feed(feedTitle,feedLink,feedDescription,feedImageUrl,feedImageTitle,feedPubDate,feedRating + ""));
+                feedCategory = cursor.getString(CATEGORY_INDEX);
+                isViewed = cursor.getString(VIEWED_INDEX);
+
+                feeds.add(new Feed(feedTitle,feedLink,feedDescription,feedImageUrl,feedImageTitle,feedPubDate,feedRating + "", feedCategory).setViewed(isViewed));
             }
 
             return feeds;
+        }
+
+
+
+
+        protected Feed getPersistedFeed(Feed feed) {
+            String statement = "SELECT * FROM " + TABLE + " WHERE " + COL_LINKS + " = '" + feed.getLink() + "';";
+            return getFeeds(statement).get(0);
         }
 
 

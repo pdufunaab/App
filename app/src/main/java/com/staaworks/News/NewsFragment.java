@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.oadex.app.R;
+import com.staaworks.storage.FeedDBA;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -93,7 +94,7 @@ public class NewsFragment extends Fragment {
         swipeContainer = (SwipeRefreshLayout) activity.findViewById(R.id.swipeContainer);
         feedsListView = (ListView) activity.findViewById(R.id.feedsListView);
 
-        task = new FeedLoader(activity, feedsListView);
+        task = new FeedLoader(activity, feedsListView, FeedDBA.Categories.all);
         setURL(urlString);
         task.execute(url);
         feedsListView.requestFocus();
@@ -105,7 +106,7 @@ public class NewsFragment extends Fragment {
 
             public void onRefresh() {
 
-                task = new FeedLoader(activity, feedsListView);
+                task = new FeedLoader(activity, feedsListView, FeedDBA.Categories.all);
                 task.execute(url);
                 feedsListView.requestFocus();
                 swipeContainer.setRefreshing(false);

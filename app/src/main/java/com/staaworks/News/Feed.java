@@ -1,6 +1,9 @@
 package com.staaworks.News;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.staaworks.storage.FeedDBA;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,13 +21,14 @@ import java.util.regex.Pattern;
  */
 public class Feed {
 
-    private String title, link, description, imageURL,imageTitle, pubDate;
+    private String title, link, description, imageURL,imageTitle, pubDate, category, viewed;
     private Boolean valid = true;
     private int rating;
+    private FeedDBA storage;
 
 
 
-    public Feed(String title, String link, String description, String imageURL, String imageTitle, String pubDate, String rating) {
+    public Feed(String title, String link, String description, String imageURL, String imageTitle, String pubDate, String rating, String category) {
 
 
         if (!title.equals("")) {
@@ -72,7 +76,8 @@ public class Feed {
 
         try{
             this.rating = Integer.parseInt(rating.trim());
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             this.rating = 3;
         }
 
@@ -83,6 +88,14 @@ public class Feed {
         }
         else {
             this.pubDate = "23/8/2016";
+        }
+
+
+        if (!category.equals("")) {
+            this.category = category;
+        }
+        else {
+            this.category = "general";
         }
 
     }
@@ -116,6 +129,25 @@ public class Feed {
     public String getImageURL() {
         return imageURL;
     }
+
+
+
+
+    public Feed setViewed(String viewed) {
+        this.viewed = viewed;
+        return this;
+    }
+
+
+    public boolean isViewed(Context context) {
+        Feed local = this;
+        storage = new FeedDBA(context).open();
+        viewed = storage.isFeedViewed(local).toString();
+        storage.close();
+        return Boolean.getBoolean(viewed);
+    }
+
+
 
     @Override
     public String toString() {

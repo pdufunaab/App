@@ -14,7 +14,7 @@
         android:focusable="false"
         android:layout_alignParentTop="true"
         android:padding="10dp"
-        android:background="#8cbe8c">
+        android:background="@color/colorPrimary">
 
 
     <LinearLayout
@@ -90,9 +90,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/descriptionView"
-        android:background="#a0c8a0"
+        android:background="@color/colorPrimaryDark"
         android:text="Click To Load Earlier Feeds"
-        android:textColor="#326432"
+        android:textColor="@color/colorAccent"
         android:textSize="16sp"
         android:textStyle="italic"
         android:typeface="serif"

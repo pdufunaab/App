@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 
-import com.staaworks.PageSlideTransformers.jazzyviewpager.JazzyViewPager;
-
 import java.util.List;
 
 /**
@@ -19,14 +17,12 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragments;
 
-    private JazzyViewPager mJazzy;
 
 
 
-    public FragmentAdapter(FragmentManager fm, List<Fragment> myFrags, JazzyViewPager mJazzy) {
+    public FragmentAdapter(FragmentManager fm, List<Fragment> myFrags) {
         super(fm);
         fragments = myFrags;
-        this.mJazzy = mJazzy;
     }
 
 
@@ -44,7 +40,6 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         Object obj = super.instantiateItem(container, position);
-        mJazzy.setObjectForPosition(obj, position);
         return obj;
     }
 
