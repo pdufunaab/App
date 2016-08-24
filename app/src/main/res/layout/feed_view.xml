@@ -14,7 +14,7 @@
         android:focusable="false"
         android:layout_alignParentTop="true"
         android:padding="10dp"
-        android:background="@color/colorPrimary">
+        android:background="#32c8ba">
 
 
     <LinearLayout
@@ -54,7 +54,7 @@
                 android:layout_gravity="end"
                 android:layout_alignParentBottom="true"
                 android:text="@string/rssImageDesc"
-                android:textColor="#222222"
+                android:textColor="#0a3c36"
                 android:textSize="17sp"
                 android:textIsSelectable="false"
                 android:fontFamily="serif"
@@ -74,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleContainer"
-        android:background="#c8ffc8"
+        android:background="#28afa2"
         android:text="The Clickable Description is to be shown here\nThe numerous rubbish jabbered here would be concealed as smoothly as a dwarf&apos;s behind"
         android:textColor="#1e501e"
         android:textSize="17dp"
@@ -90,9 +90,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/descriptionView"
-        android:background="@color/colorPrimaryDark"
+        android:background="#1e9789"
         android:text="Click To Load Earlier Feeds"
-        android:textColor="@color/colorAccent"
+        android:textColor="#326432"
         android:textSize="16sp"
         android:textStyle="italic"
         android:typeface="serif"

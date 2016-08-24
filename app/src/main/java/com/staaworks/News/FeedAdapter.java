@@ -59,6 +59,15 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 row.setTag(R.id.descriptionView, d);
             }
             d.setVisibility(View.GONE);
+
+            TextView loadEarlier = (TextView) row.getTag(R.id.earlierFeeds);
+            if (loadEarlier == null) {
+                loadEarlier = (TextView) row.findViewById(R.id.earlierFeeds);
+                row.setTag(R.id.earlierFeeds);
+            }
+            loadEarlier.setOnClickListener(loader);
+            remove(getItem(position));
+
             return row;
         }
 

@@ -57,7 +57,6 @@
     </string-array>
 
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_timetable">Timetable</string>
@@ -72,4 +71,6 @@
         <item>Saturday</item>
     </string-array>
     <string name="title_activity_time_table_management">TimeTableManagementActivity</string>
+    <string name="title_activity_news_display">News</string>
+    <string name="NewsCatSelectionInstruction">Please Select From one of the below Categories</string>
 </resources>

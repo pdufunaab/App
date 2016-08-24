@@ -86,10 +86,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name="com.staaworks.News.InAppBrowserPage" />
-        <activity android:name="com.staaworks.News.FeedImageView" android:theme="@style/myDialogTheme"/>
-
+        <activity
+            android:name="com.staaworks.News.FeedImageView"
+            android:theme="@style/myDialogTheme" />
+        <activity
+            android:name="com.staaworks.News.NewsDisplayActivity"
+            android:label="@string/title_activity_news_display"
+            android:parentActivityName=".NewsActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.oadex.app.NewsActivity" />
+        </activity>
     </application>
 
 </manifest>

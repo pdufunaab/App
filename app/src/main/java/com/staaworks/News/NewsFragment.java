@@ -42,9 +42,7 @@ public class NewsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public NewsFragment() {
-        // Required empty public constructor
-    }
+    public NewsFragment() {}
 
 
 
@@ -100,12 +98,13 @@ public class NewsFragment extends Fragment {
         feedsListView.requestFocus();
 
 
+        // Set Refresh Action
+
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
 
             public void onRefresh() {
-
                 task = new FeedLoader(activity, feedsListView, FeedDBA.Categories.all);
                 task.execute(url);
                 feedsListView.requestFocus();
@@ -116,7 +115,8 @@ public class NewsFragment extends Fragment {
 
         // Configure the refreshing colors
 
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        swipeContainer.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
 
                 android.R.color.holo_green_light,
 

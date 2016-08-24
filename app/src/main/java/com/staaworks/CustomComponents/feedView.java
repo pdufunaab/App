@@ -52,8 +52,10 @@ public class feedView extends View {
         StringBuilder b = new StringBuilder();
         int k = 0;
         for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '\n')
+            if (chars[i] == '\n') {
                 k = i;
+                break;
+            }
         }
 
 
