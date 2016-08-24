@@ -11,8 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.oadex.app.R;
+import com.staaworks.storage.FeedDBA;
 
-import java.util.List;
+import java.util.HashMap;
 
 
 public class NewsCategorySelectionFragment extends Fragment {
@@ -22,8 +23,7 @@ public class NewsCategorySelectionFragment extends Fragment {
 
     private String urlString = "http://rss.cnn.com/rss/edition_space.rss";
     private Activity activity;
-    //private List<String> list =
-
+    private HashMap categories = new HashMap();
 
 
     private OnFragmentInteractionListener mListener;
@@ -68,6 +68,12 @@ public class NewsCategorySelectionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null)
             activity = getActivity();
+
+
+
+        for (int i = 0; i < FeedDBA.Categories.values().length; i++) {
+
+        }
 
     }
 
