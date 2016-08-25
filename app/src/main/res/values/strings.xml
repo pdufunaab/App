@@ -18,6 +18,11 @@
     <string name="Name">Name</string>
     <string name="Subject">Subject</string>
     <string name="comment">COMMENT</string>
+    <string name="spinner_prompt">Select Day</string>
+    <string name="alarm_text">remind me</string>
+    <string name="add_newTimeTable">Add New Course To Timetable</string>
+    <string name="edit_timeTable">Edit TimeTable</string>
+
 
     <string-array name="directory">
 

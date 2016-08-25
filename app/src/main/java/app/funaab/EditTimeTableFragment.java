@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -20,13 +22,17 @@ import java.util.Calendar;
 
 public class EditTimeTableFragment extends Fragment
 {
-    ArrayAdapter<String> arrayAdapter;
+    //ArrayAdapter<String> arrayAdapter;
+    ArrayAdapter<String> spinnerAdapter;
     TimeTableHelper timeTableHelper;
     EditText editCourseCodeView;
     EditText editCourseTitleView;
     EditText editVenueView;
-    AutoCompleteTextView editDayView;
+    //AutoCompleteTextView editDayView;
+    TextView editDayView;
     TimePicker editTimePicker;
+    Spinner daySpinner;
+
 
     public EditTimeTableFragment()
     {
@@ -44,8 +50,11 @@ public class EditTimeTableFragment extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
         timeTableHelper = new TimeTableHelper(getContext());
-        arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.days_array));
-        editDayView.setAdapter(arrayAdapter);
+        spinnerAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,getResources().getStringArray(R.array.days_array));
+        //arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.days_array));
+        //editDayView.setAdapter(arrayAdapter);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        daySpinner.setAdapter(spinnerAdapter);
     }
 
     public boolean checkNullOrEmpty(String courseCode, String courseTitle,String venue, String day, String time)
@@ -84,13 +93,14 @@ public class EditTimeTableFragment extends Fragment
 
         return hour + ":" + minute + ":" + format;
     }
-    public void clearViews(EditText courseCode, EditText courseTitle, EditText venue, AutoCompleteTextView day, TimePicker time)
+
+    public void clearViews(EditText courseCode, EditText courseTitle, EditText venue, TimePicker time)
     {
         Calendar calendar = Calendar.getInstance();
         courseCode.setText("");
         courseTitle.setText("");
         venue.setText("");
-        day.clearListSelection();
+        //day.clearListSelection();
         time.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
         time.setCurrentMinute(calendar.get(Calendar.MINUTE)); ;
     }
@@ -101,7 +111,8 @@ public class EditTimeTableFragment extends Fragment
         courseCode = editCourseCodeView.getText().toString();
         courseTitle = editCourseTitleView.getText().toString();
         venue = editVenueView.getText().toString();
-        day = editDayView.getText().toString();
+        //day = editDayView.getText().toString();
+        day = daySpinner.getSelectedItem().toString();
         editTimePicker.clearFocus();
         time = convertTime(editTimePicker.getCurrentHour(), editTimePicker.getCurrentMinute());
 
@@ -109,7 +120,7 @@ public class EditTimeTableFragment extends Fragment
         {
             timeTableHelper.update(courseCode,courseTitle,venue,day,time);
             Toast.makeText(getContext(),courseTitle + " Successfully Updated", Toast.LENGTH_LONG).show();
-            clearViews(editCourseCodeView,editCourseTitleView,editVenueView,editDayView,editTimePicker);
+            clearViews(editCourseCodeView,editCourseTitleView,editVenueView,editTimePicker);
         }
         else
         {
@@ -126,8 +137,10 @@ public class EditTimeTableFragment extends Fragment
         editCourseCodeView = (EditText) view.findViewById(R.id.edit_course_code);
         editCourseTitleView = (EditText) view.findViewById(R.id.edit_course_title);
         editVenueView = (EditText) view.findViewById(R.id.edit_course_venue);
-        editDayView = (AutoCompleteTextView) view.findViewById(R.id.edit_course_day);
+        //editDayView = (AutoCompleteTextView) view.findViewById(R.id.edit_course_day);
+        editDayView = (TextView) view.findViewById(R.id.edit_course_day);
         editTimePicker = (TimePicker) view.findViewById(R.id.edit_course_timePicker);
+        daySpinner = (Spinner)view.findViewById(R.id.edit_day_spinner);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)view.findViewById(R.id.edit_fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener()

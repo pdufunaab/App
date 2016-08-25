@@ -6,6 +6,22 @@
     android:orientation="vertical"
     tools:context="app.funaab.AddTimeTableFragment">
 
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:text="@string/add_newTimeTable"
+            android:textSize="@dimen/timeTableTitleHeight"
+             />
+
+    </android.support.design.widget.TextInputLayout>
+
     <LinearLayout
 
         android:id="@+id/addTimeTable_form"
@@ -69,7 +85,7 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+      <!--  <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -88,15 +104,68 @@
                 android:singleLine="true"
                 />
 
-        </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>-->
 
-        <TimePicker
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:numbersTextColor="@color/colorPrimaryDark"
-            android:numbersSelectorColor="@color/colorPrimaryDark"
-            android:id="@+id/course_timePicker"
-            android:timePickerMode="spinner"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="left">
+
+            <TextView
+                android:id="@+id/course_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/spinner_prompt"
+                android:layout_margin="10dp"
+                />
+
+            <Spinner
+                android:id="@+id/day_spinner"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:prompt="@string/spinner_prompt"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                >
+
+            </Spinner>
+        </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <TimePicker
+               android:layout_width="0dp"
+               android:layout_height="140dp"
+               android:layout_weight="4"
+               android:numbersTextColor="@color/colorPrimaryDark"
+               android:numbersSelectorColor="@color/colorPrimaryDark"
+               android:id="@+id/course_timePicker"
+               android:timePickerMode="spinner"/>
+           <LinearLayout
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="2"
+               android:layout_gravity="center"
+               android:orientation="horizontal">
+
+               <CheckBox
+                   android:id="@+id/add_remind_checkbox"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="@string/alarm_text"
+                   android:textColor="@color/colorPrimaryDark"
+                   android:textSize="15sp"
+                   android:textStyle="bold"
+                   />
+
+           </LinearLayout>
+
+       </LinearLayout>
 
 
         <android.support.design.widget.FloatingActionButton

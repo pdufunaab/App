@@ -115,7 +115,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
     public Cursor getCourses()
     {
         Log.i("TimeTableHelper", "getDayCourse");
-        Cursor cursor = getReadableDatabase().query(tableName,new String[]{courseCode,courseTitle,venue,this.day,time},null,null,null,null,null);
+        Cursor cursor = getReadableDatabase().query(tableName,new String[]{courseCode,courseTitle,venue,this.day,time,dayIndex},null,null,null,null,dayIndex);
 
         return  cursor;
     }
