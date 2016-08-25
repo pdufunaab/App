@@ -1,10 +1,6 @@
 package app.funaab;
 
-import android.annotation.TargetApi;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -26,7 +21,7 @@ import java.util.Calendar;
 
 public class AddTimeTableFragment extends Fragment
 {
-    ArrayAdapter<CharSequence> arrayAdapter;
+    ArrayAdapter<String> arrayAdapter;
     ArrayList<String> arrayList;
     TimeTableHelper timeTableHelper;
     EditText courseCodeView;
@@ -45,7 +40,8 @@ public class AddTimeTableFragment extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
         timeTableHelper = new TimeTableHelper(getContext());
-        arrayAdapter = ArrayAdapter.createFromResource(getContext(), R.array.days_array, android.R.layout.simple_expandable_list_item_2);
+        arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.days_array));
+        dayView.setAdapter(arrayAdapter);
     }
 
     public void saveCourse()
@@ -61,7 +57,7 @@ public class AddTimeTableFragment extends Fragment
         if(!checkNullOrEmpty(courseCode,courseTitle,venue,day,time))
         {
             timeTableHelper.insert(courseCode,courseTitle,venue,day,time);
-            Toast.makeText(getContext(),courseTitle + "Successfully Added To TimeTable", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),courseTitle + " Successfully Added To TimeTable", Toast.LENGTH_LONG).show();
             clearViews(courseCodeView,courseTitleView,venueView,dayView,timePicker);
         }
         else
@@ -135,11 +131,11 @@ public class AddTimeTableFragment extends Fragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
+        super.onViewCreated(view,savedInstanceState);
         courseCodeView = (EditText) view.findViewById(R.id.course_code);
         courseTitleView = (EditText) view.findViewById(R.id.course_title);
         venueView = (EditText) view.findViewById(R.id.course_venue);
         dayView = (AutoCompleteTextView) view.findViewById(R.id.course_day);
-        dayView.setAdapter(arrayAdapter);
         timePicker = (TimePicker) view.findViewById(R.id.course_timePicker);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)view.findViewById(R.id.add_fab);

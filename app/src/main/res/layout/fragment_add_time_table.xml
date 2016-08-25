@@ -8,7 +8,7 @@
 
     <LinearLayout
 
-        android:id="@+id/timeTable_form"
+        android:id="@+id/addTimeTable_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Course Code"
                 android:textColor="@color/colorPrimaryDark"
-                android:imeActionId="@+id/login"
+                android:imeActionId="@+id/add_fab"
                 android:imeOptions="actionUnspecified"
                 android:inputType="text"
                 android:maxLines="1"

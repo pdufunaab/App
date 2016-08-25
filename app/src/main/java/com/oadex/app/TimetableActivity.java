@@ -9,7 +9,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import app.funaab.TimeTableAdapter;
 import app.funaab.TimeTableHelper;
@@ -38,12 +41,32 @@ public class TimetableActivity extends AppCompatActivity {
         timeTableListView.setAdapter(timeTableAdapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        timeTableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
+        {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                TextView course = (TextView)view.findViewById(R.id.courseView);
+                Toast.makeText(getApplicationContext(),course.getText().toString(),Toast.LENGTH_LONG).show();
+                editCourse();
+                return true;
+            }
+        });
+
+
+    }
+
+    public void editCourse()
+    {
         intent = new Intent(this, TimeTableManagementActivity.class);
-        intent.putExtra("fragment","Add");
+        intent.putExtra("fragment","Edit");
+        startActivity(intent);
     }
 
     public void addNewCourse(View view)
     {
+        intent = new Intent(this, TimeTableManagementActivity.class);
+        intent.putExtra("fragment","Add");
         startActivity(intent);
     }
 }
