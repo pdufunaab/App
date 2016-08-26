@@ -20,6 +20,7 @@ import app.funaab.TimeTableManagementActivity;
 
 public class TimetableActivity extends AppCompatActivity {
 
+    Bundle bundle;
     TimeTableHelper timeTableHelper;
     private ListView timeTableListView;
     private TimeTableAdapter timeTableAdapter;
@@ -34,7 +35,7 @@ public class TimetableActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Cursor cursor = timeTableHelper.getReadableDatabase().rawQuery("select * from TimeTable",null);
+        bundle = new Bundle();
         timeTableHelper = new TimeTableHelper(this);
         timeTableAdapter = new TimeTableAdapter(this,timeTableHelper.getCourses());
         timeTableListView  = (ListView) findViewById(R.id.timeTableListView);
@@ -46,8 +47,8 @@ public class TimetableActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
             {
-                TextView course = (TextView)view.findViewById(R.id.courseView);
-                Toast.makeText(getApplicationContext(),course.getText().toString(),Toast.LENGTH_LONG).show();
+                putValues(bundle,position);
+                Toast.makeText(getApplicationContext(),"Editing " +bundle.getString("courseCode"),Toast.LENGTH_LONG).show();
                 editCourse();
                 return true;
             }
@@ -56,9 +57,22 @@ public class TimetableActivity extends AppCompatActivity {
 
     }
 
+    public void putValues(Bundle bundle, int position)
+    {
+        Cursor cursor = (Cursor)timeTableListView.getItemAtPosition(position);
+        bundle.putString("courseCode",cursor.getString(cursor.getColumnIndexOrThrow("_id")));
+        bundle.putString("courseTitle",cursor.getString(cursor.getColumnIndexOrThrow("CourseTitle")));
+        bundle.putString("venue",cursor.getString(cursor.getColumnIndexOrThrow("Venue")));
+        bundle.putString("day",cursor.getString(cursor.getColumnIndexOrThrow("Day")));
+        bundle.putString("time",cursor.getString(cursor.getColumnIndexOrThrow("Time")));
+        bundle.putString("alert",cursor.getString(cursor.getColumnIndexOrThrow("Alert")));
+        bundle.putString("dayIndex",cursor.getString(cursor.getColumnIndexOrThrow("DayIndex")));
+    }
+
     public void editCourse()
     {
         intent = new Intent(this, TimeTableManagementActivity.class);
+        intent.putExtra("bundle",bundle);
         intent.putExtra("fragment","Edit");
         startActivity(intent);
     }

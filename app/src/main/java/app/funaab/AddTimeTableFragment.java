@@ -1,6 +1,5 @@
 package app.funaab;
 
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -9,31 +8,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.oadex.app.R;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddTimeTableFragment extends Fragment
 {
-    //ArrayAdapter<String> arrayAdapter;
     ArrayAdapter<String> spinnerAdapter;
     TimeTableHelper timeTableHelper;
     EditText courseCodeView;
     EditText courseTitleView;
     EditText venueView;
-    //AutoCompleteTextView dayView;
     TextView dayView;
     TimePicker timePicker;
+    CheckBox alert_box;
     Spinner daySpinner;
 
     public AddTimeTableFragment()
@@ -42,30 +37,53 @@ public class AddTimeTableFragment extends Fragment
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
         timeTableHelper = new TimeTableHelper(getContext());
         spinnerAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,getResources().getStringArray(R.array.days_array));
-        //arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.days_array));
-        //dayView.setAdapter(arrayAdapter);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         daySpinner.setAdapter(spinnerAdapter);
     }
 
     public void saveCourse()
     {
-        String courseCode,courseTitle,venue,day,time;
+        String courseCode,courseTitle,venue,day,time,alert;
         courseCode = courseCodeView.getText().toString();
         courseTitle = courseTitleView.getText().toString();
         venue = venueView.getText().toString();
-        //day = dayView.getText().toString();
         day = daySpinner.getSelectedItem().toString();
         timePicker.clearFocus();
+        alert = String.valueOf(alert_box.isChecked());
         time = convertTime(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
         if(!checkNullOrEmpty(courseCode,courseTitle,venue,day,time))
         {
-            timeTableHelper.insert(courseCode,courseTitle,venue,day,time);
+            timeTableHelper.insert(courseCode,courseTitle,venue,day,time,alert);
             Toast.makeText(getContext(),courseTitle + " Successfully Added To TimeTable", Toast.LENGTH_LONG).show();
             clearViews(courseCodeView,courseTitleView,venueView,timePicker);
         }
@@ -82,7 +100,6 @@ public class AddTimeTableFragment extends Fragment
         courseCode.setText("");
         courseTitle.setText("");
         venue.setText("");
-        //day.clearListSelection();
         time.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
         time.setCurrentMinute(calendar.get(Calendar.MINUTE)); ;
     }
@@ -125,6 +142,12 @@ public class AddTimeTableFragment extends Fragment
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.fragment_add_time_table, container, false);
@@ -137,9 +160,9 @@ public class AddTimeTableFragment extends Fragment
         courseCodeView = (EditText) view.findViewById(R.id.course_code);
         courseTitleView = (EditText) view.findViewById(R.id.course_title);
         venueView = (EditText) view.findViewById(R.id.course_venue);
-        //dayView = (AutoCompleteTextView) view.findViewById(R.id.course_day);
         dayView = (TextView) view.findViewById(R.id.course_day);
         timePicker = (TimePicker) view.findViewById(R.id.course_timePicker);
+        alert_box = (CheckBox)view.findViewById(R.id.add_remind_checkbox);
         daySpinner = (Spinner)view.findViewById(R.id.day_spinner);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)view.findViewById(R.id.add_fab);

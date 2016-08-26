@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,21 +22,51 @@ import java.util.Calendar;
 
 public class EditTimeTableFragment extends Fragment
 {
-    //ArrayAdapter<String> arrayAdapter;
     ArrayAdapter<String> spinnerAdapter;
     TimeTableHelper timeTableHelper;
     EditText editCourseCodeView;
     EditText editCourseTitleView;
     EditText editVenueView;
-    //AutoCompleteTextView editDayView;
-    TextView editDayView;
     TimePicker editTimePicker;
+    CheckBox alertBox;
     Spinner daySpinner;
+
 
 
     public EditTimeTableFragment()
     {
         // Required empty public constructor
+    }
+
+    public static EditTimeTableFragment newInstance(Bundle bundle)
+    {
+        EditTimeTableFragment editFragment = new EditTimeTableFragment();
+        editFragment.setArguments(bundle);
+        return editFragment;
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -51,10 +81,9 @@ public class EditTimeTableFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
         timeTableHelper = new TimeTableHelper(getContext());
         spinnerAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,getResources().getStringArray(R.array.days_array));
-        //arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.days_array));
-        //editDayView.setAdapter(arrayAdapter);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         daySpinner.setAdapter(spinnerAdapter);
+
     }
 
     public boolean checkNullOrEmpty(String courseCode, String courseTitle,String venue, String day, String time)
@@ -107,18 +136,18 @@ public class EditTimeTableFragment extends Fragment
 
     public void editCourse()
     {
-        String courseCode,courseTitle,venue,day,time;
+        String courseCode,courseTitle,venue,day,time,alert;
         courseCode = editCourseCodeView.getText().toString();
         courseTitle = editCourseTitleView.getText().toString();
         venue = editVenueView.getText().toString();
-        //day = editDayView.getText().toString();
         day = daySpinner.getSelectedItem().toString();
         editTimePicker.clearFocus();
         time = convertTime(editTimePicker.getCurrentHour(), editTimePicker.getCurrentMinute());
+        alert = String.valueOf(alertBox.isChecked());
 
         if(!checkNullOrEmpty(courseCode,courseTitle,venue,day,time))
         {
-            timeTableHelper.update(courseCode,courseTitle,venue,day,time);
+            timeTableHelper.update(courseCode,courseTitle,venue,day,time,alert,getArguments().getString("day"));
             Toast.makeText(getContext(),courseTitle + " Successfully Updated", Toast.LENGTH_LONG).show();
             clearViews(editCourseCodeView,editCourseTitleView,editVenueView,editTimePicker);
         }
@@ -137,10 +166,14 @@ public class EditTimeTableFragment extends Fragment
         editCourseCodeView = (EditText) view.findViewById(R.id.edit_course_code);
         editCourseTitleView = (EditText) view.findViewById(R.id.edit_course_title);
         editVenueView = (EditText) view.findViewById(R.id.edit_course_venue);
-        //editDayView = (AutoCompleteTextView) view.findViewById(R.id.edit_course_day);
-        editDayView = (TextView) view.findViewById(R.id.edit_course_day);
         editTimePicker = (TimePicker) view.findViewById(R.id.edit_course_timePicker);
+        alertBox = (CheckBox)view.findViewById(R.id.edit_remind_checkbox);
         daySpinner = (Spinner)view.findViewById(R.id.edit_day_spinner);
+
+        editCourseCodeView.setText(getArguments().getString("courseCode"));
+        editCourseTitleView.setText(getArguments().getString("courseTitle"));
+        editVenueView.setText(getArguments().getString("venue"));
+        alertBox.setChecked(Boolean.valueOf(getArguments().getString("alert")));
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)view.findViewById(R.id.edit_fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener()
@@ -158,7 +191,6 @@ public class EditTimeTableFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.fragment_edit_time_table, container, false);
-
     }
 
 

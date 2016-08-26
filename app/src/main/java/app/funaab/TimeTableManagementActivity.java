@@ -1,12 +1,9 @@
 package app.funaab;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.oadex.app.R;
 
@@ -22,7 +19,15 @@ public class TimeTableManagementActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+
+        Bundle bundle = getIntent().getBundleExtra("bundle");
+        if(bundle == null)
+        {
+            System.out.println("NULLBUNDLE");
+        }
+       fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        EditTimeTableFragment editFragment = EditTimeTableFragment.newInstance(bundle);
 
         switch (getIntent().getStringExtra("fragment"))
         {
@@ -30,7 +35,7 @@ public class TimeTableManagementActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.fragment_container,new AddTimeTableFragment());
                 break;
             case "Edit":
-                fragmentTransaction.replace(R.id.fragment_container,new EditTimeTableFragment());
+                fragmentTransaction.replace(R.id.fragment_container,editFragment);
                 break;
         }
         fragmentTransaction.commit();

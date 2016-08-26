@@ -20,6 +20,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
     private static final String venue = "Venue";
     private static final String day = "Day";
     private static final String time = "Time";
+    private static final String alert = "Alert";
     private static final String dayIndex = "DayIndex";
     private static final int databaseVersion = 1;
 
@@ -33,7 +34,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL("CREATE TABLE " + tableName + " (" + courseCode + " TEXT PRIMARY KEY, " + courseTitle + " TEXT, " + venue + " TEXT, "+ day + " TEXT, " + time + " TEXT, " + dayIndex + " INTEGER " + ")");
+        db.execSQL("CREATE TABLE " + tableName + " (" + courseCode + " TEXT PRIMARY KEY, " + courseTitle + " TEXT, " + venue + " TEXT, "+ day + " TEXT, " + time + " TEXT, " + alert + " TEXT, " + dayIndex + " INTEGER " + ")");
         Log.i("TimeTableHelper", "on create database");
     }
 
@@ -75,7 +76,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
         return index;
     }
 
-    public void insert(String courseCode, String courseTitle,String venue, String day, String time)
+    public void insert(String courseCode, String courseTitle,String venue, String day, String time, String alert)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(this.courseCode,courseCode);
@@ -83,6 +84,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
         contentValues.put(this.venue,venue);
         contentValues.put(this.day,day);
         contentValues.put(this.time,time);
+        contentValues.put(this.alert,alert);
         contentValues.put(this.dayIndex,getDayIndex(day));
 
         getWritableDatabase().insert(tableName,null,contentValues);
@@ -92,7 +94,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
 
     }
 
-    public void update(String courseCode, String courseTitle,String venue, String day, String time)
+    public void update(String courseCode, String courseTitle,String venue, String day, String time,String alert,String updatedDay)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(this.courseCode,courseCode);
@@ -100,8 +102,9 @@ public class TimeTableHelper extends SQLiteOpenHelper
         contentValues.put(this.venue,venue);
         contentValues.put(this.day,day);
         contentValues.put(this.time,time);
+        contentValues.put(this.alert,alert);
         contentValues.put(this.dayIndex,getDayIndex(day));
-        getWritableDatabase().update(tableName,contentValues,"_id = ? AND Day = ?",new String[]{courseCode,day});
+        getWritableDatabase().update(tableName,contentValues,"_id = ? AND Day = ?",new String[]{courseCode,updatedDay});
         Log.i("TimeTableHelper", "updating data");
     }
 
@@ -115,7 +118,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
     public Cursor getCourses()
     {
         Log.i("TimeTableHelper", "getDayCourse");
-        Cursor cursor = getReadableDatabase().query(tableName,new String[]{courseCode,courseTitle,venue,this.day,time,dayIndex},null,null,null,null,dayIndex);
+        Cursor cursor = getReadableDatabase().query(tableName,new String[]{courseCode,courseTitle,venue,day,time,alert,dayIndex},null,null,null,null,dayIndex);
 
         return  cursor;
     }
