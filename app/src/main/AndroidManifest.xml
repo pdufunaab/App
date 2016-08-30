@@ -12,13 +12,6 @@
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <receiver
-        android:name="app.funaab.AlarmReceiver"
-        android:enabled="true">
-        <intent-filter>
-            <action android:name="android.intent.action.BOOT_COMPLETED" />
-        </intent-filter>
-    </receiver>
 
     <application
         android:allowBackup="true"
@@ -117,6 +110,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.oadex.app.ProfileActivity" />
         </activity>
+
+        <receiver
+            android:name="app.funaab.AlarmReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
