@@ -1,13 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Result tab"
-        android:layout_gravity="center"
-        android:textSize="22sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/select_session_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/result_text_size"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/result_text_session"
+                android:layout_margin="5dp"
+                />
+
+            <Spinner
+                android:id="@+id/select_session_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined">
+
+            </Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/select_semester_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/result_text_size"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/result_text_semester"
+                android:layout_margin="5dp"
+                />
+            <RadioGroup
+                android:id="@+id/semester_radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:contextClickable="false">
+                <RadioButton
+                    android:id="@+id/first_Semester_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/result_text_radioSize"
+                    android:text="@string/result_text_firstSemester"
+                    android:textStyle="bold"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/second_Semester_radio"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/result_text_radioSize"
+                    android:layout_height="wrap_content"
+                    android:text="@string/result_text_secondSemester"
+                    android:textStyle="bold" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/displayResult_fab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_view"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_gravity="right"
+            />
+
+    </LinearLayout>
+
+
+
+
 
 </LinearLayout>

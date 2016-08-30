@@ -22,10 +22,6 @@ public class TimeTableManagementActivity extends AppCompatActivity
 
 
         Bundle bundle = getIntent().getBundleExtra("bundle");
-        if(bundle == null)
-        {
-            System.out.println("NULLBUNDLE");
-        }
        fragmentTransaction = getSupportFragmentManager().beginTransaction();
         EditTimeTableFragment editFragment = EditTimeTableFragment.newInstance(bundle);
 

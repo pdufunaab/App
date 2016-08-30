@@ -1,5 +1,6 @@
 package app.funaab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,11 +17,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.oadex.app.R;
+import com.oadex.app.TimetableActivity;
 
 import java.util.Calendar;
 
 public class AddTimeTableFragment extends Fragment
 {
+    Alarm alarm;
     ArrayAdapter<String> spinnerAdapter;
     TimeTableHelper timeTableHelper;
     EditText courseCodeView;
@@ -65,9 +68,10 @@ public class AddTimeTableFragment extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
         timeTableHelper = new TimeTableHelper(getContext());
-        spinnerAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,getResources().getStringArray(R.array.days_array));
+        spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.days_array));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         daySpinner.setAdapter(spinnerAdapter);
+        alarm = new Alarm(getContext(),0);
     }
 
     public void saveCourse()
@@ -85,7 +89,9 @@ public class AddTimeTableFragment extends Fragment
         {
             timeTableHelper.insert(courseCode,courseTitle,venue,day,time,alert);
             Toast.makeText(getContext(),courseTitle + " Successfully Added To TimeTable", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getContext(), TimetableActivity.class);
             clearViews(courseCodeView,courseTitleView,venueView,timePicker);
+            startActivity(intent);
         }
         else
         {

@@ -19,20 +19,47 @@ public class UnlockedFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.unlockedfragment,container,false);
         GridView gridview = (GridView) view.findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(view.getContext()));
 
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+            {
                 //  Toast.makeText(MainActivity.this, "" + position,
                 //        Toast.LENGTH_SHORT).show();
-                if(position == 0){
-                    Intent intent = new Intent(v.getContext(),ProfileActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent;
+                switch (position)
+               {
+                   case 0:
+                       intent = new Intent(v.getContext(),ProfileActivity.class);
+                       startActivity(intent);
+                       break;
+                   case 1:
+                       intent = new Intent(v.getContext(),ProfileActivity.class);
+                       startActivity(intent);
+                       break;
+                   case 2:
+                       intent = new Intent(v.getContext(),ProfileActivity.class);
+                       startActivity(intent);
+                       break;
+                   case 3:
+                       intent = new Intent(v.getContext(),ProfileActivity.class);
+                       startActivity(intent);
+                       break;
+                   case 4:
+                       intent = new Intent(v.getContext(),ProfileActivity.class);
+                       startActivity(intent);
+                       break;
+                   case 5:
+                       intent = new Intent(v.getContext(),ProfileActivity.class);
+                       startActivity(intent);
+                       break;
+
+               }
 
 
             }

@@ -15,12 +15,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import app.funaab.Alarm;
 import app.funaab.TimeTableAdapter;
 import app.funaab.TimeTableHelper;
 import app.funaab.TimeTableManagementActivity;
 
-public class TimetableActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+public class TimetableActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener
+{
 
+    Alarm alarm;
     Bundle bundle;
     TimeTableHelper timeTableHelper;
     private ListView timeTableListView;
@@ -38,6 +41,7 @@ public class TimetableActivity extends AppCompatActivity implements PopupMenu.On
         setSupportActionBar(toolbar);
 
         bundle = new Bundle();
+        alarm = new Alarm(this,0);
         timeTableHelper = new TimeTableHelper(this);
         timeTableAdapter = new TimeTableAdapter(this,timeTableHelper.getCourses());
         timeTableListView  = (ListView) findViewById(R.id.timeTableListView);
@@ -129,7 +133,7 @@ public class TimetableActivity extends AppCompatActivity implements PopupMenu.On
                 timeTableHelper.delete(courseCode,day);
                 timeTableAdapter.changeCursor(timeTableHelper.getCourses());
                 timeTableListView.setAdapter(timeTableAdapter);
-                Toast.makeText(TimetableActivity.this,"Course Deleted",Toast.LENGTH_LONG).show();
+                Toast.makeText(TimetableActivity.this,bundle.getString("courseTitle") + " Deleted",Toast.LENGTH_LONG).show();
             }
         });
 

@@ -22,163 +22,167 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
-
-        android:id="@+id/addTimeTable_form"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/course_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Course Code"
-                android:textColor="@color/colorPrimaryDark"
-                android:imeActionId="@+id/add_fab"
-                android:imeOptions="actionUnspecified"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/course_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Course Title"
-                android:imeActionId="@+id/add_fab"
-                android:textColor="@color/colorPrimaryDark"
-                android:imeOptions="actionUnspecified"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/course_venue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Venue"
-                android:textColor="@color/colorPrimaryDark"
-                android:imeActionId="@+id/add_fab"
-                android:imeOptions="actionUnspecified"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-        </android.support.design.widget.TextInputLayout>
-
-      <!--  <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <AutoCompleteTextView
-                android:id="@+id/course_day"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Day"
-                android:imeActionId="@+id/add_fab"
-                android:imeOptions="actionUnspecified"
-                android:textColor="@color/colorPrimaryDark"
-                android:inputType="text"
-                android:completionThreshold="1"
-                android:popupBackground="@color/primary_light"
-                android:maxLines="1"
-                android:singleLine="true"
-                />
-
-        </android.support.design.widget.TextInputLayout>-->
-
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="left">
 
-            <TextView
-                android:id="@+id/course_day"
+            android:id="@+id/addTimeTable_form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/course_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Course Code"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:imeActionId="@+id/add_fab"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/course_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Course Title"
+                    android:imeActionId="@+id/add_fab"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/course_venue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Venue"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:imeActionId="@+id/add_fab"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!--  <android.support.design.widget.TextInputLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+                  <AutoCompleteTextView
+                      android:id="@+id/course_day"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="Day"
+                      android:imeActionId="@+id/add_fab"
+                      android:imeOptions="actionUnspecified"
+                      android:textColor="@color/colorPrimaryDark"
+                      android:inputType="text"
+                      android:completionThreshold="1"
+                      android:popupBackground="@color/primary_light"
+                      android:maxLines="1"
+                      android:singleLine="true"
+                      />
+
+              </android.support.design.widget.TextInputLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="left">
+
+                <TextView
+                    android:id="@+id/course_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/spinner_prompt"
+                    android:layout_margin="10dp"
+                    />
+
+                <Spinner
+                    android:id="@+id/day_spinner"
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:prompt="@string/spinner_prompt"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    >
+
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TimePicker
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_weight="4"
+                    android:numbersTextColor="@color/colorPrimaryDark"
+                    android:numbersSelectorColor="@color/colorPrimaryDark"
+                    android:id="@+id/course_timePicker"
+                    android:timePickerMode="spinner"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/add_remind_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/alarm_text"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/add_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="@string/spinner_prompt"
-                android:layout_margin="10dp"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:background="@color/colorPrimaryDark"
+                android:src="@android:drawable/checkbox_on_background"
                 />
 
-            <Spinner
-                android:id="@+id/day_spinner"
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:prompt="@string/spinner_prompt"
-                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                >
-
-            </Spinner>
         </LinearLayout>
-
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-
-           <TimePicker
-               android:layout_width="0dp"
-               android:layout_height="140dp"
-               android:layout_weight="4"
-               android:numbersTextColor="@color/colorPrimaryDark"
-               android:numbersSelectorColor="@color/colorPrimaryDark"
-               android:id="@+id/course_timePicker"
-               android:timePickerMode="spinner"/>
-           <LinearLayout
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_weight="2"
-               android:layout_gravity="center"
-               android:orientation="horizontal">
-
-               <CheckBox
-                   android:id="@+id/add_remind_checkbox"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="@string/alarm_text"
-                   android:textColor="@color/colorPrimaryDark"
-                   android:textSize="15sp"
-                   android:textStyle="bold"
-                   />
-
-           </LinearLayout>
-
-       </LinearLayout>
-
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:background="@color/colorPrimaryDark"
-            android:src="@android:drawable/checkbox_on_background"
-            />
-
-    </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

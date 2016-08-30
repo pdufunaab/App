@@ -1,22 +1,28 @@
-package com.oadex.app;
+package app.funaab;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.oadex.app.R;
+
 /**
- * Created by Oseni Adekunle on 08/08/2016.
+ * Created by Malik on 8/28/2016.
  */
-public class DetailsFragment extends Fragment
+public class CourseFragment extends Fragment
 {
-    public void onCreate(Bundle savedInstanceState){
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.prof_details,container,false);
+        return inflater.inflate(R.layout.prof_course,container,false);
     }
 }

@@ -44,7 +44,9 @@ public class ImageAdapter extends BaseAdapter {
 
 
 
-        }else{
+        }
+        else
+        {
             imageView = (ImageView) convertView;
         }
         imageView.setImageResource(mThumbIds[position]);
@@ -58,6 +60,7 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.book,R.drawable.chat,
             R.drawable.home_icon
     };
+
     private Integer[] mThumbText = {
             R.string.profile,R.string.map,
             R.string.news,R.string.learning,

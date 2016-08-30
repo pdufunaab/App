@@ -10,7 +10,7 @@
     <string name="groups">Groups</string>
     <string name="timetable">Timetable</string>
     <string name="contacts">Contacts</string>
-    <string name="feedbacks">Feedbacks</string>
+    <string name="feedbacks">FeedBacks</string>
     <string name="about">About</string>
     <string name="title_activity_login">Sign in</string>
     <string name="API_KEY">123456</string>
@@ -75,7 +75,40 @@
         <item>Friday</item>
         <item>Saturday</item>
     </string-array>
-    <string name="title_activity_time_table_management">TimeTableManagementActivity</string>
+
+    <string-array name="session_array">
+        <item>2000/2001</item>
+        <item>2001/2002</item>
+        <item>2002/2003</item>
+        <item>2003/2004</item>
+        <item>2004/2005</item>
+        <item>2005/2006</item>
+        <item>2006/2007</item>
+        <item>2007/2008</item>
+        <item>2008/2009</item>
+        <item>2009/2010</item>
+        <item>2010/2011</item>
+        <item>2011/2012</item>
+        <item>2012/2013</item>
+        <item>2013/2014</item>
+        <item>2014/2015</item>
+        <item>2015/2016</item>
+        <item>2016/2017</item>
+        <item>2017/2018</item>
+    </string-array>
+    -array>
+
+
+    <string name="title_activity_time_table_management">TimeTable Management</string>
     <string name="title_activity_news_display">News</string>
     <string name="NewsCatSelectionInstruction">Please Select From one of the below Categories</string>
+
+    <string name="result_text_session"> Select Appropriate Session</string>
+    <string name="result_text_semester"> Select Appropriate Semester</string>
+    <string name="result_text_firstSemester">First Semester</string>
+    <string name="result_text_secondSemester">Second Semester</string>
+    <string name="resultDisplay_text">Result Of Semester Session </string>
+    <string name="title_activity_result_display">ResultDisplay</string>
+
+
 </resources>
