@@ -23,7 +23,6 @@ import app.funaab.TimeTableManagementActivity;
 public class TimetableActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener
 {
 
-    Alarm alarm;
     Bundle bundle;
     TimeTableHelper timeTableHelper;
     private ListView timeTableListView;
@@ -41,7 +40,6 @@ public class TimetableActivity extends AppCompatActivity implements PopupMenu.On
         setSupportActionBar(toolbar);
 
         bundle = new Bundle();
-        alarm = new Alarm(this,0);
         timeTableHelper = new TimeTableHelper(this);
         timeTableAdapter = new TimeTableAdapter(this,timeTableHelper.getCourses());
         timeTableListView  = (ListView) findViewById(R.id.timeTableListView);
@@ -75,7 +73,7 @@ public class TimetableActivity extends AppCompatActivity implements PopupMenu.On
         bundle.putString("day",cursor.getString(cursor.getColumnIndexOrThrow("Day")));
         bundle.putString("time",cursor.getString(cursor.getColumnIndexOrThrow("Time")));
         bundle.putString("alert",cursor.getString(cursor.getColumnIndexOrThrow("Alert")));
-        bundle.putString("dayIndex",cursor.getString(cursor.getColumnIndexOrThrow("DayIndex")));
+        bundle.putInt("requestCode",cursor.getInt(cursor.getColumnIndexOrThrow("RequestCode")));
     }
 
     public void editCourse()

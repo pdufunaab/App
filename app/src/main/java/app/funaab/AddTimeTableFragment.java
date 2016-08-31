@@ -39,6 +39,13 @@ public class AddTimeTableFragment extends Fragment
 
     }
 
+    public static AddTimeTableFragment newInstance(Bundle bundle)
+    {
+        AddTimeTableFragment addTimeTableFragment = new AddTimeTableFragment();
+        addTimeTableFragment.setArguments(bundle);
+        return addTimeTableFragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -71,7 +78,7 @@ public class AddTimeTableFragment extends Fragment
         spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.days_array));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         daySpinner.setAdapter(spinnerAdapter);
-        alarm = new Alarm(getContext(),0);
+        //alarm = new Alarm(getContext(),getArguments().getInt("requestCode",0));
     }
 
     public void saveCourse()
@@ -88,6 +95,16 @@ public class AddTimeTableFragment extends Fragment
         if(!checkNullOrEmpty(courseCode,courseTitle,venue,day,time))
         {
             timeTableHelper.insert(courseCode,courseTitle,venue,day,time,alert);
+            int requestCode = timeTableHelper.getRequestCode(courseCode,day);;
+            if(alert_box.isChecked())
+            {
+
+                alarm.setAlarm(day,time,requestCode);
+            }
+            else
+            {
+                alarm.cancelAlarm(requestCode);
+            }
             Toast.makeText(getContext(),courseTitle + " Successfully Added To TimeTable", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getContext(), TimetableActivity.class);
             clearViews(courseCodeView,courseTitleView,venueView,timePicker);

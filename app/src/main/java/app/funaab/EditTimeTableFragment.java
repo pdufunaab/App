@@ -22,6 +22,7 @@ import java.util.Calendar;
 
 public class EditTimeTableFragment extends Fragment
 {
+    Alarm alarm;
     ArrayAdapter<String> spinnerAdapter;
     TimeTableHelper timeTableHelper;
     EditText editCourseCodeView;
@@ -83,6 +84,7 @@ public class EditTimeTableFragment extends Fragment
         spinnerAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,getResources().getStringArray(R.array.days_array));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         daySpinner.setAdapter(spinnerAdapter);
+        alarm = new Alarm(getContext());
 
     }
 
@@ -147,6 +149,14 @@ public class EditTimeTableFragment extends Fragment
 
         if(!checkNullOrEmpty(courseCode,courseTitle,venue,day,time))
         {
+            if(alertBox.isChecked())
+            {
+                alarm.setAlarm(day,time,getArguments().getInt("requestCode",0));
+            }
+            else
+            {
+                alarm.cancelAlarm(getArguments().getInt("requestCode",0));
+            }
             timeTableHelper.update(courseCode,courseTitle,venue,day,time,alert,getArguments().getString("day"));
             Toast.makeText(getContext(),courseTitle + " Successfully Updated", Toast.LENGTH_LONG).show();
             clearViews(editCourseCodeView,editCourseTitleView,editVenueView,editTimePicker);

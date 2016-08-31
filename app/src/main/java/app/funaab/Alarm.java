@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -13,17 +15,16 @@ import java.util.Calendar;
  */
 public class Alarm
 {
-    Intent intent;
-    AlarmManager alarmManager;
-    PendingIntent pendingIntent;
+    private Intent intent;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
     private  Context context;
-    private  int requestCode;
-    public Alarm(Context context, int requestCode)
+
+    public Alarm(Context context)
     {
         this.context = context;
-        this.requestCode = requestCode;
     }
-    public void setAlarm(String day,String time)
+    public void setAlarm(String day,String time, int requestCode)
     {
         String[] timeArray = time.split(":");
         Calendar calendar = Calendar.getInstance();
@@ -36,7 +37,7 @@ public class Alarm
         intent = new Intent(context,AlarmReceiver.class);
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         pendingIntent = PendingIntent.getBroadcast(context,requestCode,intent,0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY * 7,pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY * 7,pendingIntent);
         Toast.makeText(context,"Alarm Set",Toast.LENGTH_LONG).show();
     }
 
@@ -93,4 +94,5 @@ public class Alarm
         }
         return dayOfWeek;
     }
+
 }

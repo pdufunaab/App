@@ -22,6 +22,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
     private static final String time = "Time";
     private static final String alert = "Alert";
     private static final String dayIndex = "DayIndex";
+    private static final String requestCode = "RequestCode";
     private static final int databaseVersion = 1;
 
 
@@ -34,7 +35,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL("CREATE TABLE " + tableName + " (" + courseCode + " TEXT PRIMARY KEY, " + courseTitle + " TEXT, " + venue + " TEXT, "+ day + " TEXT, " + time + " TEXT, " + alert + " TEXT, " + dayIndex + " INTEGER " + ")");
+        db.execSQL("CREATE TABLE " + tableName + " (" + courseCode + " TEXT, " + courseTitle + " TEXT, " + venue + " TEXT, "+ day + " TEXT, " + time + " TEXT, " + alert + " TEXT, " + dayIndex + " INTEGER, " + requestCode + " INTEGER AUTOINCREMENT " + ")");
         Log.i("TimeTableHelper", "on create database");
     }
 
@@ -79,13 +80,13 @@ public class TimeTableHelper extends SQLiteOpenHelper
     public void insert(String courseCode, String courseTitle,String venue, String day, String time, String alert)
     {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(this.courseCode,courseCode);
-        contentValues.put(this.courseTitle,courseTitle);
-        contentValues.put(this.venue,venue);
-        contentValues.put(this.day,day);
-        contentValues.put(this.time,time);
-        contentValues.put(this.alert,alert);
-        contentValues.put(this.dayIndex,getDayIndex(day));
+        contentValues.put(TimeTableHelper.courseCode,courseCode);
+        contentValues.put(TimeTableHelper.courseTitle,courseTitle);
+        contentValues.put(TimeTableHelper.venue,venue);
+        contentValues.put(TimeTableHelper.day,day);
+        contentValues.put(TimeTableHelper.time,time);
+        contentValues.put(TimeTableHelper.alert,alert);
+        contentValues.put(dayIndex,getDayIndex(day));
 
         getWritableDatabase().insert(tableName,null,contentValues);
 
@@ -97,13 +98,13 @@ public class TimeTableHelper extends SQLiteOpenHelper
     public void update(String courseCode, String courseTitle,String venue, String day, String time,String alert,String updatedDay)
     {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(this.courseCode,courseCode);
-        contentValues.put(this.courseTitle,courseTitle);
-        contentValues.put(this.venue,venue);
-        contentValues.put(this.day,day);
-        contentValues.put(this.time,time);
-        contentValues.put(this.alert,alert);
-        contentValues.put(this.dayIndex,getDayIndex(day));
+        contentValues.put(TimeTableHelper.courseCode,courseCode);
+        contentValues.put(TimeTableHelper.courseTitle,courseTitle);
+        contentValues.put(TimeTableHelper.venue,venue);
+        contentValues.put(TimeTableHelper.day,day);
+        contentValues.put(TimeTableHelper.time,time);
+        contentValues.put(TimeTableHelper.alert,alert);
+        contentValues.put(dayIndex,getDayIndex(day));
         getWritableDatabase().update(tableName,contentValues,"_id = ? AND Day = ?",new String[]{courseCode,updatedDay});
         Log.i("TimeTableHelper", "updating data");
     }
@@ -118,8 +119,23 @@ public class TimeTableHelper extends SQLiteOpenHelper
     public Cursor getCourses()
     {
         Log.i("TimeTableHelper", "getDayCourse");
-        Cursor cursor = getReadableDatabase().query(tableName,new String[]{courseCode,courseTitle,venue,day,time,alert,dayIndex},null,null,null,null,dayIndex);
+        Cursor cursor = getReadableDatabase().query(tableName,new String[]{courseCode,courseTitle,venue,day,time,alert,requestCode},null,null,null,null,dayIndex);
 
         return  cursor;
+    }
+
+    public Cursor getCoursesAlert(boolean alarm)
+    {
+        Log.i("TimeTableHelper", "getDayCourse");
+        Cursor cursor = getReadableDatabase().query(tableName,new String[]{day,time,requestCode},"Alert = ?",new String[]{String.valueOf(alarm)},null,null,null);
+
+        return  cursor;
+    }
+
+    public int getRequestCode(String courseCode,String day)
+    {
+        Cursor cursor = getReadableDatabase().query(tableName,new String[]{requestCode},"CourseCode = ? AND Day = ?",new String[]{courseCode,day},null,null,null);
+        int requestCode = cursor.getInt(cursor.getColumnIndexOrThrow("RequestCode"));
+        return  requestCode;
     }
 }
