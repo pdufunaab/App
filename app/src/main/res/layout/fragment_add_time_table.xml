@@ -144,7 +144,7 @@
                 <TimePicker
                     android:layout_width="0dp"
                     android:layout_height="140dp"
-                    android:layout_weight="4"
+                    android:layout_weight="6"
                     android:numbersTextColor="@color/colorPrimaryDark"
                     android:numbersSelectorColor="@color/colorPrimaryDark"
                     android:id="@+id/course_timePicker"
@@ -162,7 +162,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/alarm_text"
                         android:textColor="@color/colorPrimaryDark"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"
                         />
 

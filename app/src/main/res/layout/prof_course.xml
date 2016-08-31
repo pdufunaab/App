@@ -3,11 +3,60 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Course tab"
-        android:layout_gravity="center"
-        android:textSize="22sp"/>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       android:gravity="center">
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center"
+           android:textSize="@dimen/heading_textViewSize"
+           android:textColor="@color/colorPrimaryDark"
+           android:text="@string/course_display_heading"
+           android:layout_marginBottom="20dp"
+           />
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:layout_gravity="center"
+           android:gravity="center"
+           android:layout_margin="10dp">
+
+           <TextView
+               android:id="@+id/select_courseSession_textView"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:textSize="@dimen/result_text_size"
+               android:textColor="@color/colorPrimaryDark"
+               android:text="@string/result_text_session"
+               android:layout_margin="3dp"
+               />
+
+           <Spinner
+               android:id="@+id/select_courseSession_spinner"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_margin="5dp"
+               style="@style/Base.Widget.AppCompat.Spinner.Underlined">
+
+           </Spinner>
+       </LinearLayout>
+
+       <android.support.design.widget.FloatingActionButton
+           android:id="@+id/courseForm_fab"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:src="@android:drawable/ic_menu_view"
+           android:layout_margin="@dimen/fab_margin"
+           android:layout_gravity="right"
+           />
+
+   </LinearLayout>
 
 </LinearLayout>

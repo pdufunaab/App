@@ -38,27 +38,6 @@ public class UnlockedFragment extends Fragment {
                        intent = new Intent(v.getContext(),ProfileActivity.class);
                        startActivity(intent);
                        break;
-                   case 1:
-                       intent = new Intent(v.getContext(),ProfileActivity.class);
-                       startActivity(intent);
-                       break;
-                   case 2:
-                       intent = new Intent(v.getContext(),ProfileActivity.class);
-                       startActivity(intent);
-                       break;
-                   case 3:
-                       intent = new Intent(v.getContext(),ProfileActivity.class);
-                       startActivity(intent);
-                       break;
-                   case 4:
-                       intent = new Intent(v.getContext(),ProfileActivity.class);
-                       startActivity(intent);
-                       break;
-                   case 5:
-                       intent = new Intent(v.getContext(),ProfileActivity.class);
-                       startActivity(intent);
-                       break;
-
                }
 
 

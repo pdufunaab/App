@@ -107,8 +107,12 @@
     <string name="result_text_semester"> Select Appropriate Semester</string>
     <string name="result_text_firstSemester">First Semester</string>
     <string name="result_text_secondSemester">Second Semester</string>
-    <string name="resultDisplay_text">Result Of Semester Session </string>
-    <string name="title_activity_result_display">ResultDisplay</string>
+    <string name="resultDisplay_text">Result Of Semester Session</string>
+    <string name="courseDisplay_text">CourseForm Of Session</string>
+    <string name="title_activity_result_display">Result Display</string>
+    <string name="result_display_heading">Result Checking</string>
+    <string name="course_display_heading">CourseForm Checking</string>
+    <string name="title_activity_course_form_display">CourseForm Display</string>
 
 
 </resources>

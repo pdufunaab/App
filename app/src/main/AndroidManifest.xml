@@ -12,7 +12,6 @@
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -119,6 +118,11 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name="app.funaab.CourseFormDisplay"
+            android:parentActivityName=".ProfileActivity"
+            android:label="@string/title_activity_course_form_display"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

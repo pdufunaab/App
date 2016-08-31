@@ -106,7 +106,7 @@ public class TimeTableAdapter extends CursorAdapter
         TextView venueView = (TextView)view.findViewById(R.id.venueView);
         TextView timeView = (TextView)view.findViewById(R.id.timeView);
 
-        courseView.setText(cursor.getString(cursor.getColumnIndexOrThrow("_id")));
+        courseView.setText(cursor.getString(cursor.getColumnIndexOrThrow("CourseCode")));
         venueView.setText(cursor.getString(cursor.getColumnIndexOrThrow("Venue")));
         timeView.setText(cursor.getString(cursor.getColumnIndexOrThrow("Time")));
 
