@@ -1,4 +1,4 @@
-package com.staaworks.News;
+package com.staaworks.news;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;

@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 
-import com.staaworks.Events.EventFragment;
+import com.staaworks.events.EventFragment;
+import com.staaworks.news.NewsCategorySelectionFragment;
 import com.staaworks.util.FragmentAdapter;
-import com.staaworks.News.NewsFragment;
+import com.staaworks.news.NewsFragment;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,14 +24,17 @@ public class NewsActivity extends AppCompatActivity
 
         //Connected Fragments
         implements
+        NewsCategorySelectionFragment.OnFragmentInteractionListener,
             NewsFragment.OnFragmentInteractionListener,
             EventFragment.OnFragmentInteractionListener {
 
-    private static final String funaabNewsURL = "http://feeds.nytimes.com/nyt/rss/HomePage";
+    private static final String funaabNewsURL = "http://www.feedforall.com/sample.xml";
+
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private FragmentPagerAdapter mPagerAdapter;
     List<Fragment> fragments = new Vector<>();
+    List<String> titles = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +53,12 @@ public class NewsActivity extends AppCompatActivity
         eventsBundle.putString("eventName", "My Sample Event Name");
 
 
-        fragments.add(Fragment.instantiate(this, NewsFragment.class.getName(),newsBundle));
-        fragments.add(Fragment.instantiate(this, EventFragment.class.getName(), eventsBundle));
+        Fragment newsFragment = Fragment.instantiate(this, NewsCategorySelectionFragment.class.getName(),newsBundle);
+        Fragment eventsFragment = Fragment.instantiate(this, EventFragment.class.getName(), eventsBundle);
 
-        this.mPagerAdapter  = new FragmentAdapter(super.getSupportFragmentManager(), fragments);
+        fragments.add(newsFragment); titles.add("NEWS");
+        fragments.add(eventsFragment); titles.add("EVENTS");
+        this.mPagerAdapter  = new FragmentAdapter(super.getSupportFragmentManager(), fragments, titles);
 
         mViewPager.setAdapter(this.mPagerAdapter);
 

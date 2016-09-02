@@ -1,19 +1,24 @@
-package com.staaworks.News;
+package com.staaworks.news;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.oadex.app.R;
 import com.staaworks.storage.FeedDBA;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 
 public class NewsCategorySelectionFragment extends Fragment {
@@ -23,7 +28,9 @@ public class NewsCategorySelectionFragment extends Fragment {
 
     private String urlString = "http://rss.cnn.com/rss/edition_space.rss";
     private Activity activity;
-    private HashMap categories = new HashMap();
+    private ListView listView;
+    ArrayList<String> list = new ArrayList<>();
+    private FeedDBA storage;
 
 
     private OnFragmentInteractionListener mListener;
@@ -48,6 +55,7 @@ public class NewsCategorySelectionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             urlString = getArguments().getString(FunaabNewsURL);
+            Log.i("URL_STRING", urlString);
         }
     }
 
@@ -70,11 +78,26 @@ public class NewsCategorySelectionFragment extends Fragment {
             activity = getActivity();
 
 
+        list.add(FeedDBA.Categories.all.getAttr());
+        list.add(FeedDBA.Categories.general.getAttr());
+        list.add(FeedDBA.Categories.important.getAttr());
+        list.add(FeedDBA.Categories.sport.getAttr());
+        list.add(FeedDBA.Categories.matriculation.getAttr());
+        list.add(FeedDBA.Categories.convocation.getAttr());
+        list.add(FeedDBA.Categories.entertainment.getAttr());
+        list.add(FeedDBA.Categories.politics.getAttr());
+        list.add(FeedDBA.Categories.business.getAttr());
 
-        for (int i = 0; i < FeedDBA.Categories.values().length; i++) {
+        listView = (ListView) activity.findViewById(R.id.listView);
+        listView.setOnItemClickListener(new ListListener());
 
+        for (String item: list) {
+            System.out.println("LIST_ITEM: " + item);
         }
 
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,R.layout.simple_list_item, R.id.simple_list_item, list);
+        listView.setAdapter(adapter);
     }
 
 
@@ -116,5 +139,19 @@ public class NewsCategorySelectionFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+
+
+    private class ListListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent in = new Intent(activity, NewsDisplayActivity.class);
+            in.putExtra("Category", FeedDBA.Categories.getCategory(list.get(position)));
+            in.putExtra("urlString", urlString);
+            activity.startActivity(in);
+        }
     }
 }

@@ -12,6 +12,7 @@
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -87,12 +88,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.staaworks.News.InAppBrowserPage" />
+        <activity android:name="com.staaworks.news.InAppBrowserPage" />
         <activity
-            android:name="com.staaworks.News.FeedImageView"
+            android:name="com.staaworks.news.FeedImageView"
             android:theme="@style/myDialogTheme" />
         <activity
-            android:name="com.staaworks.News.NewsDisplayActivity"
+            android:name="com.staaworks.news.NewsDisplayActivity"
             android:label="@string/title_activity_news_display"
             android:parentActivityName=".NewsActivity"
             android:theme="@style/AppTheme">
@@ -118,11 +119,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="app.funaab.CourseFormDisplay"
-            android:parentActivityName=".ProfileActivity"
-            android:label="@string/title_activity_course_form_display"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

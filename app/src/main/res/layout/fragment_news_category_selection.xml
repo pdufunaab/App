@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.staaworks.News.NewsCategorySelectionFragment">
+    tools:context="com.staaworks.news.NewsCategorySelectionFragment">
 
 
     <TextView
@@ -18,12 +18,13 @@
         android:textSize="15sp"
         android:typeface="serif"
         android:textStyle="bold"
-        android:background="#0a9184" />
+        android:background="@color/colorPrimary" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listView"
         android:layout_gravity="center_horizontal"
-        android:background="#28afa2" />
+        android:divider="@color/colorPrimaryDark"
+        android:dividerHeight="1dp" />
 </LinearLayout>

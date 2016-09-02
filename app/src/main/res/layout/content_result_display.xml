@@ -22,20 +22,18 @@
         <TextView
             android:id="@+id/resultDisplay_textView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
             android:textSize="22sp"
-            android:layout_marginBottom="5dp"
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/resultDisplay_text"
             />
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/resultGrid"
+            android:useDefaultMargins="true"
             >
 
             <TextView
@@ -77,126 +75,13 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="0dp"
-           android:layout_weight="6">
-           <ListView
-               android:id="@+id/resultDisplay_listView"
-               android:layout_width="match_parent"
-               android:dividerHeight="1dp"
-               android:divider="@color/colorPrimaryDark"
-               android:layout_height="match_parent">
-
-           </ListView>
-       </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
+        <ListView
+            android:id="@+id/resultDisplay_listView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="50dp">
-
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="horizontal">
-               <TextView
-                   android:layout_width="0dp"
-                   android:layout_height="wrap_content"
-                   android:layout_weight="1"
-                   android:textSize="20sp"
-                   android:textColor="@color/colorPrimaryDark"
-                   android:text="TCP"
-                   android:gravity="center" />
-
-               <TextView
-                   android:layout_width="0dp"
-                   android:layout_height="wrap_content"
-                   android:layout_weight="1"
-                   android:textSize="20sp"
-                   android:textColor="@color/colorPrimaryDark"
-                   android:text="TNU"
-                   android:gravity="center" />
-               <TextView
-                   android:layout_width="0dp"
-                   android:layout_height="wrap_content"
-                   android:layout_weight="1"
-                   android:textSize="20sp"
-                   android:textColor="@color/colorPrimaryDark"
-                   android:text="PREV"
-                   android:gravity="center" />
-
-               <TextView
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_weight="1"
-               android:textSize="20sp"
-               android:textColor="@color/colorPrimaryDark"
-               android:text="CUR"
-                   android:gravity="center" />
-
-               <TextView
-                   android:layout_width="0dp"
-                   android:layout_height="wrap_content"
-                   android:layout_weight="1"
-                   android:textSize="20sp"
-                   android:textColor="@color/colorPrimaryDark"
-                   android:text="CGPA"
-                   android:gravity="center" />
-
-           </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_marginTop="2dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:text="TCP"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:text="TNU"
-                    android:gravity="center" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:text="PREV"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:text="CUR"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:text="CGPA"
-                    android:gravity="center" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:dividerHeight="1dp"
+            android:divider="@color/colorPrimaryDark"
+            android:layout_height="match_parent">
+        </ListView>
 
 
     </LinearLayout>

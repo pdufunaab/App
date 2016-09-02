@@ -5,8 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by Ahmad Alfawwaz on 8/17/2016.
@@ -15,14 +16,15 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     public static int position = 0;
 
-    private List<Fragment> fragments;
+    private List<Fragment> fragments = new Vector<>();
+    private List<String> titles = new ArrayList<>();
 
 
 
-
-    public FragmentAdapter(FragmentManager fm, List<Fragment> myFrags) {
+    public FragmentAdapter(FragmentManager fm, List<Fragment> fragments, List<String> titles) {
         super(fm);
-        fragments = myFrags;
+        this.fragments = fragments;
+        this.titles = titles;
     }
 
 
@@ -61,18 +63,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
         setPos(position);
 
-        String PageTitle = "";
-
-        switch(position)
-        {
-            case 0:
-                PageTitle = "News";
-                break;
-            case 1:
-                PageTitle = "Events";
-                break;
-        }
-        return PageTitle;
+        return titles.get(position);
     }
 
 

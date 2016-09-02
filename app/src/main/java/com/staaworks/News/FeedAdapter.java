@@ -1,5 +1,5 @@
 
-package com.staaworks.News;
+package com.staaworks.news;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,11 +13,10 @@ import android.widget.TextView;
 
 import com.oadex.app.R;
 import com.squareup.picasso.Picasso;
-import com.staaworks.storage.FeedDBA;
 
 
 /**
- * Created by Ahmad Alfawwaz on 8/12/2016.
+ * Created by Ahmad Alfawwaz on 8/12/2016
  */
 public class FeedAdapter extends ArrayAdapter<Feed> {
 
@@ -26,20 +25,19 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
     private Feeds feeds;
     private Activity activity;
     private View.OnClickListener loader;
-    private FeedDBA storage;
+    private int total;
 
-    public FeedAdapter(Activity context, Feeds objects, View.OnClickListener loadEarlier) {
+    public FeedAdapter(Activity context, Feeds objects, View.OnClickListener loadEarlier, int total) {
         super(context, R.layout.feed_view, R.id.titleView, objects);
         feeds = objects;
         activity = context;
         loader = loadEarlier;
-        storage = new FeedDBA(activity);
+        this.total = total;
     }
 
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        storage.open();
 
         View row = super.getView(position, convertView, parent);
 
@@ -66,7 +64,11 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 row.setTag(R.id.earlierFeeds);
             }
             loadEarlier.setOnClickListener(loader);
-            remove(getItem(position));
+
+            loadEarlier.setText("Click to view locally stored news");
+
+            if(getCount() != 1)
+                remove(getItem(position));
 
             return row;
         }
@@ -115,7 +117,7 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
 
-            if ((position - (storage.getAll().size() - 1)) == 0) {
+            if ((position - (total - 1)) == 0) {
                 feedPane.setMinimumHeight(feedPane.getHeight() - loadEarlier.getHeight());
                 loadEarlier.setVisibility(View.GONE);
             }
@@ -129,23 +131,6 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                     feedPane.setMinimumHeight(feedPane.getHeight() - loadEarlier.getHeight());
                     loadEarlier.setVisibility(View.GONE);
                 }
-            }
-
-
-
-
-
-
-            if (feeds.get(position).isNew()) {
-                Log.i("New Feed:", feeds.get(position).getTitle());
-
-                title = "[NEW] " + title;
-            }
-
-            if (feeds.get(position).getRating() == 5) {
-                Log.i("Important Feed:", feeds.get(position).getTitle());
-
-                title = "[IMPORTANT] " + title;
             }
 
 
@@ -195,7 +180,6 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 }
             });
 
-            storage.close();
             return row;
         }
     }

@@ -67,13 +67,13 @@ public class TimetableActivity extends AppCompatActivity implements PopupMenu.On
     public void putValues(Bundle bundle, int position)
     {
         Cursor cursor = (Cursor)timeTableListView.getItemAtPosition(position);
-        bundle.putString("courseCode",cursor.getString(cursor.getColumnIndexOrThrow("CourseCode")));
+        bundle.putString("courseCode",cursor.getString(cursor.getColumnIndexOrThrow("_id")));
         bundle.putString("courseTitle",cursor.getString(cursor.getColumnIndexOrThrow("CourseTitle")));
         bundle.putString("venue",cursor.getString(cursor.getColumnIndexOrThrow("Venue")));
         bundle.putString("day",cursor.getString(cursor.getColumnIndexOrThrow("Day")));
         bundle.putString("time",cursor.getString(cursor.getColumnIndexOrThrow("Time")));
         bundle.putString("alert",cursor.getString(cursor.getColumnIndexOrThrow("Alert")));
-        bundle.putInt("requestCode",cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+        bundle.putInt("requestCode",cursor.getInt(cursor.getColumnIndexOrThrow("RequestCode")));
     }
 
     public void editCourse()

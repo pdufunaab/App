@@ -1,4 +1,4 @@
-package com.staaworks.News;
+package com.staaworks.news;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +39,7 @@ public class NewsFragment extends Fragment {
     private Activity activity;
     private URL url;
 
+    private FeedDBA.Categories category;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,7 +68,11 @@ public class NewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            urlString = getArguments().getString("urlString");
+            Bundle args = getArguments().getBundle("extras");
+            if (args!= null) {
+                urlString = args.getString("urlString");
+                category = (FeedDBA.Categories) args.get("Category");
+            }
             Log.i("URL String", urlString);
         }
     }
@@ -92,7 +97,7 @@ public class NewsFragment extends Fragment {
         swipeContainer = (SwipeRefreshLayout) activity.findViewById(R.id.swipeContainer);
         feedsListView = (ListView) activity.findViewById(R.id.feedsListView);
 
-        task = new FeedLoader(activity, feedsListView, FeedDBA.Categories.all);
+        task = new FeedLoader(activity, feedsListView, category);
         setURL(urlString);
         task.execute(url);
         feedsListView.requestFocus();
@@ -105,7 +110,7 @@ public class NewsFragment extends Fragment {
             @Override
 
             public void onRefresh() {
-                task = new FeedLoader(activity, feedsListView, FeedDBA.Categories.all);
+                task = new FeedLoader(activity, feedsListView, category);
                 task.execute(url);
                 feedsListView.requestFocus();
                 swipeContainer.setRefreshing(false);

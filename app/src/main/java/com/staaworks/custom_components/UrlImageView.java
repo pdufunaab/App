@@ -1,4 +1,4 @@
-package com.staaworks.CustomComponents;
+package com.staaworks.custom_components;
 
 import android.content.Context;
 import android.graphics.Bitmap;

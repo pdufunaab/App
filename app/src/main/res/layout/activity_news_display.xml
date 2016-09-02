@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.staaworks.News.NewsDisplayActivity"
+    tools:context="com.staaworks.news.NewsDisplayActivity"
     android:id="@+id/profile_main">
 
     <android.support.design.widget.AppBarLayout
