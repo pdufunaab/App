@@ -175,7 +175,7 @@ public class AddTimeTableFragment extends Fragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view,savedInstanceState);
         courseCodeView = (EditText) view.findViewById(R.id.course_code);
