@@ -29,7 +29,7 @@ public class NewsCategorySelectionFragment extends Fragment {
     private String urlString = "http://rss.cnn.com/rss/edition_space.rss";
     private Activity activity;
     private ListView listView;
-    ArrayList<String> list = new ArrayList<>();
+    ArrayList<String> namesList = new ArrayList<>(), attrList = new ArrayList<>();
     private FeedDBA storage;
 
 
@@ -78,25 +78,18 @@ public class NewsCategorySelectionFragment extends Fragment {
             activity = getActivity();
 
 
-        list.add(FeedDBA.Categories.all.getAttr());
-        list.add(FeedDBA.Categories.general.getAttr());
-        list.add(FeedDBA.Categories.important.getAttr());
-        list.add(FeedDBA.Categories.sport.getAttr());
-        list.add(FeedDBA.Categories.matriculation.getAttr());
-        list.add(FeedDBA.Categories.convocation.getAttr());
-        list.add(FeedDBA.Categories.entertainment.getAttr());
-        list.add(FeedDBA.Categories.politics.getAttr());
-        list.add(FeedDBA.Categories.business.getAttr());
+
+        System.out.println("NumberOfAvailableCategories: " + Categories.loadAll.size());
+
+        for (Categories categories: Categories.loadAll) {
+            namesList.add(categories.name());
+            attrList.add(categories.getAttr());
+        }
 
         listView = (ListView) activity.findViewById(R.id.listView);
         listView.setOnItemClickListener(new ListListener());
 
-        for (String item: list) {
-            System.out.println("LIST_ITEM: " + item);
-        }
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,R.layout.simple_list_item, R.id.simple_list_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,R.layout.simple_list_item, R.id.simple_list_item, attrList);
         listView.setAdapter(adapter);
     }
 
@@ -137,7 +130,6 @@ public class NewsCategorySelectionFragment extends Fragment {
 
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -149,7 +141,7 @@ public class NewsCategorySelectionFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent in = new Intent(activity, NewsDisplayActivity.class);
-            in.putExtra("Category", FeedDBA.Categories.getCategory(list.get(position)));
+            in.putExtra("Category", namesList.get(position));
             in.putExtra("urlString", urlString);
             activity.startActivity(in);
         }

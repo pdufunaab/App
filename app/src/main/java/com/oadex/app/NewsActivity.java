@@ -1,5 +1,7 @@
 package com.oadex.app;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -28,10 +30,11 @@ public class NewsActivity extends AppCompatActivity
             NewsFragment.OnFragmentInteractionListener,
             EventFragment.OnFragmentInteractionListener {
 
-    private static final String funaabNewsURL = "http://www.feedforall.com/sample.xml";
+    private static final String funaabNewsURL = "http://rss.cnn.com/rss/edition.rss";
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private static Context appContext;
     private FragmentPagerAdapter mPagerAdapter;
     List<Fragment> fragments = new Vector<>();
     List<String> titles = new ArrayList<>();
@@ -43,6 +46,7 @@ public class NewsActivity extends AppCompatActivity
 
 
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
+        appContext = getApplicationContext();
 
         // News Bundle
         Bundle newsBundle = new Bundle();
@@ -96,9 +100,22 @@ public class NewsActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    public static SharedPreferences getCategoriesSharedPreferences() {
+        return appContext.getSharedPreferences(constants.spname.value, Context.MODE_PRIVATE);
+    }
+
     @Override
     public void onFragmentInteraction(Uri uri) {}
 
+    private enum constants {
+        spname("staaCatSP");
+
+
+        public final String value;
+        constants(String value) {
+            this.value = value;
+        }
+    }
 
 
 }

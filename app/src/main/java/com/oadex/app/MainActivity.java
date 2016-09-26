@@ -1,7 +1,6 @@
 package com.oadex.app;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -13,11 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.Toast;
+
+import com.search.SearchActivity;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -29,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         // Create Navigation drawer and inlfate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -42,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
             supportActionBar.setHomeAsUpIndicator(indicator);
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
-        // Set behavior of Navigation drawer
+        // Set behavior of Navigation drawer if the navigation view is not null
+        if (navigationView != null)
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener()
                 {
@@ -68,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                                 Intent timeIntent = new Intent(getApplicationContext(), TimetableActivity.class);
                                 startActivity(timeIntent);
                                 break;
+                            case R.id.contacts:
+                                Intent contactsIntent = new Intent(getApplicationContext(), SearchActivity.class);
+                                startActivity(contactsIntent);
                         }
 
                         // Closing drawer on item click
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         //Inflate the Fragments here.
         Intent intent = getIntent();
         Boolean validate = intent.getBooleanExtra("validated",false);
-        if(validate == true){
+        if(validate){
             UnlockedFragment lockedfrag = new UnlockedFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,lockedfrag).commit();
         }

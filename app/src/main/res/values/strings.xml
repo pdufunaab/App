@@ -109,6 +109,14 @@
     <string name="result_text_secondSemester">Second Semester</string>
     <string name="resultDisplay_text">Result Of Semester Session </string>
     <string name="title_activity_result_display">ResultDisplay</string>
+    <string name="err_load_earlier_prompt">Click to view locally stored news</string>
+    <string name="courseDisplay_text">Course Display Text</string>
+    <string name="contact_search_description">Search For Specified Person</string>
+    <string name="contact_search_hint">Search by name, department or phone</string>
+    <string name="contact_search_entry_error">Person Not found\nPlease make sure you have correctly entered the data</string>
+    <string name="contact_searching">Searching. . .</string>
+    <string name="contact_search_network_error">Network Error!\nAn Error Occurred While Attempting Connection To The Service</string>
+    <string name="contact_search_format_error">Unknown Format Error!\nThe Stored Search Has Been Tampered With</string>
 
 
 </resources>

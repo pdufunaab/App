@@ -15,15 +15,17 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 /**
  * Created by Ahmad Alfawwaz on 8/9/2016
  */
-public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
+public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
 
     FeedAdapter feedAdapter;
@@ -34,22 +36,18 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
     private Activity activity;
     private ProgressDialog progressDialog;
     FeedDBA storage;
-    private FeedDBA.Categories category;
+    private Categories category = Categories.general;
     private int total;
+    private InputStream inputStream;
 
 
 
-    public FeedLoader(Activity activity, @NonNull ListView listView, FeedDBA.Categories category) {
+    public FeedLoader(Activity activity, @NonNull ListView listView, Categories category) {
         this.listView = listView;
         this.activity = activity;
         storage = new FeedDBA(this.activity);
         this.category = category;
-    }
 
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
         if (activity == null) System.out.println("NullActivityTag: Activity is null");
         else {
             progressDialog = ProgressDialog.show(activity, "Loading", "Please wait, News from FUNAAB are currently being loaded", true, true);
@@ -57,10 +55,16 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
 
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    activity.finish();
+                    FeedLoader.this.activity.finish();
                 }
             });
         }
+    }
+
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
     }
 
     /**
@@ -75,37 +79,10 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
      * @see #publishProgress
      */
     @Override
-    protected Feeds doInBackground(URL... params) {
+    protected InputStream doInBackground(URL... params) {
         URL url = params[0];
 
-        Log.i("URL status: null?", "" + (url == null));
-        loadedFeeds.clear();
-
-        XmlPullParser parser;
-        InputStream inputStream;
-
-
-        storage.open();
-
-
-        storedFeeds = storage.getAll();
-        total = storedFeeds.size();
-
-
-        String title = "Default Title";
-        String link = "http://google.com";
-        String description = "Default Text For Feed Description";
-        String imageURL = "http://google.com";
-        String pubDate = "13/8/2016";
-        String rating = "3";
-        FeedDBA.Categories category = FeedDBA.Categories.general;
-
-
-
-
-        int event;
-        Boolean insideItem = false;
-
+        inputStream = new ByteArrayInputStream("".getBytes());
 
 
         try {
@@ -120,127 +97,201 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
 
             inputStream = connection.getInputStream();
 
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            parser = factory.newPullParser();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
+    }
+
+
+        @Override
+        protected void onPostExecute(InputStream inputStream) {
+
+            Feeds feeds = parseAndStore(inputStream);
+
+            feedAdapter = new FeedAdapter(activity, feeds, new Loader(), total);
+            listView.setAdapter(feedAdapter);
+
+            if (progressDialog.isShowing() && progressDialog != null) {
+                progressDialog.dismiss();
+            }
+        }
+
+
+    public void parse_Store_Display(String input) {
+
+        if (progressDialog != null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+        inputStream = new ByteArrayInputStream(input.getBytes());
+        onPostExecute(inputStream);
+
+    }
+
+    protected Feeds parseAndStore(InputStream inputStream) {
+
+        loadedFeeds.clear();
+        parsingComplete = false;
+
+        FeedParser parser = new FeedParser();
+        parser.execute(inputStream);
+
+
+        if (parsingComplete) {
+            if (!loadedFeeds.isEmpty()) {
+                return loadedFeeds;
+            } else {
+                System.out.println("FEEDLISTEMPTY");
+                return new Feeds();
+            }
+        }
+        else while (!parsingComplete);
+
+        if (!loadedFeeds.isEmpty()) {
+            return loadedFeeds;
+        } else {
+            System.out.println("FEEDLISTEMPTY");
+            return new Feeds();
+        }
+
+    }
 
 
 
+    private class FeedParser extends AsyncTask<InputStream, Void, Void> {
 
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(inputStream, null);
-
-            event = parser.getEventType();
-
-            while (event != XmlPullParser.END_DOCUMENT)
-            {
-
-                String name = parser.getName();
-
-                if (event == XmlPullParser.START_TAG) {
-
-                    switch (name) {
+        @Override
+        protected Void doInBackground(InputStream... params) {
+            parsingComplete = false;
+            InputStream inputStream = params[0];
 
 
-                        case "item":
-                            insideItem = true;
-                            break;
+            storage.open();
+            storedFeeds = storage.getAll();
+            total = storedFeeds.size();
 
-                        case "title":
-                            if (insideItem) {
-                                title = parser.nextText();
-                                Log.i("Title Picked", title);
-                            }
-                            break;
 
-                        case "link":
-                            if (insideItem) {
-                                link = parser.nextText();
-                            }
-                            break;
-                        case "description":
-                            if (insideItem) {
-                                description = parser.nextText();
-                            }
-                            break;
-                        case "pubDate":
-                            if (insideItem) {
-                                pubDate = parser.nextText();
-                            }
+            XmlPullParser parser;
 
-                            break;
-                        case "media:content":
-                            if (insideItem) {
-                                imageURL = parser.getAttributeValue(null, "url");
-                            }
 
-                            break;
+            String title = "Default Title";
+            String link = "http://google.com";
+            String description = "Default Text For Feed Description";
+            String imageURL = "http://google.com";
+            String pubDate = "13/8/2016";
+            String rating = "3";
+            Categories category = Categories.general;
 
-                        case "rating":
-                            if (insideItem) {
-                                rating = parser.nextText();
-                            }
+            int event;
+            Boolean insideItem = false;
 
+            try {
+
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                parser = factory.newPullParser();
+
+
+                parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+                parser.setInput(inputStream, null);
+
+
+                event = parser.getEventType();
+
+
+                while (event != XmlPullParser.END_DOCUMENT) {
+
+                    String name = parser.getName();
+
+                    if (event == XmlPullParser.START_TAG) {
+
+                        switch (name) {
+
+                            case "item":
+                                insideItem = true;
+                                break;
+
+                            case "title":
+                                if (insideItem) {
+                                    title = parser.nextText();
+                                    Log.i("Title Picked", title);
+                                }
+                                break;
+
+                            case "link":
+                                if (insideItem) {
+                                    link = parser.nextText();
+                                }
+                                break;
+                            case "description":
+                                if (insideItem) {
+                                    description = parser.nextText();
+                                }
+                                break;
+                            case "pubDate":
+                                if (insideItem) {
+                                    pubDate = parser.nextText();
+                                }
+
+                                break;
+                            case "media:content":
+                                if (insideItem) {
+                                    imageURL = parser.getAttributeValue(null, "url");
+                                }
+
+                                break;
+
+                            case "rating":
+                                if (insideItem) {
+                                    rating = parser.nextText();
+                                }
+                                break;
+
+
+                            case "category":
+                                if (insideItem) {
+                                    category = Categories.getCategoryFromName(parser.nextText());
+                                }
+
+                        }
+
+                    } else if (event == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
+
+                        Feed feed = new Feed(title, link, description, imageURL, title, pubDate, rating, category.name());
+
+                        if (!storedFeeds.contains(feed)) {
+
+                            storage.addFeed(feed);
+                            total += 1;
+
+                        }
+
+
+                        insideItem = false;
                     }
 
+
+                    event = parser.next();
                 }
 
-                else if (event == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
-
-                    Feed feed = new Feed(title, link, description, imageURL, title, pubDate, rating, category.name());
-
-                    if (!storedFeeds.contains(feed)) {
-                        System.out.println("Feed About To Be Stored : picked");
-                        storage.addFeed(feed);
-                        total += 1;
-                        System.out.println("Feed Stored : picked");
-                    }
-
-
-                    insideItem = false;
-                }
-
-
-                event = parser.next();
             }
 
+            catch (XmlPullParserException | IOException e) {
+                e.printStackTrace();
+            }
 
-        } catch (IOException | XmlPullParserException e) {
-            e.printStackTrace();
-            Log.e("Exception Picked, size:", loadedFeeds.size() + "");
-            loadedFeeds.clear();
+            loadedFeeds = storage.getNextSet(FeedLoader.this.category);
 
-            loadedFeeds.add(new Feed("Oops! An error Occurred while reading news from website ", "ERROR", description, imageURL, title, pubDate, rating, this.category.name()));
-            return loadedFeeds;
-        }
+            if (loadedFeeds.isEmpty()) {
+                loadedFeeds.add(new Feed("Oops! There is no news in " + FeedLoader.this.category.name() + " category", "ERROR", description, imageURL, title, pubDate, rating, FeedLoader.this.category.name()));
+            }
 
-
-
-
-
-
-        loadedFeeds = storage.getNextSet(this.category);
-
-        if (loadedFeeds.isEmpty())
-            loadedFeeds.add(new Feed("Oops! There is no news in " + this.category + " category", "ERROR", description, imageURL, title, pubDate, rating, this.category.name()));
-
-
-        System.out.println("FEEDSIZE : " + loadedFeeds.size());
-        storage.close();
-        return loadedFeeds;
-    }
-
-
-    @Override
-    protected void onPostExecute(Feeds feeds) {
-        feedAdapter = new FeedAdapter(activity, feeds, new Loader(), total);
-        listView.setAdapter(feedAdapter);
-
-        if (progressDialog.isShowing() && progressDialog != null) {
-            progressDialog.dismiss();
+            System.out.println("FEEDSIZE : " + loadedFeeds.size());
+            storage.close();
+            parsingComplete = true;
+            return null;
         }
     }
-
-
 
 
     private class Loader implements View.OnClickListener {
@@ -264,4 +315,14 @@ public class FeedLoader extends AsyncTask<URL, Feeds, Feeds> {
 
     }
 
+
+    public String getString() {
+
+        if (inputStream != null) {
+            Scanner s = new Scanner(inputStream).useDelimiter("\\A");
+            return s.hasNext() ? s.next() : "";
+        }
+        else return "";
+
+    }
 }

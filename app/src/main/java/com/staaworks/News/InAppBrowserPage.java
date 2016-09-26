@@ -1,8 +1,14 @@
 package com.staaworks.news;
 
-import android.app.Activity;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -10,10 +16,12 @@ import com.oadex.app.R;
 
 
 /**
- * Created by Ahmad Alfawwaz on 8/9/2016.
+ * Created by Ahmad Alfawwaz on 8/9/2016
  */
-public class InAppBrowserPage extends Activity {
-    private String URL;//"http://google.com";
+public class InAppBrowserPage extends AppCompatActivity {
+    private String URL;
+    private WebSettings settings;
+    private WebView webview;
 
 
     @Override
@@ -22,10 +30,39 @@ public class InAppBrowserPage extends Activity {
         setContentView(R.layout.second_main);
         URL = getIntent().getExtras().getString("URL");
 
-        WebView webview=(WebView)findViewById(R.id.webView);
-        webview.getSettings().setJavaScriptEnabled(false);
-        webview.loadUrl(URL);
+        webview = (WebView)findViewById(R.id.webView);
+        settings = webview.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setDatabaseEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setDisplayZoomControls(false);
+
+        if (Build.VERSION.SDK_INT >= 19) {
+            webview.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }
+        else {
+            webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+
+
         webview.setWebViewClient(new WebViewClient());
+
+        webview.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                getWindow().setTitle(title);
+            }
+        });
+
+        webview.loadUrl(URL);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -42,24 +79,12 @@ public class InAppBrowserPage extends Activity {
         }
     }
 
-/*
-    private class  MyWebViewClient extends WebViewClient {
-
-            @SuppressWarnings("deprecation")
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return false;
-            }
-
-            @TargetApi(Build.VERSION_CODES.N)
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return false;
-            }
-
+    @Override
+    public void onBackPressed() {
+        if (webview.canGoBack()) {
+            webview.goBack();
+        } else {
+            super.onBackPressed();
         }
-
     }
-    */
-
 }

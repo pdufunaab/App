@@ -2,6 +2,7 @@ package com.staaworks.news;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,33 +14,38 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.oadex.app.R;
-import com.staaworks.storage.FeedDBA;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NewsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link NewsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class NewsFragment extends Fragment {
 
+    private enum constants {
+
+        savedStateKey("staaNSS"),
+        lastSavedKey("staaNSPLastSaved"),
+        feedSPName("staaNSP");
+
+        public final String value;
+        constants(String value) {
+            this.value = value;
+        }
+    }
+
+
     private FeedLoader task;
-    private String urlString = "http://rss.cnn.com/rss/edition_space.rss";
+    private String urlString = "http://rss.cnn.com/rss/edition.rss";
     private SwipeRefreshLayout swipeContainer;
 
     private ListView feedsListView;
 
+    private SharedPreferences preferences;
 
     private Activity activity;
     private URL url;
 
-    private FeedDBA.Categories category;
+    private Categories category;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,7 +77,7 @@ public class NewsFragment extends Fragment {
             Bundle args = getArguments().getBundle("extras");
             if (args!= null) {
                 urlString = args.getString("urlString");
-                category = (FeedDBA.Categories) args.get("Category");
+                category = Categories.getCategoryFromName(args.getString("Category", "general"));
             }
             Log.i("URL String", urlString);
         }
@@ -94,12 +100,39 @@ public class NewsFragment extends Fragment {
 
         if (getActivity() != null)
             activity = getActivity();
+
+
+
         swipeContainer = (SwipeRefreshLayout) activity.findViewById(R.id.swipeContainer);
         feedsListView = (ListView) activity.findViewById(R.id.feedsListView);
 
-        task = new FeedLoader(activity, feedsListView, category);
-        setURL(urlString);
-        task.execute(url);
+
+
+
+        preferences = activity.getSharedPreferences(constants.feedSPName.value, Context.MODE_PRIVATE);
+
+
+        if (savedInstanceState != null && !savedInstanceState.isEmpty()) {
+            task = new FeedLoader(activity, feedsListView, category);
+            setURL(urlString);
+            task.parse_Store_Display(savedInstanceState.getString(constants.savedStateKey.value));
+            System.out.println("FEED SAVED INSTANCE EXECUTED");
+        }
+
+        else if (preferences != null && preferences.contains(constants.lastSavedKey.value)) {
+            task = new FeedLoader(activity, feedsListView, category);
+            setURL(urlString);
+            task.parse_Store_Display(preferences.getString(constants.savedStateKey.value, ""));
+            System.out.println("FEED SHARED PREFERENCES EXECUTED");
+        }
+
+        else {
+            task = new FeedLoader(activity, feedsListView, category);
+            setURL(urlString);
+            task.execute(url);
+            System.out.println("FEED NORMSL EXEC USED");
+        }
+
         feedsListView.requestFocus();
 
 
@@ -132,8 +165,14 @@ public class NewsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(constants.savedStateKey.value, task.getString());
+        preferences.edit().putString(constants.savedStateKey.value, task.getString()).apply();
+    }
 
-        @Override
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -161,7 +200,6 @@ public class NewsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 

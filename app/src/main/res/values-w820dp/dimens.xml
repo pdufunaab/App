@@ -5,4 +5,5 @@
     <dimen name="activity_horizontal_margin">64dp</dimen>
     <dimen name="feedViewTitleHeight">70dp</dimen>
     <dimen name="descriptionPaneWidth">720dp</dimen>
+    <dimen name="text_size">28sp</dimen>
 </resources>

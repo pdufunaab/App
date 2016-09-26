@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_centerInParent="true"
+        android:text="@string/contact_search_entry_error"
+        android:gravity="center"
+        android:id="@+id/contact_info_textView"
+        android:textSize="20sp"
+        android:layout_marginBottom="10dp"
+        android:typeface="sans"
+        android:visibility="invisible" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyle"
+        android:indeterminate="true"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center"
+        android:layout_below="@id/contact_info_textView"
+        android:layout_centerInParent="true"
+        android:indeterminateDrawable="@drawable/circle_progress"
+        android:background="@drawable/circle_progress_background"
+        android:visibility="invisible"/>
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_marginBottom="10dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_below="@id/appbar"
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp">
+
+            <AutoCompleteTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchEditText"
+                android:textSize="@dimen/text_size"
+                android:hint="@string/contact_search_hint"
+                android:layout_weight="9"
+                android:singleLine="true"
+                tools:ignore="NestedWeights"
+                android:textColor="@color/primary_text"
+                android:completionThreshold="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/searchButton"
+                android:src="@mipmap/ic_search"
+                android:layout_gravity="center"
+                android:foregroundGravity="center"
+                android:contentDescription="@string/contact_search_description" />
+        </LinearLayout>
+
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/contact_search_listview"
+            android:divider="@color/colorPrimaryDark"
+            android:dividerHeight="1dp"
+            android:choiceMode="none"
+            android:layout_weight="9"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+</RelativeLayout>

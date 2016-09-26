@@ -168,15 +168,16 @@ public class Feed implements Serializable, Comparable<Feed> {
             return description;
         }
         else {
-            for (int i = 0; i < description.length(); i++) {
-                description = description.replaceAll("(<p>),(</p>)","\n");
 
-                resolveLinks(description);
+            description = description.replaceAll("(<p>),(</p>)","\n");
+
+            resolveLinks(description);
+
+            description = description.replaceAll("<\\S+>", "");
 
 
-                description = description.replaceAll("<\\S+>", "");
-                description = description.replaceAll("(<),(>)","");
-            }
+            description = description.replaceAll("(<),(>)","");
+
             return description;
         }
 

@@ -1,8 +1,9 @@
 
 package com.staaworks.news;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.system.ErrnoException;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +22,15 @@ import com.squareup.picasso.Picasso;
 public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
-
     private Feeds feeds;
-    private Activity activity;
+    private Context context;
     private View.OnClickListener loader;
     private int total;
 
-    public FeedAdapter(Activity context, Feeds objects, View.OnClickListener loadEarlier, int total) {
+    public FeedAdapter(Context context, Feeds objects, View.OnClickListener loadEarlier, int total) {
         super(context, R.layout.feed_view, R.id.titleView, objects);
         feeds = objects;
-        activity = context;
+        this.context = context;
         loader = loadEarlier;
         this.total = total;
     }
@@ -65,7 +65,7 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
             }
             loadEarlier.setOnClickListener(loader);
 
-            loadEarlier.setText("Click to view locally stored news");
+            loadEarlier.setText(R.string.err_load_earlier_prompt);
 
             if(getCount() != 1)
                 remove(getItem(position));
@@ -150,9 +150,9 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
             descriptionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent in = new Intent(activity, InAppBrowserPage.class);
+                    Intent in = new Intent(context, InAppBrowserPage.class);
                     in.putExtra("URL", feeds.get(position).getLink());
-                    activity.startActivity(in);
+                    context.startActivity(in);
                 }
             });
 
@@ -166,17 +166,17 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 if (imageView == null)
                     Log.e("Null Image View Error", "The image view is still null");
             }
-            Picasso.with(activity).load(feeds.get(position).getImageURL()).into(imageView);
+            Picasso.with(context).load(feeds.get(position).getImageURL()).into(imageView);
 
 
             //Set Image View Listener
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent in = new Intent(activity, FeedImageView.class);
+                    Intent in = new Intent(context, FeedImageView.class);
                     in.putExtra("imageURL", feeds.get(position).getImageURL());
                     in.putExtra("imageTitle", feeds.get(position).getImageTitle());
-                    activity.startActivity(in);
+                    context.startActivity(in);
                 }
             });
 

@@ -8,10 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
+import com.staaworks.news.Categories;
 import com.staaworks.news.Feed;
 import com.staaworks.news.Feeds;
-
-import java.util.Locale;
 
 
 public class FeedDBA {
@@ -59,43 +58,6 @@ public class FeedDBA {
     public static final int CATEGORY_INDEX = 8;
 
     public static final String PRIORITY = "priority";
-
-
-    public enum Categories {
-        all ("All News"),
-        general ("General (Public News)"),
-        important ("Important News"),
-        sport ("Sport News"),
-        matriculation ("Matriculation Updates"),
-        convocation ("Convocation Updates"),
-        entertainment ("Entertainment News"),
-        politics ("News On Politics"),
-        business ("Business News");
-
-        private final String attr;
-        Categories(String attr) {
-            this.attr = attr;
-        }
-
-        public String getAttr() {
-            return attr;
-        }
-
-        public static Categories getCategory(String attr) {
-            Categories value = general;
-            for (Categories cat : Categories.values()) {
-                if (cat.getAttr().equals(attr)) {
-                    value = cat;
-                    break;
-                }
-            }
-            return value;
-        }
-
-        public String getTabTitle() {
-            return name().toUpperCase(Locale.US);
-        }
-    }
 
 
     private static final String DATABASE_CREATE = "create table " +
@@ -233,18 +195,22 @@ public class FeedDBA {
 
         protected Feeds getFeeds(Integer start, Integer stop, Categories category) {
             if (getByCategory(category).size() != 0) {
-                Feeds feeds = new Feeds();
 
-                if (getByCategory(category).size() < 10) return  getByCategory(category);
+                Feeds   feeds = new Feeds(),
+                        f = getByCategory(category);
+
+                int size = f.size();
+                
+                if (size < 10) return  f;
+                else if (size > stop) {
+
+                    for (int i = start; i <= stop; i++) {
+                        feeds.add(f.get(i));
+                    }
+                }
                 else {
-                    try {
-                        for (int i = start; i <= stop; i++) {
-                            feeds.add(getByCategory(category).get(i));
-                        }
-                    } catch (IndexOutOfBoundsException e) {
-                        for (int i = start; i < getByCategory(category).size(); i++) {
-                            feeds.add(getByCategory(category).get(i));
-                        }
+                    for (int i = start; i < size; i++) {
+                        feeds.add(f.get(i));
                     }
                 }
                 return feeds;

@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.oadex.app.R;
-import com.staaworks.storage.FeedDBA;
 import com.staaworks.util.FragmentAdapter;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class NewsDisplayActivity extends AppCompatActivity implements NewsFragme
     private FragmentPagerAdapter mPagerAdapter;
     private List<String> titles = new ArrayList<>();
     private List<Fragment> fragments = new Vector<>();
-    private FeedDBA.Categories category;
+    private Categories category;
 
 
 
@@ -37,7 +36,8 @@ public class NewsDisplayActivity extends AppCompatActivity implements NewsFragme
 
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
         Bundle arguments = getIntent().getExtras();
-        category = (FeedDBA.Categories) arguments.get("Category");
+
+        category = Categories.getCategoryFromName(arguments.getString("Category", "general"));
 
         Bundle args = new Bundle();
         args.putBundle("extras", arguments);
@@ -91,6 +91,7 @@ public class NewsDisplayActivity extends AppCompatActivity implements NewsFragme
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
