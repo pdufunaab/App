@@ -32,13 +32,12 @@ public class InAppBrowserPage extends AppCompatActivity {
 
         webview = (WebView)findViewById(R.id.webView);
         settings = webview.getSettings();
-        settings.setJavaScriptEnabled(true);
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
-        settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setDatabaseEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setDisplayZoomControls(false);
+
 
         if (Build.VERSION.SDK_INT >= 19) {
             webview.setLayerType(View.LAYER_TYPE_HARDWARE, null);

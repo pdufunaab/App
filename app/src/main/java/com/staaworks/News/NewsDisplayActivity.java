@@ -24,7 +24,7 @@ public class NewsDisplayActivity extends AppCompatActivity implements NewsFragme
     private FragmentPagerAdapter mPagerAdapter;
     private List<String> titles = new ArrayList<>();
     private List<Fragment> fragments = new Vector<>();
-    private Categories category;
+    private Category category;
 
 
 
@@ -37,7 +37,7 @@ public class NewsDisplayActivity extends AppCompatActivity implements NewsFragme
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
         Bundle arguments = getIntent().getExtras();
 
-        category = Categories.getCategoryFromName(arguments.getString("Category", "general"));
+        category = Category.getCategoryFromName(arguments.getString("Category", "general"));
 
         Bundle args = new Bundle();
         args.putBundle("extras", arguments);

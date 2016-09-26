@@ -79,9 +79,7 @@ public class NewsCategorySelectionFragment extends Fragment {
 
 
 
-        System.out.println("NumberOfAvailableCategories: " + Categories.loadAll.size());
-
-        for (Categories categories: Categories.loadAll) {
+        for (Category categories: Category.loadAll()) {
             namesList.add(categories.name());
             attrList.add(categories.getAttr());
         }

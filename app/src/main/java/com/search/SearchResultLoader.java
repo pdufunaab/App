@@ -1,8 +1,7 @@
 package com.search;
 
 import android.app.Activity;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ListView;
@@ -12,6 +11,7 @@ import android.widget.Toast;
 
 import com.oadex.app.R;
 import com.staaworks.util.InfiniteScrollListener;
+import com.staaworks.util.Network;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,7 +56,7 @@ public class SearchResultLoader  extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         String JsonString;
-        if (isConnected()) {
+        if (Network.isConnected()) {
             JsonString = getJsonString(params[0]);
         }
         else JsonString = "Invalid Request";
@@ -217,19 +217,6 @@ public class SearchResultLoader  extends AsyncTask<String, Void, String> {
 
         return people;
     }
-
-
-
-
-    public boolean isConnected(){
-        ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
-    }
-
 
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException{

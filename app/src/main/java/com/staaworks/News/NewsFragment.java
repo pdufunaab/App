@@ -45,7 +45,7 @@ public class NewsFragment extends Fragment {
     private Activity activity;
     private URL url;
 
-    private Categories category;
+    private Category category;
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,7 +77,7 @@ public class NewsFragment extends Fragment {
             Bundle args = getArguments().getBundle("extras");
             if (args!= null) {
                 urlString = args.getString("urlString");
-                category = Categories.getCategoryFromName(args.getString("Category", "general"));
+                category = Category.getCategoryFromName(args.getString("Category", "general"));
             }
             Log.i("URL String", urlString);
         }
@@ -168,8 +168,9 @@ public class NewsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(constants.savedStateKey.value, task.getString());
-        preferences.edit().putString(constants.savedStateKey.value, task.getString()).apply();
+        String inputStreamAsString = task.getString();
+        outState.putString(constants.savedStateKey.value, inputStreamAsString);
+        preferences.edit().putString(constants.savedStateKey.value, inputStreamAsString).apply();
     }
 
     @Override

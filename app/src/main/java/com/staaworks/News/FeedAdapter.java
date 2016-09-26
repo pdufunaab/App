@@ -3,7 +3,6 @@ package com.staaworks.news;
 
 import android.content.Context;
 import android.content.Intent;
-import android.system.ErrnoException;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.oadex.app.R;
+import com.search.SearchResultLoader;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+import com.staaworks.util.Network;
 
 
 /**
@@ -134,6 +136,7 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
             }
 
 
+
             TextView descriptionView = (TextView) row.getTag(R.id.descriptionView);
             if (descriptionView == null) {
                 descriptionView = (TextView) row.findViewById(R.id.descriptionView);
@@ -158,6 +161,7 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
 
+            boolean connected = Network.isConnected();
 
             ImageView imageView = (ImageView) row.getTag(R.id.feedImage);
             if (imageView == null) {
@@ -166,10 +170,11 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 if (imageView == null)
                     Log.e("Null Image View Error", "The image view is still null");
             }
-            Picasso.with(context).load(feeds.get(position).getImageURL()).into(imageView);
+            if (connected) Picasso.with(context).load(feeds.get(position).getImageURL()).placeholder(R.mipmap.rss).error(R.mipmap.rss).into(imageView);
+            else Picasso.with(context).load(feeds.get(position).getImageURL()).networkPolicy(NetworkPolicy.OFFLINE).into(imageView);
 
 
-            //Set Image View Listener
+            if (imageView != null)
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Ahmad Alfawwaz on 8/9/2016
@@ -36,13 +37,13 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
     private Activity activity;
     private ProgressDialog progressDialog;
     FeedDBA storage;
-    private Categories category = Categories.general;
+    private Category category = Category.general;
     private int total;
     private InputStream inputStream;
 
 
 
-    public FeedLoader(Activity activity, @NonNull ListView listView, Categories category) {
+    public FeedLoader(Activity activity, @NonNull ListView listView, Category category) {
         this.listView = listView;
         this.activity = activity;
         storage = new FeedDBA(this.activity);
@@ -105,8 +106,8 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
     }
 
 
-        @Override
-        protected void onPostExecute(InputStream inputStream) {
+    @Override
+    protected void onPostExecute(InputStream inputStream) {
 
             Feeds feeds = parseAndStore(inputStream);
 
@@ -121,12 +122,8 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
     public void parse_Store_Display(String input) {
 
-        if (progressDialog != null && !progressDialog.isShowing()) {
-            progressDialog.show();
-        }
         inputStream = new ByteArrayInputStream(input.getBytes());
         onPostExecute(inputStream);
-
     }
 
     protected Feeds parseAndStore(InputStream inputStream) {
@@ -138,31 +135,23 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
         parser.execute(inputStream);
 
 
-        if (parsingComplete) {
-            if (!loadedFeeds.isEmpty()) {
-                return loadedFeeds;
-            } else {
-                System.out.println("FEEDLISTEMPTY");
-                return new Feeds();
-            }
+        try {
+            loadedFeeds = parser.get();
         }
-        else while (!parsingComplete);
+        catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
 
-        if (!loadedFeeds.isEmpty()) {
-            return loadedFeeds;
-        } else {
-            System.out.println("FEEDLISTEMPTY");
-            return new Feeds();
-        }
+        return loadedFeeds;
 
     }
 
 
 
-    private class FeedParser extends AsyncTask<InputStream, Void, Void> {
+    private class FeedParser extends AsyncTask<InputStream, Void, Feeds> {
 
         @Override
-        protected Void doInBackground(InputStream... params) {
+        protected Feeds doInBackground(InputStream... params) {
             parsingComplete = false;
             InputStream inputStream = params[0];
 
@@ -181,7 +170,7 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
             String imageURL = "http://google.com";
             String pubDate = "13/8/2016";
             String rating = "3";
-            Categories category = Categories.general;
+            Category category = Category.general;
 
             int event;
             Boolean insideItem = false;
@@ -250,7 +239,7 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
                             case "category":
                                 if (insideItem) {
-                                    category = Categories.getCategoryFromName(parser.nextText());
+                                    category = Category.getCategoryFromName(parser.nextText());
                                 }
 
                         }
@@ -266,7 +255,13 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
                         }
 
-
+                        title = "Default Title";
+                        link = "http://google.com";
+                        description = "Default Text For Feed Description";
+                        imageURL = "http://google.com";
+                        pubDate = "13/8/2016";
+                        rating = "3";
+                        category = Category.general;
                         insideItem = false;
                     }
 
@@ -289,12 +284,12 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
             System.out.println("FEEDSIZE : " + loadedFeeds.size());
             storage.close();
             parsingComplete = true;
-            return null;
+            return loadedFeeds;
         }
     }
 
 
-    private class Loader implements View.OnClickListener {
+    public class Loader implements View.OnClickListener {
 
 
         /**

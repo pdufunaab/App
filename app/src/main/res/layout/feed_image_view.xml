@@ -9,12 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.staaworks.news.FeedImageView"
     android:gravity="center_vertical|center_horizontal"
-    android:background="#96c8dc">
+    android:background="@color/primary_light">
 
 
     <ImageView
-        android:layout_width="400sp"
-        android:layout_height="450sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -24,12 +24,12 @@
         android:layout_width="match_parent"
         android:layout_below="@id/imageView"
         android:text="RSS Feed Image"
-        android:fontFamily="serif"
+        android:fontFamily="sans-serif"
         android:gravity="center_vertical|center_horizontal"
         android:textStyle="normal"
-        android:textSize="18sp"
+        android:textSize="21sp"
         android:id="@+id/imageLinkTextView"
-        android:textColor="#0a320a"
-        android:background="#96c8ff" />
+        android:textColor="@color/colorPrimary"
+        android:background="@color/primary_light" />
 
 </RelativeLayout>

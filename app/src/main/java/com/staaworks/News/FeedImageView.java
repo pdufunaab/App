@@ -6,7 +6,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oadex.app.R;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+import com.staaworks.util.Network;
 
 public class FeedImageView extends Activity {
 
@@ -24,19 +26,10 @@ public class FeedImageView extends Activity {
         imageURL = getIntent().getExtras().getString("imageURL");
         imageTitle = getIntent().getExtras().getString("imageTitle");
         imageLinkTextView.setText(imageTitle);
-        Picasso.with(this).load(imageURL).into(imageView);
-    }
 
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        boolean connected = Network.isConnected();
+
+        if (connected) Picasso.with(this).load(imageURL).placeholder(R.mipmap.rss).error(R.mipmap.rss).into(imageView);
+        else Picasso.with(this).load(imageURL).networkPolicy(NetworkPolicy.OFFLINE).into(imageView);
     }
-    */
 }

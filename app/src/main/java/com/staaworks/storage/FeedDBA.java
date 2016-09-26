@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
-import com.staaworks.news.Categories;
+import com.staaworks.news.Category;
 import com.staaworks.news.Feed;
 import com.staaworks.news.Feeds;
 
@@ -92,6 +92,7 @@ public class FeedDBA {
 
 
     public void close() {
+        queries.resolveCategories();
         db.close();
     }
 
@@ -122,7 +123,7 @@ public class FeedDBA {
 
 
 
-    public Feeds getNextSet(Categories category) {
+    public Feeds getNextSet(Category category) {
         //TODO Uncomment The below Statement
         //queries.resolve(category);
         Feeds feeds = queries.getFeeds(position, position + 9, category);
@@ -183,17 +184,18 @@ public class FeedDBA {
 
 
 
-        protected void resolve(Categories category) {
-            for (Feed feed : getByCategory(category)) {
-                if (!feed.isValid()) {
-                    removeFeed(feed);
+        protected void resolveCategories() {
+            for (Category category: Category.loadAll()) {
+                for (Feed feed : getByCategory(category)) {
+                    if (!feed.isValid()) {
+                        removeFeed(feed);
+                    }
                 }
-
             }
         }
 
 
-        protected Feeds getFeeds(Integer start, Integer stop, Categories category) {
+        protected Feeds getFeeds(Integer start, Integer stop, Category category) {
             if (getByCategory(category).size() != 0) {
 
                 Feeds   feeds = new Feeds(),
@@ -237,8 +239,8 @@ public class FeedDBA {
 
 
 
-        protected Feeds getByCategory(Categories category) {
-            if (category == Categories.all) {
+        protected Feeds getByCategory(Category category) {
+            if (category.equals(Category.all)) {
                 return getAllFeeds();
             }
             else {

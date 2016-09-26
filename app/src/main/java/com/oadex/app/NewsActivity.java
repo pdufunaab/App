@@ -104,6 +104,10 @@ public class NewsActivity extends AppCompatActivity
         return appContext.getSharedPreferences(constants.spname.value, Context.MODE_PRIVATE);
     }
 
+    public static Context getAppContext() {
+        return appContext;
+    }
+
     @Override
     public void onFragmentInteraction(Uri uri) {}
 
