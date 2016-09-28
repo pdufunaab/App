@@ -1,4 +1,4 @@
-package com.staaworks.Events;
+package com.staaworks.events;
 
 import android.app.Activity;
 import android.content.Context;

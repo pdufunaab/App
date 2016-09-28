@@ -1,5 +1,7 @@
 package com.oadex.app;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -10,11 +12,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 
-import com.staaworks.Events.EventFragment;
+import com.staaworks.events.EventFragment;
+import com.staaworks.news.NewsCategorySelectionFragment;
 import com.staaworks.util.FragmentAdapter;
-import com.staaworks.News.NewsFragment;
+import com.staaworks.news.NewsFragment;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,14 +26,18 @@ public class NewsActivity extends AppCompatActivity
 
         //Connected Fragments
         implements
+        NewsCategorySelectionFragment.OnFragmentInteractionListener,
             NewsFragment.OnFragmentInteractionListener,
             EventFragment.OnFragmentInteractionListener {
 
-    private static final String funaabNewsURL = "http://feeds.nytimes.com/nyt/rss/HomePage";
+    private static final String funaabNewsURL = "http://rss.cnn.com/rss/edition.rss";
+
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private static Context appContext;
     private FragmentPagerAdapter mPagerAdapter;
     List<Fragment> fragments = new Vector<>();
+    List<String> titles = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,7 @@ public class NewsActivity extends AppCompatActivity
 
 
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
+        appContext = getApplicationContext();
 
         // News Bundle
         Bundle newsBundle = new Bundle();
@@ -48,10 +57,12 @@ public class NewsActivity extends AppCompatActivity
         eventsBundle.putString("eventName", "My Sample Event Name");
 
 
-        fragments.add(Fragment.instantiate(this, NewsFragment.class.getName(),newsBundle));
-        fragments.add(Fragment.instantiate(this, EventFragment.class.getName(), eventsBundle));
+        Fragment newsFragment = Fragment.instantiate(this, NewsCategorySelectionFragment.class.getName(),newsBundle);
+        Fragment eventsFragment = Fragment.instantiate(this, EventFragment.class.getName(), eventsBundle);
 
-        this.mPagerAdapter  = new FragmentAdapter(super.getSupportFragmentManager(), fragments);
+        fragments.add(newsFragment); titles.add("NEWS");
+        fragments.add(eventsFragment); titles.add("EVENTS");
+        this.mPagerAdapter  = new FragmentAdapter(super.getSupportFragmentManager(), fragments, titles);
 
         mViewPager.setAdapter(this.mPagerAdapter);
 
@@ -89,9 +100,26 @@ public class NewsActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    public static SharedPreferences getCategoriesSharedPreferences() {
+        return appContext.getSharedPreferences(constants.spname.value, Context.MODE_PRIVATE);
+    }
+
+    public static Context getAppContext() {
+        return appContext;
+    }
+
     @Override
     public void onFragmentInteraction(Uri uri) {}
 
+    private enum constants {
+        spname("staaCatSP");
+
+
+        public final String value;
+        constants(String value) {
+            this.value = value;
+        }
+    }
 
 
 }

@@ -8,8 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
-import com.staaworks.News.Feed;
-import com.staaworks.News.Feeds;
+import com.staaworks.news.Category;
+import com.staaworks.news.Feed;
+import com.staaworks.news.Feeds;
 
 
 public class FeedDBA {
@@ -56,18 +57,7 @@ public class FeedDBA {
     public static final String CATEGORY = "cat";
     public static final int CATEGORY_INDEX = 8;
 
-
-    public enum Categories {
-        all,
-        general,
-        important,
-        sport,
-        matriculation,
-        convocation,
-        entertainment,
-        politics,
-        business
-    }
+    public static final String PRIORITY = "priority";
 
 
     private static final String DATABASE_CREATE = "create table " +
@@ -80,7 +70,8 @@ public class FeedDBA {
             COL_IMG + " text not null, " +
             COL_IMG_TITLE + " text not null, " +
             VIEWED + " text default false, " +
-            CATEGORY + " text default general" +
+            CATEGORY + " text default general, " +
+            PRIORITY + " integer default 0" +
             ");";
 
 
@@ -100,12 +91,8 @@ public class FeedDBA {
 
 
 
-
-
-
-
-
     public void close() {
+        queries.resolveCategories();
         db.close();
     }
 
@@ -114,7 +101,6 @@ public class FeedDBA {
 
 
     public Feeds getAll() {
-        queries.resolve();
         return queries.getAllFeeds();
     }
 
@@ -122,7 +108,6 @@ public class FeedDBA {
 
 
     public Feeds getNew() {
-        queries.resolve();
         return queries.getNewFeeds();
     }
 
@@ -131,7 +116,6 @@ public class FeedDBA {
 
 
     public Feeds getImportant() {
-        queries.resolve();
         return queries.getImportantFeeds();
     }
 
@@ -139,8 +123,9 @@ public class FeedDBA {
 
 
 
-    public Feeds getNextSet(Categories category) {
-        queries.resolve();
+    public Feeds getNextSet(Category category) {
+        //TODO Uncomment The below Statement
+        //queries.resolve(category);
         Feeds feeds = queries.getFeeds(position, position + 9, category);
         position += 10;
         return feeds;
@@ -149,8 +134,8 @@ public class FeedDBA {
 
 
 
+
     public Feeds getByTitle() {
-        queries.resolve();
         return queries.sortFeedsBy(FEED_TITLES);
     }
 
@@ -159,16 +144,19 @@ public class FeedDBA {
 
 
     public Boolean isFeedViewed(Feed feed) {
-        return queries.getPersistedFeed(feed).isViewed(context);
+        return queries.isViewed(feed);
     }
 
 
+    public void setViewed(Feed feed, Boolean viewed) {
+        String statement = "UPDATE " + TABLE + " SET " + VIEWED + " = '" + viewed.toString() + "' WHERE " + COL_LINKS + " = '" + feed.getLink() + "';";
+        db.execSQL(statement);
+    }
 
 
 
     public void addFeed(Feed feed) {
         queries.addFeed(feed);
-        queries.resolve();
     }
 
 
@@ -176,7 +164,6 @@ public class FeedDBA {
 
     public void removeFeed(Feed feed) {
         queries.removeFeed(feed);
-        queries.resolve();
     }
 
 
@@ -184,7 +171,6 @@ public class FeedDBA {
 
     public void updateFeed(Feed oldFeed, Feed newFeed) {
         queries.updateFeed(oldFeed, newFeed);
-        queries.resolve();
     }
 
 
@@ -198,32 +184,35 @@ public class FeedDBA {
 
 
 
-        protected void resolve() {
-
-            for (Feed feed : getAllFeeds()) {
-
-                if (!feed.isValid()) {
-                    removeFeed(feed);
+        protected void resolveCategories() {
+            for (Category category: Category.loadAll()) {
+                for (Feed feed : getByCategory(category)) {
+                    if (!feed.isValid()) {
+                        removeFeed(feed);
+                    }
                 }
-
             }
         }
 
 
-        protected Feeds getFeeds(Integer start, Integer stop, Categories category) {
+        protected Feeds getFeeds(Integer start, Integer stop, Category category) {
             if (getByCategory(category).size() != 0) {
-                Feeds feeds = new Feeds();
 
-                if (getByCategory(category).size() < 10) return  getByCategory(category);
+                Feeds   feeds = new Feeds(),
+                        f = getByCategory(category);
+
+                int size = f.size();
+                
+                if (size < 10) return  f;
+                else if (size > stop) {
+
+                    for (int i = start; i <= stop; i++) {
+                        feeds.add(f.get(i));
+                    }
+                }
                 else {
-                    try {
-                        for (int i = start; i <= stop; i++) {
-                            feeds.add(getByCategory(category).get(i));
-                        }
-                    } catch (IndexOutOfBoundsException e) {
-                        for (int i = start; i < getByCategory(category).size(); i++) {
-                            feeds.add(getByCategory(category).get(i));
-                        }
+                    for (int i = start; i < size; i++) {
+                        feeds.add(f.get(i));
                     }
                 }
                 return feeds;
@@ -234,9 +223,24 @@ public class FeedDBA {
 
 
 
+        protected Boolean isViewed(Feed feed) {
+            String statement = "SELECT * FROM " + TABLE + " WHERE " + COL_LINKS + " = '" + feed.getLink() + "';";
+            Cursor cursor = db.rawQuery(statement, null);
 
-        protected Feeds getByCategory(Categories category) {
-            if (category == Categories.all) {
+            cursor.moveToNext();
+            String viewed = cursor.getString(VIEWED_INDEX);
+            cursor.close();
+
+            return Boolean.getBoolean(viewed);
+        }
+
+
+
+
+
+
+        protected Feeds getByCategory(Category category) {
+            if (category.equals(Category.all)) {
                 return getAllFeeds();
             }
             else {
@@ -294,6 +298,7 @@ public class FeedDBA {
 
                 feeds.add(new Feed(feedTitle,feedLink,feedDescription,feedImageUrl,feedImageTitle,feedPubDate,feedRating + "", feedCategory).setViewed(isViewed));
             }
+            cursor.close();
 
             return feeds;
         }
@@ -313,11 +318,8 @@ public class FeedDBA {
 
 
         protected void addFeed(Feed feed) {
-            try {
-                removeFeed(feed);
-            }
-            finally {
 
+            System.out.println("AddFeedCalled: " + feed);
                 ContentValues contentValues = new ContentValues();
 
                 contentValues.put(FEED_TITLES, feed.getTitle());
@@ -327,9 +329,10 @@ public class FeedDBA {
                 contentValues.put(COL_IMG, feed.getImageURL());
                 contentValues.put(COL_IMG_TITLE, feed.getImageTitle());
                 contentValues.put(COL_RATING, feed.getRating());
+                contentValues.put(CATEGORY, feed.getCategory());
 
                 db.insert(TABLE, null, contentValues);
-            }
+
         }
         
         

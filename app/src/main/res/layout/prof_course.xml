@@ -13,9 +13,9 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:gravity="center"
-           android:textSize="@dimen/heading_textViewSize"
+           android:textSize="15sp"
            android:textColor="@color/colorPrimaryDark"
-           android:text="@string/course_display_heading"
+           android:text="Course Display"
            android:layout_marginBottom="20dp"
            />
 

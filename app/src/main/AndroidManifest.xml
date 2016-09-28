@@ -7,13 +7,13 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!-- To access Google+ APIs: -->
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -80,19 +80,22 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.oadex.app.TimetableActivity" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name="com.staaworks.News.InAppBrowserPage" />
+
+        <activity android:name="com.staaworks.news.InAppBrowserPage">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.staaworks.news.NewsDisplayActivity"
+            />
+
+        </activity>
+
         <activity
-            android:name="com.staaworks.News.FeedImageView"
+            android:name="com.staaworks.news.FeedImageView"
             android:theme="@style/myDialogTheme" />
         <activity
-            android:name="com.staaworks.News.NewsDisplayActivity"
+            android:name="com.staaworks.news.NewsDisplayActivity"
             android:label="@string/title_activity_news_display"
             android:parentActivityName=".NewsActivity"
             android:theme="@style/AppTheme">
@@ -109,6 +112,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.oadex.app.ProfileActivity" />
         </activity>
+        <activity
+            android:name="com.search.SearchActivity"
+            android:label="Directories"
+            android:parentActivityName=".ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.oadex.app.MainActivity" />
+        </activity>
 
         <receiver
             android:name="app.funaab.AlarmReceiver"
@@ -117,12 +128,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name="app.funaab.CourseFormDisplay"
-            android:parentActivityName=".ProfileActivity"
-            android:label="@string/title_activity_course_form_display"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

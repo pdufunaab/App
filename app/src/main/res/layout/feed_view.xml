@@ -35,7 +35,9 @@
             android:contentDescription="Image For The Displayed Feed"
             android:layout_weight="0.3"
             android:layout_gravity="center_vertical"
-            android:focusable="false" />
+            android:focusable="false"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
 
 
 
