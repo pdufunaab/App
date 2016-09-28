@@ -74,11 +74,11 @@ public class AddTimeTableFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        alarm = new Alarm(getContext());
         timeTableHelper = new TimeTableHelper(getContext());
         spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.days_array));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         daySpinner.setAdapter(spinnerAdapter);
+        //alarm = new Alarm(getContext(),getArguments().getInt("requestCode",0));
     }
 
     public void saveCourse()
@@ -95,7 +95,7 @@ public class AddTimeTableFragment extends Fragment
         if(!checkNullOrEmpty(courseCode,courseTitle,venue,day,time))
         {
             timeTableHelper.insert(courseCode,courseTitle,venue,day,time,alert);
-            int requestCode = timeTableHelper.getRequestCode(courseCode,day);
+            int requestCode = timeTableHelper.getRequestCode(courseCode,day);;
             if(alert_box.isChecked())
             {
 
@@ -123,6 +123,8 @@ public class AddTimeTableFragment extends Fragment
         courseCode.setText("");
         courseTitle.setText("");
         venue.setText("");
+        time.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+        time.setCurrentMinute(calendar.get(Calendar.MINUTE)); ;
     }
 
     public boolean checkNullOrEmpty(String courseCode, String courseTitle,String venue, String day, String time)

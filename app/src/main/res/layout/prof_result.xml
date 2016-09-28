@@ -8,19 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
         android:orientation="vertical"
         android:gravity="center">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textSize="@dimen/heading_textViewSize"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="@string/result_display_heading"
-            android:layout_marginBottom="20dp"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,15 +24,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/result_text_size"
-                android:gravity="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="@string/result_text_session"
-                android:layout_margin="3dp"
+                android:layout_margin="5dp"
                 />
 
             <Spinner
                 android:id="@+id/select_session_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 style="@style/Base.Widget.AppCompat.Spinner.Underlined">

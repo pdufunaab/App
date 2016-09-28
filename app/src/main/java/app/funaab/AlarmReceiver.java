@@ -26,8 +26,8 @@ public class AlarmReceiver extends BroadcastReceiver
     Intent intent;
     @Override
     public void onReceive(Context context, Intent intent)
-    {
-        /*if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+    {/*
+        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
         {
             alarm = new Alarm(context);
             Cursor cursor = timeTableHelper.getCoursesAlert(true);
@@ -40,12 +40,12 @@ public class AlarmReceiver extends BroadcastReceiver
                 alarm.setAlarm(day,time,requestCode);
                 cursor.moveToNext();
             }
-        }*/
+        }
 
         Toast.makeText(context,"Alarm Received",Toast.LENGTH_LONG).show();
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
-        ringtone.play();
+        ringtone.play();*/
     }
 
 

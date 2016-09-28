@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.staaworks.CustomComponents.feedView">
+    tools:context="com.staaworks.custom_components.feedView">
 
 
     <ScrollView
@@ -14,14 +14,14 @@
         android:focusable="false"
         android:layout_alignParentTop="true"
         android:padding="10dp"
-        android:background="#32c8ba">
+        android:background="@color/white">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:divider="#053205"
+        android:divider="@color/colorPrimaryDark"
         android:dividerPadding="15dp"
         android:focusable="false">
 
@@ -31,7 +31,7 @@
             android:id="@+id/feedImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@mipmap/rss"
+            android:src="@mipmap/error"
             android:contentDescription="Image For The Displayed Feed"
             android:layout_weight="0.3"
             android:layout_gravity="center_vertical"
@@ -55,11 +55,12 @@
                 android:layout_alignParentBottom="true"
                 android:text="@string/rssImageDesc"
                 android:textColor="#0a3c36"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:textIsSelectable="false"
                 android:fontFamily="serif"
                 android:focusable="false"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center_vertical" />
 
         </RelativeLayout>
 
@@ -74,26 +75,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleContainer"
-        android:background="#28afa2"
+        android:background="@color/primary_light"
         android:text="The Clickable Description is to be shown here\nThe numerous rubbish jabbered here would be concealed as smoothly as a dwarf&apos;s behind"
         android:textColor="#1e501e"
-        android:textSize="17dp"
+        android:textSize="12dp"
         android:fontFamily="serif"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:padding="10dp"
         android:id="@+id/descriptionView"
-        android:visibility="gone"
-        android:layout_marginBottom="10dp" />
+        android:visibility="gone" />
     <TextView
         android:id="@+id/earlierFeeds"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_below="@id/descriptionView"
-        android:background="#1e9789"
+        android:background="@color/colorPrimary"
         android:text="Click To Load Earlier Feeds"
         android:textColor="#326432"
-        android:textSize="16sp"
+        android:textSize="14dp"
         android:textStyle="italic"
         android:typeface="serif"
         android:textAlignment="center"

@@ -24,7 +24,6 @@ public class Alarm
     {
         this.context = context;
     }
-
     public void setAlarm(String day,String time, int requestCode)
     {
         String[] timeArray = time.split(":");
@@ -44,12 +43,11 @@ public class Alarm
 
     public  void cancelAlarm(int requestCode)
     {
-        if(alarmManager != null)
-        {
-            pendingIntent = PendingIntent.getBroadcast(context,requestCode,intent,0);
-            alarmManager.cancel(pendingIntent);
-            Toast.makeText(context,"Alarm Canceled",Toast.LENGTH_LONG).show();
-        }
+        intent = new Intent(context,AlarmReceiver.class);
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        pendingIntent = PendingIntent.getBroadcast(context,requestCode,intent,0);
+        alarmManager.cancel(pendingIntent);
+        Toast.makeText(context,"Alarm Canceled",Toast.LENGTH_LONG).show();
     }
 
     public  int getAM_PM(String am)

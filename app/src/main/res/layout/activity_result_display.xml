@@ -26,7 +26,7 @@
     <include layout="@layout/content_result_display" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/saveresult_fab"
+        android:id="@+id/save_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
