@@ -1,4 +1,3 @@
-
 package com.staaworks.news;
 
 import android.content.Context;
@@ -22,16 +21,15 @@ import com.staaworks.util.Network;
  */
 public class FeedAdapter extends ArrayAdapter<Feed> {
 
-
-    private Feeds feeds;
     private Context context;
     private View.OnClickListener loader;
-    private int total, pos;
+    private int total;
     private Feed currentFeed;
+    private boolean isViewed;
+
 
     public FeedAdapter(Context context, Feeds objects, View.OnClickListener loadEarlier, int total) {
         super(context, R.layout.feed_view, R.id.titleView, objects);
-        feeds = objects;
         this.context = context;
         loader = loadEarlier;
         this.total = total;
@@ -39,21 +37,23 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        this.pos = position;
-        View row = super.getView(pos, convertView, parent);
-        currentFeed = getItem(pos);
-        boolean isViewed = currentFeed.isViewed();
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        View row = super.getView(position, convertView, parent);
+        currentFeed = getItem(position);
 
-        String title = currentFeed.getTitle();
+        isViewed = currentFeed.isViewed();
+        final String title = currentFeed.getTitle();
+        final String link = currentFeed.getLink();
+        final String description = currentFeed.getDescription();
+        final String imageURL = currentFeed.getImageURL();
 
-        if (currentFeed.getLink().equals("ERROR")) {
+        if (link.equals("ERROR")) {
             TextView t = (TextView) row.getTag(R.id.titleView);
             if (t == null) {
                 t = (TextView) row.findViewById(R.id.titleView);
                 row.setTag(R.id.titleView, t);
             }
-            t.setText(currentFeed.getTitle());
+            t.setText(title);
 
             TextView d = (TextView) row.getTag(R.id.descriptionView);
             if (d == null) {
@@ -103,30 +103,22 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
             }
 
 
-
-
-
-
             TextView loadEarlier = (TextView) row.getTag(R.id.earlierFeeds);
             if (loadEarlier == null) {
                 loadEarlier = (TextView) row.findViewById(R.id.earlierFeeds);
                 row.setTag(R.id.earlierFeeds);
             }
             loadEarlier.setOnClickListener(loader);
-            System.out.println("FDSZ: The size of the feeds being read by the adapter is " + feeds.size());
 
 
 
 
-
-
-
-            if ((pos - (total - 1)) == 0) {
+            if ((position - (total - 1)) == 0) {
                 feedPane.setMinimumHeight(feedPane.getHeight() - loadEarlier.getHeight());
                 loadEarlier.setVisibility(View.GONE);
             }
 
-            else if (pos == feeds.size() - 1) {
+            else if (position == getCount() - 1) {
                 loadEarlier.setVisibility(View.VISIBLE);
             }
 
@@ -144,7 +136,7 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 descriptionView = (TextView) row.findViewById(R.id.descriptionView);
                 row.setTag(R.id.descriptionView, descriptionView);
             }
-            descriptionView.setText(currentFeed.getDescription());
+            descriptionView.setText(description);
 
             if (!isViewed) titleView.setText("[NEW]" + title);
 
@@ -156,15 +148,16 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
             descriptionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currentFeed.setViewed("true");
+
+                    currentFeed.setViewed();
+                    isViewed = true;
                     notifyDataSetChanged();
+
                     Intent in = new Intent(context, InAppBrowserPage.class);
-                    in.putExtra("URL", currentFeed.getLink());
+                    in.putExtra("URL", link);
                     context.startActivity(in);
                 }
             });
-
-
 
             boolean connected = Network.isConnected();
 
@@ -175,8 +168,8 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 if (imageView == null)
                     Log.e("Null Image View Error", "The image view is still null");
             }
-            if (connected) Picasso.with(context).load(currentFeed.getImageURL()).placeholder(R.mipmap.rss).error(R.mipmap.rss).into(imageView);
-            else Picasso.with(context).load(currentFeed.getImageURL()).placeholder(R.mipmap.rss).networkPolicy(NetworkPolicy.OFFLINE).into(imageView);
+            if (connected) Picasso.with(context).load(imageURL).placeholder(R.mipmap.rss).error(R.mipmap.rss).into(imageView);
+            else Picasso.with(context).load(imageURL).placeholder(R.mipmap.rss).networkPolicy(NetworkPolicy.OFFLINE).into(imageView);
 
 
             if (imageView != null)
@@ -184,8 +177,8 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 @Override
                 public void onClick(View view) {
                     Intent in = new Intent(context, FeedImageView.class);
-                    in.putExtra("imageURL", currentFeed.getImageURL());
-                    in.putExtra("imageTitle", currentFeed.getImageTitle());
+                    in.putExtra("imageURL", title);
+                    in.putExtra("imageTitle", title);
                     context.startActivity(in);
                 }
             });
@@ -223,6 +216,4 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
             }
         }
     }
-
-
 }

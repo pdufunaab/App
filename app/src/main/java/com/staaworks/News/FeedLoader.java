@@ -83,8 +83,6 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
     protected InputStream doInBackground(URL... params) {
         URL url = params[0];
 
-        inputStream = new ByteArrayInputStream("".getBytes());
-
 
         try {
 
@@ -101,6 +99,7 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
         } catch (IOException e) {
             e.printStackTrace();
+            inputStream = new ByteArrayInputStream("".getBytes());
         }
         return inputStream;
     }
@@ -124,6 +123,7 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
         inputStream = new ByteArrayInputStream(input.getBytes());
         onPostExecute(inputStream);
+
     }
 
     protected Feeds parseAndStore(InputStream inputStream) {
@@ -246,7 +246,7 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
                     } else if (event == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
 
-                        Feed feed = new Feed(title, link, description, imageURL, title, pubDate, rating, category.name(), activity);
+                        Feed feed = new Feed(title, link, description, imageURL, title, pubDate, rating, category.name());
 
                         if (!storedFeeds.contains(feed)) {
 
@@ -278,7 +278,7 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
             loadedFeeds = storage.getNextSet(FeedLoader.this.category);
 
             if (loadedFeeds.isEmpty()) {
-                loadedFeeds.add(new Feed("Oops! There is no news in " + FeedLoader.this.category.name() + " category", "ERROR", description, imageURL, title, pubDate, rating, FeedLoader.this.category.name(), activity));
+                loadedFeeds.add(new Feed("Oops! There is no news in " + FeedLoader.this.category.name() + " category", "ERROR", description, imageURL, title, pubDate, rating, FeedLoader.this.category.name()));
             }
 
             storage.close();
@@ -307,10 +307,20 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
     public String getString() {
 
         if (inputStream != null) {
-            Scanner s = new Scanner(inputStream).useDelimiter("\\A");
-            return s.hasNext() ? s.next() : "<rss></rss>";
+            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+            String string = "";
+
+            while (scanner.hasNext()) {
+                string += scanner.next();
+            }
+
+            if (string.isEmpty()) {
+                string += "Empty Input Stream";
+            }
+
+            return string;
         }
-        else return "<rss></rss>";
+        else return "Null Input Stream";
 
     }
 

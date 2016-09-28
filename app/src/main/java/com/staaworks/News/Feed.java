@@ -3,6 +3,7 @@ package com.staaworks.news;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.oadex.app.NewsActivity;
 import com.staaworks.storage.FeedDBA;
 import com.staaworks.util.Time;
 
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class Feed implements Serializable, Comparable<Feed> {
 
-    private String title, link, description, imageURL,imageTitle, pubDate, category, viewed = "false";
+    private String title, link, description, imageURL,imageTitle, pubDate, category;
     private Boolean important, recent, isViewed;
     private int rating, priority;
     private FeedDBA storage;
@@ -26,7 +27,7 @@ public class Feed implements Serializable, Comparable<Feed> {
 
 
 
-    public Feed(String title, String link, String description, String imageURL, String imageTitle, String pubDate, String rating, String category, Context context) {
+    public Feed(String title, String link, String description, String imageURL, String imageTitle, String pubDate, String rating, String category) {
 
 
         if (!title.equals("")) {
@@ -99,8 +100,11 @@ public class Feed implements Serializable, Comparable<Feed> {
             this.category = "general";
         }
 
-        storage = new FeedDBA(context);
+        storage = new FeedDBA(NewsActivity.getAppContext());
 
+        storage.open();
+        isViewed = storage.isFeedViewed(this);
+        storage.close();
     }
 
 
@@ -140,13 +144,12 @@ public class Feed implements Serializable, Comparable<Feed> {
     }
 
 
-    public Feed setViewed(String viewed) {
-        if (!this.viewed.equals(viewed)) {
-            this.viewed = viewed;
+    public Feed setViewed() {
+        if (!isViewed) {
             storage.open();
-            System.out.println("FEED: " + viewed);
-            storage.setViewed(this, Boolean.getBoolean(viewed));
-            isViewed = Boolean.getBoolean(viewed);
+            storage.setViewed(this);
+            isViewed = true;
+            priority--;
             storage.close();
         }
         return this;
@@ -154,7 +157,6 @@ public class Feed implements Serializable, Comparable<Feed> {
 
 
     public boolean isViewed() {
-        isViewed = Boolean.getBoolean(viewed);
         return isViewed;
     }
 

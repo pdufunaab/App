@@ -19,7 +19,6 @@ public class FeedDBA {
     private static final String TABLE = "FeedTable";
     private static final Integer VERSION = 1;
     private SQLiteDatabase db;
-    private final Context context;
     private DBHelper helper;
     private Queries queries = new Queries();
     private Integer position = 0;
@@ -79,7 +78,6 @@ public class FeedDBA {
 
 
     public FeedDBA(Context context) {
-        this.context = context;
         helper = new DBHelper(context, DB_NAME, null, VERSION);
     }
 
@@ -146,9 +144,8 @@ public class FeedDBA {
     }
 
 
-    public void setViewed(Feed feed, Boolean viewed) {
-        String statement = "UPDATE " + TABLE + " SET " + VIEWED + " = '" + viewed.toString() + "' AND " + PRIORITY + " = '" + feed.getPriority() + "' WHERE " + COL_LINKS + " = '" + feed.getLink() + "';";
-        db.execSQL(statement);
+    public void setViewed(Feed feed) {
+        queries.setViewed(feed);
     }
 
 
@@ -222,23 +219,26 @@ public class FeedDBA {
 
 
         protected Boolean isViewed(Feed feed) {
-            String statement = "SELECT * FROM " + TABLE + " WHERE " + COL_LINKS + " = '" + feed.getLink() + "';";
-            Cursor cursor = db.rawQuery(statement, null);
+            try {
+                String statement = "SELECT * FROM " + TABLE + " WHERE " + COL_LINKS + " = '" + feed.getLink() + "';";
+                Cursor cursor = db.rawQuery(statement, null);
 
-            cursor.moveToNext();
-            String viewed = cursor.getString(VIEWED_INDEX);
-            cursor.close();
+                cursor.moveToNext();
+                String viewed = cursor.getString(VIEWED_INDEX);
+                cursor.close();
 
-            return Boolean.getBoolean(viewed);
+                return Boolean.getBoolean(viewed);
+            }
+            catch (Exception e) {
+                return false;
+            }
         }
 
 
 
 
         protected void setViewed(Feed feed) {
-            Feed oldFeed = feed;
-            Feed newFeed = feed.setViewed("true");
-            updateFeed(oldFeed, newFeed);
+            updateFeed(feed, feed);
         }
 
 
@@ -301,7 +301,12 @@ public class FeedDBA {
                 feedCategory = cursor.getString(CATEGORY_INDEX);
                 isViewed = cursor.getString(VIEWED_INDEX);
 
-                feeds.add(new Feed(feedTitle,feedLink,feedDescription,feedImageUrl,feedImageTitle,feedPubDate,feedRating + "", feedCategory, context).setViewed(isViewed));
+                boolean viewed = Boolean.getBoolean(isViewed);
+                Feed feed = new Feed(feedTitle,feedLink,feedDescription,feedImageUrl,feedImageTitle,feedPubDate,feedRating + "", feedCategory);
+
+                if (viewed)
+                    feeds.add(feed.setViewed());
+                else feeds.add(feed);
             }
             cursor.close();
 
@@ -343,7 +348,7 @@ public class FeedDBA {
         
         
         protected void updateFeed(Feed oldFeed, Feed newFeed) {
-            String condition = COL_LINKS + "=" + oldFeed.getLink();
+            String condition = COL_LINKS + "='" + oldFeed.getLink() + "'";
 
             ContentValues contentValues = new ContentValues();
 
