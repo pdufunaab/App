@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.oadex.app.R;
-import com.search.SearchResultLoader;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.staaworks.util.Network;
@@ -27,7 +26,8 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
     private Feeds feeds;
     private Context context;
     private View.OnClickListener loader;
-    private int total;
+    private int total, pos;
+    private Feed currentFeed;
 
     public FeedAdapter(Context context, Feeds objects, View.OnClickListener loadEarlier, int total) {
         super(context, R.layout.feed_view, R.id.titleView, objects);
@@ -39,19 +39,21 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        this.pos = position;
+        View row = super.getView(pos, convertView, parent);
+        currentFeed = getItem(pos);
+        boolean isViewed = currentFeed.isViewed();
 
-        View row = super.getView(position, convertView, parent);
+        String title = currentFeed.getTitle();
 
-        String title = getItem(position).getTitle();
-
-        if (feeds.get(position).getLink().equals("ERROR")) {
+        if (currentFeed.getLink().equals("ERROR")) {
             TextView t = (TextView) row.getTag(R.id.titleView);
             if (t == null) {
                 t = (TextView) row.findViewById(R.id.titleView);
                 row.setTag(R.id.titleView, t);
             }
-            t.setText(getItem(position).getTitle());
+            t.setText(currentFeed.getTitle());
 
             TextView d = (TextView) row.getTag(R.id.descriptionView);
             if (d == null) {
@@ -70,7 +72,7 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
             loadEarlier.setText(R.string.err_load_earlier_prompt);
 
             if(getCount() != 1)
-                remove(getItem(position));
+                remove(currentFeed);
 
             return row;
         }
@@ -119,12 +121,12 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
 
 
 
-            if ((position - (total - 1)) == 0) {
+            if ((pos - (total - 1)) == 0) {
                 feedPane.setMinimumHeight(feedPane.getHeight() - loadEarlier.getHeight());
                 loadEarlier.setVisibility(View.GONE);
             }
 
-            else if (position == feeds.size() - 1) {
+            else if (pos == feeds.size() - 1) {
                 loadEarlier.setVisibility(View.VISIBLE);
             }
 
@@ -142,8 +144,9 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 descriptionView = (TextView) row.findViewById(R.id.descriptionView);
                 row.setTag(R.id.descriptionView, descriptionView);
             }
-            descriptionView.setText(getItem(position).getDescription());
+            descriptionView.setText(currentFeed.getDescription());
 
+            if (!isViewed) titleView.setText("[NEW]" + title);
 
             titleView.setText(title);
 
@@ -153,8 +156,10 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
             descriptionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    currentFeed.setViewed("true");
+                    notifyDataSetChanged();
                     Intent in = new Intent(context, InAppBrowserPage.class);
-                    in.putExtra("URL", feeds.get(position).getLink());
+                    in.putExtra("URL", currentFeed.getLink());
                     context.startActivity(in);
                 }
             });
@@ -170,8 +175,8 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 if (imageView == null)
                     Log.e("Null Image View Error", "The image view is still null");
             }
-            if (connected) Picasso.with(context).load(feeds.get(position).getImageURL()).placeholder(R.mipmap.rss).error(R.mipmap.rss).into(imageView);
-            else Picasso.with(context).load(feeds.get(position).getImageURL()).networkPolicy(NetworkPolicy.OFFLINE).into(imageView);
+            if (connected) Picasso.with(context).load(currentFeed.getImageURL()).placeholder(R.mipmap.rss).error(R.mipmap.rss).into(imageView);
+            else Picasso.with(context).load(currentFeed.getImageURL()).placeholder(R.mipmap.rss).networkPolicy(NetworkPolicy.OFFLINE).into(imageView);
 
 
             if (imageView != null)
@@ -179,17 +184,18 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
                 @Override
                 public void onClick(View view) {
                     Intent in = new Intent(context, FeedImageView.class);
-                    in.putExtra("imageURL", feeds.get(position).getImageURL());
-                    in.putExtra("imageTitle", feeds.get(position).getImageTitle());
+                    in.putExtra("imageURL", currentFeed.getImageURL());
+                    in.putExtra("imageTitle", currentFeed.getImageTitle());
                     context.startActivity(in);
                 }
             });
+
 
             return row;
         }
     }
 
-    private class titleClicked implements View.OnClickListener {
+    public class titleClicked implements View.OnClickListener {
 
         private RelativeLayout feedPane;
         private TextView descriptionView;

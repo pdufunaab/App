@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.oadex.app.R;
+import com.staaworks.util.InfiniteScrollListener;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -122,7 +123,7 @@ public class NewsFragment extends Fragment {
         else if (preferences != null && preferences.contains(constants.lastSavedKey.value)) {
             task = new FeedLoader(activity, feedsListView, category);
             setURL(urlString);
-            task.parse_Store_Display(preferences.getString(constants.savedStateKey.value, ""));
+            task.parse_Store_Display(preferences.getString(constants.lastSavedKey.value, ""));
             System.out.println("FEED SHARED PREFERENCES EXECUTED");
         }
 
@@ -130,11 +131,20 @@ public class NewsFragment extends Fragment {
             task = new FeedLoader(activity, feedsListView, category);
             setURL(urlString);
             task.execute(url);
-            System.out.println("FEED NORMSL EXEC USED");
+            System.out.println("FEED NORMAL EXEC USED");
         }
 
-        feedsListView.requestFocus();
 
+        feedsListView.setOnScrollListener(new InfiniteScrollListener() {
+            @Override
+            public void loadMore(int page, int totalItemsCount) {
+                task.load();
+            }
+        });
+
+
+
+        feedsListView.requestFocus();
 
         // Set Refresh Action
 
@@ -170,7 +180,9 @@ public class NewsFragment extends Fragment {
         super.onSaveInstanceState(outState);
         String inputStreamAsString = task.getString();
         outState.putString(constants.savedStateKey.value, inputStreamAsString);
-        preferences.edit().putString(constants.savedStateKey.value, inputStreamAsString).apply();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(constants.lastSavedKey.value, inputStreamAsString);
+        editor.apply();
     }
 
     @Override

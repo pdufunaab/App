@@ -24,6 +24,7 @@ public class Category {
     private String name;
     private String tabTitle;
     private String attr;
+    private static final List<Category> categories = new ArrayList<>();
 
 
     public static final Category all= new Category("all", "All News");
@@ -35,6 +36,7 @@ public class Category {
     public static final Category entertainment = new Category("entertainment", "Entertainment News");
     public static final Category politics = new Category("politics", "News On Politics");
     public static final Category business = new Category("business", "Business News");
+
 
 
 
@@ -84,8 +86,8 @@ public class Category {
     }
 
 
-    private static boolean exists(Category categories) {
-        return loadAll().contains(categories);
+    private static boolean exists(Category category) {
+        return categories.contains(category);
     }
 
 
@@ -96,10 +98,17 @@ public class Category {
 
     public static Category getCategoryFromName(String name) {
 
-        String catString = preferences.getString(name, general.name + "|" + general.attr);
-        Log.i("CATEGORY", "getCategoryFromName: CATSTRING UNPROCESSED: " + catString);
-        return revString(catString);
+        String catString = preferences.getString(name, "error");
 
+        if (!catString.equals("error")) {
+            System.out.println("CATEGORY: An Existing Category Is About To Be Used: " + name);
+            return revString(catString);
+        }
+        else {
+            if (name != null && !name.equals(""))
+                return new Category(name, name.toUpperCase(Locale.US));
+            else return general;
+        }
     }
 
 
@@ -113,6 +122,7 @@ public class Category {
             Log.i("CATEGORY", "loadAll: LOADED_NAME" + ((String) o));
 
             if (!categories.contains(c)) categories.add(c);
+            if (!Category.categories.contains(c)) Category.categories.add(c);
         }
 
         return categories;

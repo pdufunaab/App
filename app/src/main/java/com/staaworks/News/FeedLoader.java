@@ -164,11 +164,11 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
             XmlPullParser parser;
 
 
-            String title = "Default Title";
+            String title = "This Feed Has No Title";
             String link = "http://google.com";
-            String description = "Default Text For Feed Description";
+            String description = "This Feed Has No Description";
             String imageURL = "http://google.com";
-            String pubDate = "13/8/2016";
+            String pubDate = "27/9/2016";
             String rating = "3";
             Category category = Category.general;
 
@@ -241,12 +241,12 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
                                 if (insideItem) {
                                     category = Category.getCategoryFromName(parser.nextText());
                                 }
-
+                                break;
                         }
 
                     } else if (event == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
 
-                        Feed feed = new Feed(title, link, description, imageURL, title, pubDate, rating, category.name());
+                        Feed feed = new Feed(title, link, description, imageURL, title, pubDate, rating, category.name(), activity);
 
                         if (!storedFeeds.contains(feed)) {
 
@@ -255,11 +255,11 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
                         }
 
-                        title = "Default Title";
+                        title = "This Feed Has No Title";
                         link = "http://google.com";
-                        description = "Default Text For Feed Description";
+                        description = "This Feed Has No Description";
                         imageURL = "http://google.com";
-                        pubDate = "13/8/2016";
+                        pubDate = "27/9/2016";
                         rating = "3";
                         category = Category.general;
                         insideItem = false;
@@ -278,10 +278,9 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
             loadedFeeds = storage.getNextSet(FeedLoader.this.category);
 
             if (loadedFeeds.isEmpty()) {
-                loadedFeeds.add(new Feed("Oops! There is no news in " + FeedLoader.this.category.name() + " category", "ERROR", description, imageURL, title, pubDate, rating, FeedLoader.this.category.name()));
+                loadedFeeds.add(new Feed("Oops! There is no news in " + FeedLoader.this.category.name() + " category", "ERROR", description, imageURL, title, pubDate, rating, FeedLoader.this.category.name(), activity));
             }
 
-            System.out.println("FEEDSIZE : " + loadedFeeds.size());
             storage.close();
             parsingComplete = true;
             return loadedFeeds;
@@ -299,13 +298,7 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
          */
         @Override
         public void onClick(View v) {
-            storage.open();
-            for (Feed feed : storage.getNextSet(category)) {
-                if (!loadedFeeds.contains(feed))
-                    loadedFeeds.add(feed);
-            }
-            feedAdapter.notifyDataSetChanged();
-            storage.close();
+            load();
         }
 
     }
@@ -315,9 +308,19 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
         if (inputStream != null) {
             Scanner s = new Scanner(inputStream).useDelimiter("\\A");
-            return s.hasNext() ? s.next() : "";
+            return s.hasNext() ? s.next() : "<rss></rss>";
         }
-        else return "";
+        else return "<rss></rss>";
 
+    }
+
+    public void load() {
+        storage.open();
+        for (Feed feed : storage.getNextSet(category)) {
+            if (!loadedFeeds.contains(feed))
+                loadedFeeds.add(feed);
+        }
+        feedAdapter.notifyDataSetChanged();
+        storage.close();
     }
 }

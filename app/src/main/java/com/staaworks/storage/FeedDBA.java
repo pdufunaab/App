@@ -92,7 +92,7 @@ public class FeedDBA {
 
 
     public void close() {
-        queries.resolveCategories();
+        //queries.resolveCategories();
         db.close();
     }
 
@@ -124,8 +124,6 @@ public class FeedDBA {
 
 
     public Feeds getNextSet(Category category) {
-        //TODO Uncomment The below Statement
-        //queries.resolve(category);
         Feeds feeds = queries.getFeeds(position, position + 9, category);
         position += 10;
         return feeds;
@@ -149,7 +147,7 @@ public class FeedDBA {
 
 
     public void setViewed(Feed feed, Boolean viewed) {
-        String statement = "UPDATE " + TABLE + " SET " + VIEWED + " = '" + viewed.toString() + "' WHERE " + COL_LINKS + " = '" + feed.getLink() + "';";
+        String statement = "UPDATE " + TABLE + " SET " + VIEWED + " = '" + viewed.toString() + "' AND " + PRIORITY + " = '" + feed.getPriority() + "' WHERE " + COL_LINKS + " = '" + feed.getLink() + "';";
         db.execSQL(statement);
     }
 
@@ -180,7 +178,7 @@ public class FeedDBA {
     public class Queries {
 
 
-        private static final String retrieveAll = "SELECT * FROM " + TABLE + " ORDER BY " + COL_RATING + " DESC;";
+        private static final String retrieveAll = "SELECT * FROM " + TABLE + " ORDER BY " + PRIORITY + " DESC;";
 
 
 
@@ -237,6 +235,15 @@ public class FeedDBA {
 
 
 
+        protected void setViewed(Feed feed) {
+            Feed oldFeed = feed;
+            Feed newFeed = feed.setViewed("true");
+            updateFeed(oldFeed, newFeed);
+        }
+
+
+
+
 
 
         protected Feeds getByCategory(Category category) {
@@ -244,12 +251,10 @@ public class FeedDBA {
                 return getAllFeeds();
             }
             else {
-                String statement = "SELECT * FROM " + TABLE + " WHERE " + CATEGORY + " = '" + category.name() + "';";
+                String statement = "SELECT * FROM " + TABLE + " WHERE " + CATEGORY + " = '" + category.name() + "' ORDER BY " + PRIORITY + " DESC;";
                 return getFeeds(statement);
             }
         }
-
-
 
 
 
@@ -296,7 +301,7 @@ public class FeedDBA {
                 feedCategory = cursor.getString(CATEGORY_INDEX);
                 isViewed = cursor.getString(VIEWED_INDEX);
 
-                feeds.add(new Feed(feedTitle,feedLink,feedDescription,feedImageUrl,feedImageTitle,feedPubDate,feedRating + "", feedCategory).setViewed(isViewed));
+                feeds.add(new Feed(feedTitle,feedLink,feedDescription,feedImageUrl,feedImageTitle,feedPubDate,feedRating + "", feedCategory, context).setViewed(isViewed));
             }
             cursor.close();
 
@@ -322,14 +327,15 @@ public class FeedDBA {
             System.out.println("AddFeedCalled: " + feed);
                 ContentValues contentValues = new ContentValues();
 
-                contentValues.put(FEED_TITLES, feed.getTitle());
-                contentValues.put(COL_LINKS, feed.getLink());
-                contentValues.put(COL_DESC, feed.getDescription());
-                contentValues.put(COL_DATE, feed.getPubDate());
-                contentValues.put(COL_IMG, feed.getImageURL());
-                contentValues.put(COL_IMG_TITLE, feed.getImageTitle());
-                contentValues.put(COL_RATING, feed.getRating());
-                contentValues.put(CATEGORY, feed.getCategory());
+            contentValues.put(FEED_TITLES, feed.getTitle());
+            contentValues.put(COL_LINKS, feed.getLink());
+            contentValues.put(COL_DESC, feed.getDescription());
+            contentValues.put(COL_DATE, feed.getPubDate());
+            contentValues.put(COL_IMG, feed.getImageURL());
+            contentValues.put(COL_IMG_TITLE, feed.getImageTitle());
+            contentValues.put(COL_RATING, feed.getRating());
+            contentValues.put(CATEGORY, feed.getCategory());
+            contentValues.put(PRIORITY, feed.getPriority());
 
                 db.insert(TABLE, null, contentValues);
 
@@ -348,6 +354,9 @@ public class FeedDBA {
             contentValues.put(COL_IMG, newFeed.getImageURL());
             contentValues.put(COL_IMG_TITLE, newFeed.getImageTitle());
             contentValues.put(COL_RATING, newFeed.getRating());
+            contentValues.put(CATEGORY, newFeed.getCategory());
+            contentValues.put(PRIORITY, newFeed.getPriority());
+            contentValues.put(VIEWED, newFeed.isViewed());
             
             db.update(TABLE, contentValues, condition, null);
         }

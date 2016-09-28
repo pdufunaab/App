@@ -18,15 +18,15 @@ import java.util.regex.Pattern;
  */
 public class Feed implements Serializable, Comparable<Feed> {
 
-    private String title, link, description, imageURL,imageTitle, pubDate, category, viewed;
-    private Boolean important;
-    private int rating;
+    private String title, link, description, imageURL,imageTitle, pubDate, category, viewed = "false";
+    private Boolean important, recent, isViewed;
+    private int rating, priority;
     private FeedDBA storage;
     private Calendar pDate;
 
 
 
-    public Feed(String title, String link, String description, String imageURL, String imageTitle, String pubDate, String rating, String category) {
+    public Feed(String title, String link, String description, String imageURL, String imageTitle, String pubDate, String rating, String category, Context context) {
 
 
         if (!title.equals("")) {
@@ -99,6 +99,8 @@ public class Feed implements Serializable, Comparable<Feed> {
             this.category = "general";
         }
 
+        storage = new FeedDBA(context);
+
     }
 
 
@@ -139,20 +141,31 @@ public class Feed implements Serializable, Comparable<Feed> {
 
 
     public Feed setViewed(String viewed) {
-        this.viewed = viewed;
+        if (!this.viewed.equals(viewed)) {
+            this.viewed = viewed;
+            storage.open();
+            System.out.println("FEED: " + viewed);
+            storage.setViewed(this, Boolean.getBoolean(viewed));
+            isViewed = Boolean.getBoolean(viewed);
+            storage.close();
+        }
         return this;
     }
 
 
-    public boolean isViewed(Context context) {
-        Feed local = this;
-        storage = new FeedDBA(context).open();
-        viewed = storage.isFeedViewed(local).toString();
-        storage.close();
-        return Boolean.getBoolean(viewed);
+    public boolean isViewed() {
+        isViewed = Boolean.getBoolean(viewed);
+        return isViewed;
     }
 
 
+    public int getPriority() {
+        priority = 0;
+        if (isNew()) priority++;
+        if (isImportant()) priority++;
+        if (isViewed()) priority++;
+        return priority;
+    }
 
     @Override
     public String toString() {
