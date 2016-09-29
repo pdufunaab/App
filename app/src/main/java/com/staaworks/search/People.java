@@ -1,4 +1,4 @@
-package com.search;
+package com.staaworks.search;
 
 import java.util.ArrayList;
 

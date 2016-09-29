@@ -1,4 +1,4 @@
-package com.search;
+package com.staaworks.search;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.oadex.app.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

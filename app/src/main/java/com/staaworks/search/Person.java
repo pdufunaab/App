@@ -1,4 +1,4 @@
-package com.search;
+package com.staaworks.search;
 
 /**
  * Created by ADEKOYA759 on 01-Sep-16
