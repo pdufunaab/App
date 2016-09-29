@@ -82,7 +82,7 @@
                 android:value="com.oadex.app.TimetableActivity" />
         </activity>
 
-        <activity android:name="com.staaworks.news.InAppBrowserPage">
+        <activity android:name="com.staaworks.util.InAppBrowserPage">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -113,7 +113,7 @@
                 android:value="com.oadex.app.ProfileActivity" />
         </activity>
         <activity
-            android:name="com.search.SearchActivity"
+            android:name="com.staaworks.search.SearchActivity"
             android:label="Directories"
             android:parentActivityName=".ProfileActivity">
             <meta-data

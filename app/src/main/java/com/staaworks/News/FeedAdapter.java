@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.oadex.app.R;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+import com.staaworks.util.InAppBrowserPage;
 import com.staaworks.util.Network;
 
 
@@ -24,7 +25,6 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
     private Context context;
     private View.OnClickListener loader;
     private int total;
-    private Feed currentFeed;
     private boolean isViewed;
 
 
@@ -39,8 +39,9 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = super.getView(position, convertView, parent);
-        currentFeed = getItem(position);
+        final Feed currentFeed;
 
+        currentFeed = getItem(position);
         isViewed = currentFeed.isViewed();
         final String title = currentFeed.getTitle();
         final String link = currentFeed.getLink();

@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.oadex.app.R;
 
@@ -211,6 +212,7 @@ public class SearchActivity extends AppCompatActivity {
         if (!searchText.equals("")) {
             SearchResultLoader task = new SearchResultLoader(this);
             task.execute(makeLink(searchText));
+            Toast.makeText(SearchActivity.this, "Search Execution Started", Toast.LENGTH_SHORT).show();
         }
 
         PersonAdapter adapter =((PersonAdapter) contact_search_listview.getAdapter());
@@ -239,6 +241,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void doJob(String json) {
         SearchResultLoader task = new SearchResultLoader(this);
+        Toast.makeText(SearchActivity.this, "Task Executed From Preferences", Toast.LENGTH_SHORT).show();
         task.onPostExecute(json);
     }
 

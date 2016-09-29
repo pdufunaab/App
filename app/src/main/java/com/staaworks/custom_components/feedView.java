@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Ahmad Alfawwaz on 8/11/2016.
+ * Created by Ahmad Alfawwaz on 8/11/2016
  */
 public class feedView extends View {
 

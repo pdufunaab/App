@@ -19,18 +19,14 @@
         android:typeface="sans"
         android:visibility="invisible" />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyle"
-        android:indeterminate="true"
+    <com.staaworks.custom_components.LoadingCircle
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/progressBar"
-        android:layout_gravity="center"
+        android:id="@+id/loading_circle"
         android:layout_below="@id/contact_info_textView"
         android:layout_centerInParent="true"
-        android:indeterminateDrawable="@drawable/circle_progress"
-        android:background="@drawable/circle_progress_background"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        />
 
 
     <android.support.design.widget.AppBarLayout

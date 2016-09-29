@@ -1,16 +1,13 @@
 package com.staaworks.util;
 
-import android.graphics.Bitmap;
-import android.os.Build;
+import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.oadex.app.R;
 
@@ -19,35 +16,45 @@ import com.oadex.app.R;
  * Created by Ahmad Alfawwaz on 8/9/2016
  */
 public class InAppBrowserPage extends AppCompatActivity {
-    private String URL;
-    private WebSettings settings;
     private WebView webview;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.second_main);
-        URL = getIntent().getExtras().getString("URL");
+        setContentView(R.layout.web_view);
+        String URL = getIntent().getExtras().getString("URL");
 
+        initWebView();
+        setWebViewClient();
+        loadUrl(URL);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+    }
+
+
+
+    private void initWebView() {
         webview = (WebView)findViewById(R.id.webView);
-        settings = webview.getSettings();
-        settings.setSupportZoom(true);
-        settings.setBuiltInZoomControls(true);
-        settings.setDatabaseEnabled(true);
-        settings.setAllowFileAccess(true);
-        settings.setDisplayZoomControls(false);
+    }
 
+    private void setWebViewClient() {
 
-        if (Build.VERSION.SDK_INT >= 19) {
-            webview.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        InAppBrowserPageClient client = new InAppBrowserPageClient(webview);
+
+        if (webview != null) {
+            webview.setWebViewClient(client);
         }
         else {
-            webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            Toast.makeText(this, "Error Loading Page", Toast.LENGTH_LONG).show();
         }
-
-
-        webview.setWebViewClient(new WebViewClient());
 
         webview.setWebChromeClient(new WebChromeClient() {
 
@@ -57,14 +64,11 @@ public class InAppBrowserPage extends AppCompatActivity {
             }
         });
 
-        webview.loadUrl(URL);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
+    private void loadUrl(String URL) {
+        webview.loadUrl(URL);
+    }
 
 
     @Override

@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oadex.app.R;
+import com.staaworks.custom_components.LoadingCircle;
 import com.staaworks.util.InfiniteScrollListener;
 import com.staaworks.util.Network;
 
@@ -32,15 +32,15 @@ public class SearchResultLoader  extends AsyncTask<String, Void, String> {
     private People people, persons;
     private PersonAdapter adapter;
     private TextView textView;
-    private ProgressBar progressBar;
+    private LoadingCircle loadingCircle;
     private ListView listView;
 
 
     public SearchResultLoader(Activity activity) {
         this.activity = activity;
         textView = (TextView) activity.findViewById(R.id.contact_info_textView);
-        progressBar = (ProgressBar) activity.findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+        loadingCircle = (LoadingCircle) activity.findViewById(R.id.loading_circle);
+        loadingCircle.setVisibility(View.VISIBLE);
         textView.setVisibility(View.VISIBLE);
         textView.setText(R.string.contact_searching);
         listView = (ListView) activity.findViewById(R.id.contact_search_listview);
@@ -118,7 +118,7 @@ public class SearchResultLoader  extends AsyncTask<String, Void, String> {
 
 
             textView.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.INVISIBLE);
+            loadingCircle.setVisibility(View.INVISIBLE);
 
 
         } catch (JSONException e) {
@@ -130,7 +130,7 @@ public class SearchResultLoader  extends AsyncTask<String, Void, String> {
     @Override
     protected void onCancelled() {
         super.onCancelled();
-        progressBar.setVisibility(View.INVISIBLE);
+        loadingCircle.setVisibility(View.INVISIBLE);
     }
 
     public static String getJsonString(String urlString) {
