@@ -1,6 +1,5 @@
 package com.staaworks.news;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.oadex.app.NewsActivity;
