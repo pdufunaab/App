@@ -1,7 +1,7 @@
 package com.staaworks.search;
 
 /**
- * Created by ADEKOYA759 on 01-Sep-16
+ * A creation of Staa99
  */
 public class Person {
 

@@ -9,7 +9,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.oadex.app.R;
-import com.staaworks.custom_components.LoadingCircle;
+import com.staaworks.customui.LoadingCircle;
 
 /**
  * Created by Ahmad Alfawwaz on 9/29/2016

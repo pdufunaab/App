@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oadex.app.R;
-import com.staaworks.custom_components.LoadingCircle;
+import com.staaworks.customui.LoadingCircle;
 import com.staaworks.util.InfiniteScrollListener;
 import com.staaworks.util.Network;
 

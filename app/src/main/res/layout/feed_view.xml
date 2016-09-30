@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.staaworks.custom_components.feedView">
+    tools:context="com.staaworks.customui.feedView">
 
 
     <ScrollView
