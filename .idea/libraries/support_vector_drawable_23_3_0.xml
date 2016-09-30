@@ -7,10 +7,14 @@
     <JAVADOC />
     <SOURCES>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <root url="jar://C:/Android/sdk/extras/android/m2repository/com/android/support/support-vector-drawable/23.3.0/support-vector-drawable-23.3.0-sources.jar!/" />
 =======
       <root url="jar://E:/Users/Malik/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/support-vector-drawable/23.3.0/support-vector-drawable-23.3.0-sources.jar!/" />
 >>>>>>> origin/master
+=======
+      <root url="jar://E:/Users/Malik/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/support-vector-drawable/23.3.0/support-vector-drawable-23.3.0-sources.jar!/" />
+>>>>>>> 8c993b7f4d778825de656adcc02d8e33e1e8c3d6
     </SOURCES>
   </library>
 </component>
