@@ -15,14 +15,14 @@ public class TimeTableHelper extends SQLiteOpenHelper
 {
     private static final String databaseName = "TimeTableDatabase";
     private static final String tableName = "TimeTable";
-    private static final String courseCode = "_id";
+    private static final String courseCode = "CourseCode";
     private static final String courseTitle = "CourseTitle";
     private static final String venue = "Venue";
     private static final String day = "Day";
     private static final String time = "Time";
     private static final String alert = "Alert";
     private static final String dayIndex = "DayIndex";
-    private static final String requestCode = "RequestCode";
+    private static final String requestCode = "_id";
     private static final int databaseVersion = 1;
 
 
@@ -35,7 +35,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL("CREATE TABLE " + tableName + " (" + courseCode + " TEXT, " + courseTitle + " TEXT, " + venue + " TEXT, "+ day + " TEXT, " + time + " TEXT, " + alert + " TEXT, " + dayIndex + " INTEGER, " + requestCode + " INTEGER AUTOINCREMENT " + ")");
+        db.execSQL("CREATE TABLE " + tableName + " (" + requestCode + " INTEGER PRIMARY KEY AUTOINCREMENT, " + courseCode + " TEXT, " + courseTitle + " TEXT, " + venue + " TEXT, "+ day + " TEXT, " + time + " TEXT, " + alert + " TEXT, " + dayIndex + " INTEGER" + ")");
         Log.i("TimeTableHelper", "on create database");
     }
 
@@ -105,13 +105,13 @@ public class TimeTableHelper extends SQLiteOpenHelper
         contentValues.put(TimeTableHelper.time,time);
         contentValues.put(TimeTableHelper.alert,alert);
         contentValues.put(dayIndex,getDayIndex(day));
-        getWritableDatabase().update(tableName,contentValues,"_id = ? AND Day = ?",new String[]{courseCode,updatedDay});
+        getWritableDatabase().update(tableName,contentValues,"CourseCode = ? AND Day = ?",new String[]{courseCode,updatedDay});
         Log.i("TimeTableHelper", "updating data");
     }
 
     public void delete(String courseCode, String day)
     {
-        getReadableDatabase().delete(tableName,"_id = ? AND Day = ?",new String[]{courseCode,day});
+        getReadableDatabase().delete(tableName,"CourseCode = ? AND Day = ?",new String[]{courseCode,day});
         Log.i("TimeTableHelper", "deleting data ");
 
     }
@@ -119,7 +119,7 @@ public class TimeTableHelper extends SQLiteOpenHelper
     public Cursor getCourses()
     {
         Log.i("TimeTableHelper", "getDayCourse");
-        Cursor cursor = getReadableDatabase().query(tableName,new String[]{courseCode,courseTitle,venue,day,time,alert,requestCode},null,null,null,null,dayIndex);
+        Cursor cursor = getReadableDatabase().query(tableName,new String[]{requestCode,courseCode,courseTitle,venue,day,time,alert},null,null,null,null,dayIndex);
 
         return  cursor;
     }
@@ -127,15 +127,15 @@ public class TimeTableHelper extends SQLiteOpenHelper
     public Cursor getCoursesAlert(boolean alarm)
     {
         Log.i("TimeTableHelper", "getDayCourse");
-        Cursor cursor = getReadableDatabase().query(tableName,new String[]{day,time,requestCode},"Alert = ?",new String[]{String.valueOf(alarm)},null,null,null);
-
+        Cursor cursor = getReadableDatabase().query(tableName,new String[]{requestCode,day,time},"Alert = ?",new String[]{String.valueOf(alarm)},null,null,null);
         return  cursor;
     }
 
     public int getRequestCode(String courseCode,String day)
     {
         Cursor cursor = getReadableDatabase().query(tableName,new String[]{requestCode},"CourseCode = ? AND Day = ?",new String[]{courseCode,day},null,null,null);
-        int requestCode = cursor.getInt(cursor.getColumnIndexOrThrow("RequestCode"));
+        cursor.moveToFirst();
+        int requestCode = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
         return  requestCode;
     }
 }
