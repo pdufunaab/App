@@ -3,6 +3,7 @@ package com.staaworks.search;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -20,6 +21,7 @@ import com.oadex.app.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ADEKOYA759 on 16-Sep-16
@@ -85,9 +87,10 @@ public class SearchActivity extends AppCompatActivity {
                     if (!searchText.equals("")) {
                         previousSearchText = searchText;
                     }
+                    canSearch = false;
 
 
-                    new CountDownTimer(3000, 3000) {
+                    new CountDownTimer(1000, 1000) {
 
                         @Override
                         public void onTick(long millisUntilFinished) {}
@@ -191,14 +194,17 @@ public class SearchActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
 
 
     protected String makeLink(String RequestParameters) {
 
-        String params = RequestParameters.replaceAll(" ", "+");
+        String params = RequestParameters.replaceAll(" ", "+").toLowerCase(Locale.US);
         return constants.link.value + "searchterm=" + params;
 
     }
