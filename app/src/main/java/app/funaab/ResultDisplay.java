@@ -1,8 +1,6 @@
 package app.funaab;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -18,8 +16,8 @@ import java.util.List;
 public class ResultDisplay extends AppCompatActivity
 {
 
-    Bundle bundle;
-    URL url;
+    private Bundle bundle;
+    private URL url;
     private ListView resultListView;
     private List<Result> resultList = new ArrayList<>();
     private ResultAdapter resultAdapter;
@@ -42,10 +40,11 @@ public class ResultDisplay extends AppCompatActivity
             e.printStackTrace();
         }
         resultListView = (ListView)findViewById(R.id.resultDisplay_listView);
-        GetResultTask getResultTask = new GetResultTask((ArrayList)resultList,resultListView,resultAdapter,bundle);
-        getResultTask.execute(url);
         resultAdapter = new ResultAdapter(this,resultList);
         resultListView.setAdapter(resultAdapter);
+        GetResultTask getResultTask = new GetResultTask((ArrayList)resultList,resultListView,resultAdapter,bundle);
+        getResultTask.execute(url);
+
     }
 
     public void saveResult(View view)

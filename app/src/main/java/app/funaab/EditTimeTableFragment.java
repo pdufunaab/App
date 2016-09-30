@@ -1,5 +1,6 @@
 package app.funaab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.oadex.app.R;
+import com.oadex.app.TimetableActivity;
 
 import java.util.Calendar;
 
@@ -77,7 +79,7 @@ public class EditTimeTableFragment extends Fragment
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
         timeTableHelper = new TimeTableHelper(getContext());
@@ -170,7 +172,7 @@ public class EditTimeTableFragment extends Fragment
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    public void onViewCreated(View view,Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
         editCourseCodeView = (EditText) view.findViewById(R.id.edit_course_code);
@@ -192,6 +194,8 @@ public class EditTimeTableFragment extends Fragment
             public void onClick(View v)
             {
                 editCourse();
+                Intent intent  = new Intent(getContext(), TimetableActivity.class);
+                startActivity(intent);
             }
         });
 

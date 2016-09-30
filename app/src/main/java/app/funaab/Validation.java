@@ -16,7 +16,7 @@ public class Validation
         matchPattern(userID, UNDERGRADUATE_ID_PATTERN + "|" + STAFF_ID_PATTERN + "|" + POSTGRADUATE_ID_PATTERN );
 
     }
-    public static UserType getUserType(String userID)
+    public  static UserType getUserType(String userID)
     {
         if(matchPattern(userID,UNDERGRADUATE_ID_PATTERN))
             return UserType.UNDERGRADUATE;
