@@ -39,9 +39,9 @@ public class FeedAdapter extends ArrayAdapter<Feed> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = super.getView(position, convertView, parent);
-        final Feed currentFeed;
 
-        currentFeed = getItem(position);
+
+        final Feed currentFeed = getItem(position);
         isViewed = currentFeed.isViewed();
         final String title = currentFeed.getTitle();
         final String link = currentFeed.getLink();
