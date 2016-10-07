@@ -175,19 +175,7 @@ public class FeedDBA {
     public class Queries {
 
 
-        private static final String retrieveAll = "SELECT * FROM " + TABLE + " ORDER BY " + PRIORITY + " DESC;";
-
-
-
-        protected void resolveCategories() {
-            for (Category category: Category.loadAll()) {
-                for (Feed feed : getByCategory(category)) {
-                    if (!feed.isValid()) {
-                        removeFeed(feed);
-                    }
-                }
-            }
-        }
+        private static final String retrieveAll = "SELECT * FROM " + TABLE + " ORDER BY " + COL_DATE + " DESC;";
 
 
         protected Feeds getFeeds(Integer start, Integer stop, Category category) {
@@ -251,7 +239,7 @@ public class FeedDBA {
                 return getAllFeeds();
             }
             else {
-                String statement = "SELECT * FROM " + TABLE + " WHERE " + CATEGORY + " = '" + category.name() + "' ORDER BY " + PRIORITY + " DESC;";
+                String statement = "SELECT * FROM " + TABLE + " WHERE " + CATEGORY + " = '" + category.name() + "' ORDER BY " + COL_DATE + " DESC;";
                 return getFeeds(statement);
             }
         }
@@ -313,17 +301,17 @@ public class FeedDBA {
             return feeds;
         }
 
-
-
-
-        protected Feed getPersistedFeed(Feed feed) {
-            String statement = "SELECT * FROM " + TABLE + " WHERE " + COL_LINKS + " = '" + feed.getLink() + "';";
-            return getFeeds(statement).get(0);
-        }
-
-
         protected Feeds getAllFeeds() {
-            return getFeeds(retrieveAll);
+            Feeds all = getFeeds(retrieveAll);
+            if (all.size() > 350) {
+                for (Feed feed: all) {
+                    if (!feed.isValid()) {
+                        all.remove(feed);
+                        removeFeed(feed);
+                    }
+                }
+            }
+            return all;
         }
 
 

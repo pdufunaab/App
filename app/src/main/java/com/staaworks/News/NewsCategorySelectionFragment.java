@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.oadex.app.R;
-import com.staaworks.storage.FeedDBA;
 
 import java.util.ArrayList;
 
@@ -30,25 +29,9 @@ public class NewsCategorySelectionFragment extends Fragment {
     private Activity activity;
     private ListView listView;
     ArrayList<String> namesList = new ArrayList<>(), attrList = new ArrayList<>();
-    private FeedDBA storage;
 
 
     private OnFragmentInteractionListener mListener;
-
-
-    public NewsCategorySelectionFragment() {}
-
-
-
-    public static NewsCategorySelectionFragment newInstance(String urlString) {
-        NewsCategorySelectionFragment fragment = new NewsCategorySelectionFragment();
-        Bundle args = new Bundle();
-        args.putString(FunaabNewsURL, urlString);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,17 +96,6 @@ public class NewsCategorySelectionFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-
-
-
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
 
 
 

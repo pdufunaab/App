@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class Feed implements Serializable, Comparable<Feed> {
 
     private String title, link, description, imageURL,imageTitle, pubDate, category;
-    private Boolean important, recent, isViewed;
+    private Boolean important, isViewed;
     private int rating, priority;
     private FeedDBA storage;
     private Calendar pDate;
@@ -129,7 +129,7 @@ public class Feed implements Serializable, Comparable<Feed> {
     }
 
     public String getPubDate() {
-        return pubDate;
+        return pDate.getTimeInMillis() + "";
     }
 
 
@@ -229,7 +229,7 @@ public class Feed implements Serializable, Comparable<Feed> {
             links.add(link);
         }
         for (String link: links) {
-            link = stream.replaceAll(link, " (link:" + link + ") ");
+            stream = stream.replaceAll(link, " (link:" + link + ") ");
         }
 
     }
@@ -245,10 +245,9 @@ public class Feed implements Serializable, Comparable<Feed> {
 
 
     public Boolean isValid() {
-        return
-                rating <= 5
-                        && rating >= 0
-                        && Time.getTimeDifferenceInDays(Calendar.getInstance(), pDate) <= (4 * rating);
+
+        return rating <= 5 && rating >= 0 && Time.getTimeDifferenceInDays(Calendar.getInstance(), pDate) <= (4 * rating);
+
     }
 
 

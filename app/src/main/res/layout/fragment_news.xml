@@ -1,27 +1,44 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.staaworks.news.NewsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/news_fragment"
-    tools:context="com.staaworks.news.NewsFragment">
+    >
 
+    <com.staaworks.customui.LoadingCircle
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:id="@+id/loading_circle"
+        />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipeContainer"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/news_fragment"
+        >
 
-        <ListView
+
+        <android.support.v4.widget.SwipeRefreshLayout
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/feedsListView"
-            android:layout_gravity="center_horizontal"
-            android:divider="@color/colorPrimaryDark"
-            android:dividerHeight="1dp" />
+            android:layout_height="match_parent">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/feedsListView"
+                android:layout_gravity="center_horizontal"
+                android:divider="@color/colorPrimaryDark"
+                android:dividerHeight="1dp" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
 
-</FrameLayout>
+    </FrameLayout>
+
+</RelativeLayout>

@@ -16,18 +16,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
+        android:minHeight="400dp"
+        android:minWidth="400dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@mipmap/rss" />
+        android:src="@mipmap/rss"/>
 
-    <TextView android:layout_height="40dp"
+    <TextView android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_below="@id/imageView"
         android:text="RSS Feed Image"
         android:fontFamily="sans-serif"
+        android:typeface="sans"
         android:gravity="center_vertical|center_horizontal"
+        android:layout_margin="10dp"
+        android:padding="5dp"
         android:textStyle="normal"
-        android:textSize="21sp"
+        android:textSize="16sp"
         android:id="@+id/imageLinkTextView"
         android:textColor="@color/colorPrimary"
         android:background="@color/primary_light" />

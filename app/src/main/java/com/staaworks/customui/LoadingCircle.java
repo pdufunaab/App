@@ -36,4 +36,19 @@ public class LoadingCircle extends RelativeLayout {
         super.setVisibility(v);
         bar.setVisibility(v);
     }
+
+
+    public boolean isShowing() {
+        return getVisibility() == VISIBLE;
+    }
+
+
+    public void dismiss() {
+        setVisibility(INVISIBLE);
+    }
+
+
+    public void show() {
+        setVisibility(VISIBLE);
+    }
 }

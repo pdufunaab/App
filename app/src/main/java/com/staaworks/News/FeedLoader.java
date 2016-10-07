@@ -1,14 +1,15 @@
 package com.staaworks.news;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.oadex.app.R;
+
+import com.staaworks.customui.LoadingCircle;
 import com.staaworks.storage.FeedDBA;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -18,8 +19,10 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
@@ -35,7 +38,7 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
     private Feeds loadedFeeds = new Feeds(), storedFeeds;
     private ListView listView;
     private Activity activity;
-    private ProgressDialog progressDialog;
+    private LoadingCircle loadingCircle;
     FeedDBA storage;
     private Category category = Category.general;
     private int total;
@@ -51,14 +54,8 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
         if (activity == null) System.out.println("NullActivityTag: Activity is null");
         else {
-            progressDialog = ProgressDialog.show(activity, "Loading", "Please wait, News from FUNAAB are currently being loaded", true, true);
-            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    FeedLoader.this.activity.finish();
-                }
-            });
+            loadingCircle = (LoadingCircle) activity.findViewById(R.id.loading_circle);
+            loadingCircle.show();
         }
     }
 
@@ -107,16 +104,8 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
     @Override
     protected void onPostExecute(InputStream inputStream) {
-
-            Feeds feeds = parseAndStore(inputStream);
-
-            feedAdapter = new FeedAdapter(activity, feeds, new Loader(), total);
-            listView.setAdapter(feedAdapter);
-
-            if (progressDialog.isShowing() && progressDialog != null) {
-                progressDialog.dismiss();
-            }
-        }
+        parseAndStore(inputStream);
+    }
 
 
     public void parse_Store_Display(String input) {
@@ -126,7 +115,7 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
 
     }
 
-    protected Feeds parseAndStore(InputStream inputStream) {
+    protected void parseAndStore(InputStream inputStream) {
 
         loadedFeeds.clear();
         parsingComplete = false;
@@ -135,15 +124,13 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
         parser.execute(inputStream);
 
 
+
         try {
             loadedFeeds = parser.get();
         }
         catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
-        return loadedFeeds;
-
     }
 
 
@@ -284,6 +271,17 @@ public class FeedLoader extends AsyncTask<URL, Void, InputStream> {
             storage.close();
             parsingComplete = true;
             return loadedFeeds;
+        }
+
+
+        @Override
+        protected void onPostExecute(Feeds feeds) {
+            feedAdapter = new FeedAdapter(activity, feeds, new Loader(), total);
+            listView.setAdapter(feedAdapter);
+
+            if (loadingCircle.isShowing() && loadingCircle != null) {
+                loadingCircle.dismiss();
+            }
         }
     }
 

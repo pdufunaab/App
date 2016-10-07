@@ -25,7 +25,7 @@ public class NewsFragment extends Fragment {
     private enum constants {
 
         savedStateKey("staaNSS"),
-        lastSavedKey("staaNSPLastSaved"),
+        //lastSavedKey("staaNSPLastSaved"),
         feedSPName("staaNSP");
 
         public final String value;
@@ -49,25 +49,6 @@ public class NewsFragment extends Fragment {
     private Category category;
 
     private OnFragmentInteractionListener mListener;
-
-    public NewsFragment() {}
-
-
-
-    /**
-     *
-     * @param urlString Feed URL.
-     * @return A new instance of fragment NewsFragment.
-     */
-    public static NewsFragment newInstance(String urlString) {
-        NewsFragment fragment = new NewsFragment();
-        Bundle args = new Bundle();
-        args.putString("urlString", urlString);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
 
 
     @Override
@@ -119,6 +100,7 @@ public class NewsFragment extends Fragment {
             task.parse_Store_Display(savedInstanceState.getString(constants.savedStateKey.value));
             System.out.println("FEED SAVED INSTANCE EXECUTED");
         }
+/*
 
         else if (preferences != null && preferences.contains(constants.lastSavedKey.value)) {
             task = new FeedLoader(activity, feedsListView, category);
@@ -127,6 +109,7 @@ public class NewsFragment extends Fragment {
             System.out.println("FEED SHARED PREFERENCES EXECUTED");
         }
 
+*/
         else {
             task = new FeedLoader(activity, feedsListView, category);
             setURL(urlString);
@@ -180,9 +163,9 @@ public class NewsFragment extends Fragment {
         super.onSaveInstanceState(outState);
         String inputStreamAsString = task.getString();
         outState.putString(constants.savedStateKey.value, inputStreamAsString);
-        SharedPreferences.Editor editor = preferences.edit();
+        /*SharedPreferences.Editor editor = preferences.edit();
         editor.putString(constants.lastSavedKey.value, inputStreamAsString);
-        editor.apply();
+        editor.apply();*/
     }
 
     @Override

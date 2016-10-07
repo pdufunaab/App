@@ -16,8 +16,8 @@ public class Time {
     public static Calendar getCalendar(String rawDateObject) {
         int[] res = new int[3];
 
-        int day = 23,
-                month = 7,
+        int day = 1,
+                month = 9,
                 year = 2016;
 
         Boolean monthGot = false;
@@ -67,10 +67,6 @@ public class Time {
 
             Calendar pDate = Calendar.getInstance();
             pDate.set(year,month,day);
-            double diff = getTimeDifferenceInDays(Calendar.getInstance(),pDate);
-
-            System.out.println(diff + " is the difference in days between now and creation");
-
             return pDate;
 
         }
@@ -132,7 +128,6 @@ public class Time {
 
             for (int j = 0; j < k.get(0); j++) {
                 resultInProgress[0] = b.append(chars[j]).toString();
-                //resultInProgress[0] = resultInProgress[0].replaceAll(delimiter + "", "");
                 result[0] = Integer.parseInt(resultInProgress[0]);
                 System.out.println(resultInProgress[0]);
             }
@@ -141,7 +136,6 @@ public class Time {
             b = new StringBuilder();
             for (int j = k.get(0) + 1; j < k.get(1); j++) {
                 resultInProgress[1] = b.append(chars[j]).toString();
-                //resultInProgress[1] = resultInProgress[1].replaceAll(delimiter + "", "");
                 result[1] = Integer.parseInt(resultInProgress[1]);
                 System.out.println(resultInProgress[1]);
             }
@@ -149,7 +143,6 @@ public class Time {
             b = new StringBuilder();
             for (int j = k.get(1) + 1; j < statement.length(); j++) {
                 resultInProgress[2] = b.append(chars[j]).toString();
-                //resultInProgress[2] = resultInProgress[2].replaceAll(delimiter + "", "");
                 result[2] = Integer.parseInt(resultInProgress[2]);
                 System.out.println(resultInProgress[2]);
             }
@@ -161,21 +154,25 @@ public class Time {
 
     public static Calendar parseDate (String pubDate){
         //String returnDate;
+        Calendar c= Calendar.getInstance();
+        if (pubDate.contains(",") && pubDate.contains(":")) {
+            try {
 
-        try {
+                String format = "EEE, dd MMM yyyy kk:mm:ss Z";
+                SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
+                Date formattedDate = sdf.parse(pubDate);
 
-            String format = "EEE, dd MMM yyyy kk:mm:ss Z";
-            SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
-            Date formattedDate = sdf.parse(pubDate);
+                c.setTime(formattedDate);
+                return c;
 
-            Calendar c= Calendar.getInstance();
-            c.setTime(formattedDate);
+            } catch (ParseException e) {
+                return null;
+            }
+
+        }
+        else {
+            c.setTimeInMillis(Long.parseLong(pubDate));
             return c;
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-
         }
     }
 
@@ -184,8 +181,5 @@ public class Time {
 
         return (calendar.getTimeInMillis()/DAY_VALUE) - (anotherCalendar.getTimeInMillis()/DAY_VALUE);
     }
-
-
-
 
 }

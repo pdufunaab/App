@@ -30,6 +30,6 @@ public class FeedImageView extends Activity {
         boolean connected = Network.isConnected();
 
         if (connected) Picasso.with(this).load(imageURL).placeholder(R.mipmap.rss).error(R.mipmap.rss).into(imageView);
-        else Picasso.with(this).load(imageURL).networkPolicy(NetworkPolicy.OFFLINE).into(imageView);
+        else Picasso.with(this).load(imageURL).placeholder(R.mipmap.rss).networkPolicy(NetworkPolicy.OFFLINE).into(imageView);
     }
 }
