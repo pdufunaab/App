@@ -8,7 +8,7 @@ public class Course
     private String courseCode;
     private String courseTitle;
     private  int courseUnit;
-
+    private  String courseStatus;
 
 
     public Course(String courseCode, String courseTitle,int courseUnit)
